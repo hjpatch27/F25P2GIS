@@ -24,7 +24,7 @@ public class GISDB implements GIS {
      * Create a new GISDB object.
      */
     GISDB() {
-        // Put your code here
+        clear(); // Clear the object to pass testRefClearInit()
     }
 
 
