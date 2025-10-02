@@ -5,10 +5,9 @@
  *
  * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
  * @version 10.2.2025
- * @param <E>
  *
  */
-public class GISDB<E> implements GIS {
+public class GISDB implements GIS {
 
     /**
      * The maximum allowable value for a coordinate
