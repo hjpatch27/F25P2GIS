@@ -3,8 +3,8 @@
  * Implementation of the GIS interface. This is what calls the BST and the
  * Bintree to do the work.
  *
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * @author Henry Patch (hjpatch27)
+ * @version 10.2.2025
  *
  */
 public class GISDB implements GIS {

@@ -7,8 +7,8 @@ import java.io.IOException;
 /**
  * The class containing the main method.
  *
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * @author Henry Patch (hjpatch27)
+ * @version 10.2.2025
  */
 
 //On my honor:

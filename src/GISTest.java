@@ -2,8 +2,8 @@ import java.io.IOException;
 import student.TestCase;
 
 /**
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * @author Henry Patch (hjpatch27)
+ * @version 10.2.2025
  */
 public class GISTest extends TestCase {
 
