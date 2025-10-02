@@ -1,12 +1,11 @@
 /**
+ * The BST class creates a Binary Search Tree.
+ * 
  * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
  * @version 10.2.2025
  */
-
-/**
- * The BST class creates a Binary Search Tree.
- */
 public class BST <E extends Comparable<E>> {
+    
     // Binary tree node implementation: supports comparable objects
     class BSTNode<E extends Comparable<? super E>> 
     {
