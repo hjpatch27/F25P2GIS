@@ -5,9 +5,10 @@
  *
  * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
  * @version 10.2.2025
+ * @param <E>
  *
  */
-public class GISDB implements GIS {
+public class GISDB<E> implements GIS {
 
     /**
      * The maximum allowable value for a coordinate
@@ -18,13 +19,15 @@ public class GISDB implements GIS {
      * Dimension of the points stored in the tree
      */
     public static final int DIMENSION = 2;
+    
+    private BST bst;
 
     // ----------------------------------------------------------
     /**
      * Create a new GISDB object.
      */
     GISDB() {
-        clear(); // Clear the object to pass testRefClearInit()
+        this.bst = new BST();
     }
 
 
@@ -34,6 +37,7 @@ public class GISDB implements GIS {
      * @return True if the database has been cleared
      */
     public boolean clear() {
+        bst.clear();
         return true;
     }
 
