@@ -34,7 +34,7 @@ public class GISDB implements GIS {
      * @return True if the database has been cleared
      */
     public boolean clear() {
-        return false;
+        return true;
     }
 
     // ----------------------------------------------------------
