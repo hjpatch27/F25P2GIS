@@ -20,6 +20,7 @@ public class BST implements Comparable {
             left = null;
             right = null; 
         }
+        
         /**
          * Constructor initializes left and right as null
          * and set element to a value.
@@ -30,6 +31,7 @@ public class BST implements Comparable {
             right = null; 
             element = val; 
         }
+        
         /**
          * Set left, right, and element to values
          * @param val is the value element is to be set to.
@@ -49,6 +51,7 @@ public class BST implements Comparable {
         public Comparable value() { 
             return element; 
         }
+        
         /**
          * Setter method for value.
          * @param v is what the element is to be changed to.
@@ -64,6 +67,7 @@ public class BST implements Comparable {
         public BSTNode left() { 
             return left; 
         }
+        
         /**
          * Setter method for left
          * @param p is the value left is to be changed to.
@@ -79,6 +83,7 @@ public class BST implements Comparable {
         public BSTNode right() { 
             return right; 
         }
+        
         /**
          * Setter method for right.
          * @param p is the value right is to be changed to.
