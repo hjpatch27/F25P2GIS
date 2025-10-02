@@ -59,5 +59,33 @@ public class City implements Comparable<City> {
         return 0;
     }
 
+    /**
+     * Compares two City objects with each other, returning
+     * true or false if they are the same or not.
+     * @param obj is the City object we'll be comparing with
+     * the current City object.
+     * @return True if the objects are equal and false if not.
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof City)) {
+            return false;
+        }
+        City other = (City) obj;
+        return name.equals(other.name) && x == other.x && y == other.y;
+    }
+    
+    /**
+     * Convert the City object and its parameters into a String format.
+     * @Override
+     * @return name + "(" + x + ", " + y + ")" which displays
+     * the name, x-coordinate, and y-coordinate of the City object.
+     */
+    public String toString() {
+        return name + " (" + x + ", " + y + ")";
+    }
+
     
 }
