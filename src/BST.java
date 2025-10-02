@@ -150,7 +150,10 @@ public class BST implements Comparable {
         return findHelp(root, key); 
     }
 
-    // Return the number of records in the dictionary
+    /**
+     * Return the number of records in the dictionary.
+     * @return nodeCount which is the number of nodes in the BST.
+     */
     public int size() { 
         return nodeCount; 
     }

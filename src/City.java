@@ -90,7 +90,5 @@ public class City implements Comparable<City> {
      */
     public String toString() {
         return name + " (" + x + ", " + y + ")";
-    }
-
-    
+    } 
 }
