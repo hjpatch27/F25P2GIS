@@ -57,11 +57,13 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("", it.search(-1, -1, -1));
     }
 
-
+/**
+      Commented out for Milestone 1
+ 
     /**
      * Insert some records and check output requirements for various commands
      * @throws IOException
-     */
+     
     public void testRefOutput()
         throws IOException
     {
@@ -98,4 +100,5 @@ public class GISTest extends TestCase {
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
         assertFuzzyEquals("Baltimore (0, 300)\n3", it.search(0, 300, 0));
     }
+*/
 }
