@@ -9,8 +9,8 @@ public class BST implements Comparable {
     // Binary tree node implementation: supports comparable objects
     private class BSTNode {
         private Comparable element;        // Element for this node
-        private BSTNode left;     // Pointer to left child
-        private BSTNode right;    // Pointer to right child
+        private BSTNode left;              // Pointer to left child
+        private BSTNode right;             // Pointer to right child
 
         // Constructors
         BSTNode() { 
