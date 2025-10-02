@@ -88,13 +88,13 @@ public class BST implements Comparable {
         }
 
           
-         /**
-          * Determine whether the node is a leaf node.
-          * @return True if a leaf node, false otherwise
-          */
-          public boolean isLeaf() { 
-              return (left == null) && (right == null); 
-          }
+        /**
+         * Determine whether the node is a leaf node.
+         * @return True if a leaf node, false otherwise
+         */
+        public boolean isLeaf() { 
+            return (left == null) && (right == null); 
+        }
     }
     
     private BSTNode root; // Root of the BST
@@ -160,10 +160,13 @@ public class BST implements Comparable {
     
     /**
      * 
+     * @param o is the BST object we'll be comparing.
+     * @return 0 if the BST object's are equal and 1 or -1
+     * if the current BST object is greater or less than the
+     * other BST object.
      * @Override
      */
     public int compareTo(Object o) {
-        // TODO Auto-generated method stub
         return 0;
     }
     

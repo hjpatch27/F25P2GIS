@@ -56,11 +56,12 @@ public class City implements Comparable<City> {
      * whether they are equal or if one is greater than or less
      * than the other.
      * @Override
+     * @param o is the City object we'll be comparing with the 
+     * current City object.
      * @return 0 is they are equal, 1 if the current City object is 
      * greater than the City object, and -1 if it's less than the other.
      */
     public int compareTo(City o) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
