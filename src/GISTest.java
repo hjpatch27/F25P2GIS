@@ -8,14 +8,49 @@ import student.TestCase;
 public class GISTest extends TestCase {
 
     private GIS it;
+    private City city1;
+    private City city2;
+    private City city3;
+    private City city4;
+    private int city5;
+    private City city6;
+    private City city7;
+    private City city8;
+    private City city9;
 
     /**
      * Sets up the tests that follow. In general, used for initialization
      */
     public void setUp() {
         it = new GISDB();
+        city1 = new City("London", 1, 2);
+        city2 = new City("London", 2, 1);
+        city3 = new City("New York City", 1, 2);
+        city4 = new City("New York City", 2, 1);
+        city5 = 10;
+        city6 = new City("New York City", 1, 3);
+        city7 = new City("London", 1, 2);
+        city8 = new City("London", 3, 2);
+        city9 = new City("London", 1, 3);
     }
 
+    /**
+     * Tests the equals() method of the City object.
+     */
+    public void testCityEquals()
+    {
+        assertTrue(city1.equals(city1));  // equals itself
+        assertFalse(city1.equals(city5)); // cannot equal other object
+        assertFalse(city1.equals(city2)); // different x/y values
+        assertFalse(city1.equals(city3)); // different names
+        assertFalse(city1.equals(city4)); // different names and x/y values
+        assertFalse(city1.equals(city6)); // different names and y values
+        assertTrue(city1.equals(city7)); // equal names and x/y values
+        assertFalse(city1.equals(city8)); // different x values
+        assertFalse(city1.equals(city9)); // different y values
+        
+    }
+    
     /**
      * Test clearing on initial
      * @throws IOException

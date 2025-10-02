@@ -19,14 +19,14 @@ public class GISDB implements GIS {
      */
     public static final int DIMENSION = 2;
     
-    private BST bst;
+    private BST<City> bst;
 
     // ----------------------------------------------------------
     /**
      * Create a new GISDB object.
      */
     GISDB() {
-        this.bst = new BST();
+        this.bst = new BST<>();
     }
 
 
@@ -51,6 +51,19 @@ public class GISDB implements GIS {
      * @return True iff the city is successfully entered into the database
      */
     public boolean insert(String name, int x, int y) {
+        /**
+         * Commented out for Milestone 1
+         
+        City newCity = new City(name, x, y);
+        // Check if there's a duplicate city in the database. If so return false.
+        if (bst.find(newCity) != null)
+        {
+            return false;
+        }
+        // If there no's duplicate, insert the city and return true.
+        bst.insert(newCity);
+        return true;
+        */
         return false;
     }
 
