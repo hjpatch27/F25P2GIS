@@ -56,16 +56,16 @@ public class BST <E extends Comparable<E>> {
     }
     
     private BSTNode<E> root; // Root of the BST
-    private int nodecount; // Number of nodes in the BST
+    private int nodeCount; // Number of nodes in the BST
 
     // constructor
     BST() { 
-        root = null; nodecount = 0; 
+        root = null; nodeCount = 0; 
     }
 
     // Reinitialize tree
     public void clear() { 
-        root = null; nodecount = 0; 
+        root = null; nodeCount = 0; 
     }
     
     // Get the maximum valued element in a subtree
@@ -143,7 +143,7 @@ public class BST <E extends Comparable<E>> {
     // e: The record to insert.
     public void insert(E e) {
         root = insertHelp(root, e);
-        nodecount++;
+        nodeCount++;
     }
 
     // Remove a record from the tree
@@ -153,7 +153,7 @@ public class BST <E extends Comparable<E>> {
         Comparable<E> temp = findHelp(root, key); // First find it
         if (temp != null) {
             root = removeHelp(root, key); // Now remove it
-            nodecount--;
+            nodeCount--;
         }
         return temp;
     }
@@ -166,6 +166,6 @@ public class BST <E extends Comparable<E>> {
 
     // Return the number of records in the dictionary
     public int size() { 
-        return nodecount; 
+        return nodeCount; 
     }
 }
