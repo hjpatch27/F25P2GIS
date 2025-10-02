@@ -59,21 +59,39 @@ public class BST <E extends Comparable<E>> {
     private int nodecount; // Number of nodes in the BST
 
     // constructor
-    BST() { root = null; nodecount = 0; }
+    BST() { 
+        root = null; nodecount = 0; 
+    }
 
     // Reinitialize tree
     public void clear() { 
         root = null; nodecount = 0; 
     }
     
+    // Get the maximum valued element in a subtree
+    private BSTNode<E> getMax(BSTNode<E> rt) {
+        if (rt.right() == null) { 
+            return rt; 
+        }
+        return getMax(rt.right());
+    }
+    
+    private BSTNode<E> deleteMax(BSTNode<E> rt) {
+        if (rt.right() == null) {
+            return rt.left();
+        }
+        rt.setRight(deleteMax(rt.right()));
+        return rt;
+    }
+    
     private Comparable<E> findHelp(BSTNode<E> rt, Comparable<E> key) {
         if (rt == null) {
             return null;
         }
-        if (rt.value().compareTo(key) > 0) {
+        if (rt.value().compareTo((E)key) > 0) {
             return findHelp(rt.left(), key);
         }
-        else if (rt.value().compareTo(key) == 0) {
+        else if (rt.value().compareTo((E)key) == 0) {
             return rt.value();
         }
         else {
@@ -85,7 +103,7 @@ public class BST <E extends Comparable<E>> {
         if (rt == null) {
             return new BSTNode(e);
         }
-        if (rt.value().compareTo(e) >= 0) {
+        if (rt.value().compareTo((E)e) >= 0) {
             rt.setLeft(insertHelp(rt.left(), e));
         }
         else {
@@ -98,10 +116,10 @@ public class BST <E extends Comparable<E>> {
         if (rt == null) {
             return null;
         }
-        if (rt.value().compareTo(key) > 0) {
+        if (rt.value().compareTo((E)key) > 0) {
             rt.setLeft(removeHelp(rt.left(), key));
         }
-        else if (rt.value().compareTo(key) < 0) {
+        else if (rt.value().compareTo((E)key) < 0) {
             rt.setRight(removeHelp(rt.right(), key));
         }
         else { // Found it
