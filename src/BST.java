@@ -72,76 +72,6 @@ public class BST <E extends Comparable<? super E>> {
         root = null; 
         nodeCount = 0; 
     }
-    
-    // Get the maximum valued element in a subtree
-    private BSTNode getMax(BSTNode rt) {
-        if (rt.right() == null) { 
-            return rt; 
-        }
-        return getMax(rt.right());
-    }
-    
-    private BSTNode deleteMax(BSTNode rt) {
-        if (rt.right() == null) {
-            return rt.left();
-        }
-        rt.setRight(deleteMax(rt.right()));
-        return rt;
-    }
-    
-    private Comparable<E> findHelp(BSTNode rt, Comparable<E> key) {
-        if (rt == null) {
-            return null;
-        }
-        if (rt.value().compareTo((E)key) > 0) {
-            return findHelp(rt.left(), key);
-        }
-        else if (rt.value().compareTo((E)key) == 0) {
-            return rt.value();
-        }
-        else {
-            return findHelp(rt.right(), key);
-        }
-    }
-    
-    private BSTNode insertHelp(BSTNode rt, Comparable<E> e) {
-        if (rt == null) {
-            return new BSTNode((E)e);
-        }
-        if (rt.value().compareTo((E)e) >= 0) {
-            rt.setLeft(insertHelp(rt.left(), e));
-        }
-        else {
-            rt.setRight(insertHelp(rt.right(), e));
-        }
-        return rt;
-    }
-    
-    private BSTNode removeHelp(BSTNode rt, Comparable<E> key) {
-        if (rt == null) {
-            return null;
-        }
-        if (rt.value().compareTo((E)key) > 0) {
-            rt.setLeft(removeHelp(rt.left(), key));
-        }
-        else if (rt.value().compareTo((E)key) < 0) {
-            rt.setRight(removeHelp(rt.right(), key));
-        }
-        else { // Found it
-            if (rt.left() == null) {
-                return rt.right();
-            }
-            else if (rt.right() == null) {
-                return rt.left();
-            }
-            else { // Two Children
-                BSTNode temp = getMax(rt.left());
-                rt.setValue(temp.value());
-                rt.setLeft(deleteMax(rt.left()));
-            }
-        }
-        return rt;
-    }
 
     // Insert a record into the tree.
     // Records can be anything, but they must be Comparable
@@ -172,5 +102,93 @@ public class BST <E extends Comparable<? super E>> {
     // Return the number of records in the dictionary
     public int size() { 
         return nodeCount; 
+    }
+    
+    /**
+     * 
+     * @param rt
+     * @param key
+     * @return
+     */
+    private Comparable<E> findHelp(BSTNode rt, Comparable<E> key) {
+        if (rt == null) {
+            return null;
+        }
+        if (rt.value().compareTo((E)key) > 0) {
+            return findHelp(rt.left(), key);
+        }
+        else if (rt.value().compareTo((E)key) == 0) {
+            return rt.value();
+        }
+        else {
+            return findHelp(rt.right(), key);
+        }
+    }
+    
+    /**
+     * 
+     * @param rt
+     * @param e
+     * @return
+     */
+    private BSTNode insertHelp(BSTNode rt, Comparable<E> e) {
+        if (rt == null) {
+            return new BSTNode((E)e);
+        }
+        if (rt.value().compareTo((E)e) >= 0) {
+            rt.setLeft(insertHelp(rt.left(), e));
+        }
+        else {
+            rt.setRight(insertHelp(rt.right(), e));
+        }
+        return rt;
+    }
+    
+    /**
+     * 
+     * @param rt
+     * @param key
+     * @return
+     */
+    private BSTNode removeHelp(BSTNode rt, Comparable<E> key) {
+        if (rt == null) {
+            return null;
+        }
+        if (rt.value().compareTo((E)key) > 0) {
+            rt.setLeft(removeHelp(rt.left(), key));
+        }
+        else if (rt.value().compareTo((E)key) < 0) {
+            rt.setRight(removeHelp(rt.right(), key));
+        }
+        else { // Found it
+            if (rt.left() == null) {
+                return rt.right();
+            }
+            else if (rt.right() == null) {
+                return rt.left();
+            }
+            else { // Two Children
+                BSTNode temp = getMax(rt.left());
+                rt.setValue(temp.value());
+                rt.setLeft(deleteMax(rt.left()));
+            }
+        }
+        return rt;
+    }
+    
+    // Get the maximum valued element in a subtree
+    private BSTNode getMax(BSTNode rt) {
+        if (rt.right() == null) { 
+            return rt; 
+        }
+        return getMax(rt.right());
+    }
+    
+    private BSTNode deleteMax(BSTNode rt) {
+        if (rt.right() == null) {
+            return rt.left();
+        }
+        rt.setRight(deleteMax(rt.right()));
+        return rt;
     }
 }
