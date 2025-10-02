@@ -13,77 +13,125 @@ public class BST implements Comparable {
         private BSTNode right;             // Pointer to right child
 
         // Constructors
+        /**
+         * Constructor initializes left and right as null.
+         */
         BSTNode() { 
             left = null;
             right = null; 
         }
+        /**
+         * Constructor initializes left and right as null
+         * and set element to a value.
+         * @param val is the value element is to be set to.
+         */
         BSTNode(Comparable val) { 
             left = null;
             right = null; 
             element = val; 
         }
+        /**
+         * Set left, right, and element to values
+         * @param val is the value element is to be set to.
+         * @param l is the value left is to be set to.
+         * @param r is the value right is to be set to.
+         */
         BSTNode(Comparable val, BSTNode l, BSTNode r) { 
             left = l; 
             right = r; 
             element = val; 
         }
 
-      // Get and set the element value
-      public Comparable value() { 
-          return element; 
-      }
-      public void setValue(Comparable v) { 
-          element = v; 
-      }
+        /**
+         * Getter method for value.
+         * @return element
+         */
+        public Comparable value() { 
+            return element; 
+        }
+        /**
+         * Setter method for value.
+         * @param v is what the element is to be changed to.
+         */
+        public void setValue(Comparable v) { 
+            element = v; 
+        }
 
-      // Get and set the left child
-      public BSTNode left() { 
-          return left; 
-      }
-      public void setLeft(BSTNode p) { 
-          left = p; 
-      }
+        /**
+         * Getter method for left.
+         * @return left
+         */
+        public BSTNode left() { 
+            return left; 
+        }
+        /**
+         * Setter method for left
+         * @param p is the value left is to be changed to.
+         */
+        public void setLeft(BSTNode p) { 
+            left = p; 
+        }
 
-      // Get and set the right child
-      public BSTNode right() { 
-          return right; 
-      }
-      public void setRight(BSTNode p) { 
-          right = p; 
-      }
+        /**
+         * Getter method for right.
+         * @return right
+         */
+        public BSTNode right() { 
+            return right; 
+        }
+        /**
+         * Setter method for right.
+         * @param p is the value right is to be changed to.
+         */
+        public void setRight(BSTNode p) { 
+            right = p; 
+        }
 
-      // return TRUE if a leaf node, FALSE otherwise
+          
+         /**
+          * Determine whether the node is a leaf node.
+          * @return True if a leaf node, false otherwise
+          */
           public boolean isLeaf() { 
-          return (left == null) && (right == null); 
-      }
+              return (left == null) && (right == null); 
+          }
     }
     
     private BSTNode root; // Root of the BST
     private int nodeCount; // Number of nodes in the BST
 
-    // constructor
+    /**
+     * Constructor for BST. Sets root to null 
+     * and nodeCount to 0.
+     */
     BST() { 
         root = null; 
         nodeCount = 0; 
     }
 
-    // Reinitialize tree
+    /**
+     * Reinitialize tree, setting root to null
+     * and nodeCount to 0.
+     */
     public void clear() { 
         root = null; 
         nodeCount = 0; 
     }
 
-    // Insert a record into the tree.
-    // Records can be anything, but they must be Comparable
-    // e: The record to insert.
+    /**
+     * Insert a record into the tree.
+     * @param e is the record to insert.
+     */
     public void insert(Comparable e) {
         root = insertHelp(root, e);
         nodeCount++;
     }
 
-    // Remove a record from the tree
-    // key: The key value of record to remove
-    // Returns the record removed, null if there is none.
+    /**
+     * Remove a record from the tree
+     * @param key is the key value to remove.
+     * @return the record removed, null if there is none.
+     */
     public Comparable remove(Comparable key) {
         Comparable temp = findHelp(root, key); // First find it
         if (temp != null) {
@@ -93,8 +141,11 @@ public class BST implements Comparable {
         return temp;
     }
 
-    // Return the record with key value k, null if none exists
-    // key: The key value to find
+    /**
+     * Find the record with a specific key value.
+     * @param key is the key value to find.
+     * @return the record with key value k, null if none exists.
+     */
     public Comparable find(Comparable key) { 
         return findHelp(root, key); 
     }
