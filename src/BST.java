@@ -4,11 +4,11 @@
  * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
  * @version 10.2.2025
  */
-public class BST implements Comparable {
+public class BST<E extends Comparable<E>> {
     
     // Binary tree node implementation: supports comparable objects
     private class BSTNode {
-        private Comparable element;        // Element for this node
+        private E element;                 // Element for this node
         private BSTNode left;              // Pointer to left child
         private BSTNode right;             // Pointer to right child
 
@@ -26,7 +26,7 @@ public class BST implements Comparable {
          * and set element to a value.
          * @param val is the value element is to be set to.
          */
-        BSTNode(Comparable val) { 
+        BSTNode(E val) { 
             left = null;
             right = null; 
             element = val; 
@@ -38,7 +38,7 @@ public class BST implements Comparable {
          * @param l is the value left is to be set to.
          * @param r is the value right is to be set to.
          */
-        BSTNode(Comparable val, BSTNode l, BSTNode r) { 
+        BSTNode(E val, BSTNode l, BSTNode r) { 
             left = l; 
             right = r; 
             element = val; 
@@ -48,7 +48,7 @@ public class BST implements Comparable {
          * Getter method for value.
          * @return element
          */
-        public Comparable value() { 
+        public E value() { 
             return element; 
         }
         
@@ -56,7 +56,7 @@ public class BST implements Comparable {
          * Setter method for value.
          * @param v is what the element is to be changed to.
          */
-        public void setValue(Comparable v) { 
+        public void setValue(E v) { 
             element = v; 
         }
 
@@ -127,7 +127,7 @@ public class BST implements Comparable {
      * Insert a record into the tree.
      * @param e is the record to insert.
      */
-    public void insert(Comparable e) {
+    public void insert(E e) {
         root = insertHelp(root, e);
         nodeCount++;
     }
@@ -137,8 +137,8 @@ public class BST implements Comparable {
      * @param key is the key value to remove.
      * @return the record removed, null if there is none.
      */
-    public Comparable remove(Comparable key) {
-        Comparable temp = findHelp(root, key); // First find it
+    public E remove(E key) {
+        E temp = findHelp(root, key); // First find it
         if (temp != null) {
             root = removeHelp(root, key); // Now remove it
             nodeCount--;
@@ -151,7 +151,7 @@ public class BST implements Comparable {
      * @param key is the key value to find.
      * @return the record with key value k, null if none exists.
      */
-    public Comparable find(Comparable key) { 
+    public E find(E key) { 
         return findHelp(root, key); 
     }
 
@@ -181,7 +181,7 @@ public class BST implements Comparable {
      * @param key
      * @return
      */
-    private Comparable findHelp(BSTNode rt, Comparable key) {
+    private E findHelp(BSTNode rt, E key) {
         if (rt == null) {
             return null;
         }
@@ -202,7 +202,7 @@ public class BST implements Comparable {
      * @param e
      * @return
      */
-    private BSTNode insertHelp(BSTNode rt, Comparable e) {
+    private BSTNode insertHelp(BSTNode rt, E e) {
         if (rt == null) {
             return new BSTNode(e);
         }
@@ -221,7 +221,7 @@ public class BST implements Comparable {
      * @param key
      * @return
      */
-    private BSTNode removeHelp(BSTNode rt, Comparable key) {
+    private BSTNode removeHelp(BSTNode rt, E key) {
         if (rt == null) {
             return null;
         }
