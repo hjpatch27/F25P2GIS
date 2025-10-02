@@ -63,12 +63,14 @@ public class BST <E extends Comparable<? super E>> {
 
     // constructor
     BST() { 
-        root = null; nodeCount = 0; 
+        root = null; 
+        nodeCount = 0; 
     }
 
     // Reinitialize tree
     public void clear() { 
-        root = null; nodeCount = 0; 
+        root = null; 
+        nodeCount = 0; 
     }
     
     // Get the maximum valued element in a subtree
