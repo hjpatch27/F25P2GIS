@@ -4,35 +4,35 @@
  * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
  * @version 10.2.2025
  */
-public class BST <E extends Comparable<? super E>> {
+public class BST implements Comparable {
     
     // Binary tree node implementation: supports comparable objects
     private class BSTNode {
-        private E element;        // Element for this node
+        private Comparable element;        // Element for this node
         private BSTNode left;     // Pointer to left child
         private BSTNode right;    // Pointer to right child
 
         // Constructors
         BSTNode() { 
-            left = null; // Set left and right to null.
+            left = null;
             right = null; 
         }
-        BSTNode(E val) { 
+        BSTNode(Comparable val) { 
             left = null;
             right = null; 
             element = val; 
         }
-        BSTNode(E val, BSTNode l, BSTNode r) { 
+        BSTNode(Comparable val, BSTNode l, BSTNode r) { 
             left = l; 
             right = r; 
             element = val; 
         }
 
       // Get and set the element value
-      public E value() { 
+      public Comparable value() { 
           return element; 
       }
-      public void setValue(E v) { 
+      public void setValue(Comparable v) { 
           element = v; 
       }
 
@@ -76,7 +76,7 @@ public class BST <E extends Comparable<? super E>> {
     // Insert a record into the tree.
     // Records can be anything, but they must be Comparable
     // e: The record to insert.
-    public void insert(Comparable<E> e) {
+    public void insert(Comparable e) {
         root = insertHelp(root, e);
         nodeCount++;
     }
@@ -84,8 +84,8 @@ public class BST <E extends Comparable<? super E>> {
     // Remove a record from the tree
     // key: The key value of record to remove
     // Returns the record removed, null if there is none.
-    public Comparable<E> remove(Comparable<E> key) {
-        Comparable<E> temp = findHelp(root, key); // First find it
+    public Comparable remove(Comparable key) {
+        Comparable temp = findHelp(root, key); // First find it
         if (temp != null) {
             root = removeHelp(root, key); // Now remove it
             nodeCount--;
@@ -95,7 +95,7 @@ public class BST <E extends Comparable<? super E>> {
 
     // Return the record with key value k, null if none exists
     // key: The key value to find
-    public Comparable<E> find(Comparable<E> key) { 
+    public Comparable find(Comparable key) { 
         return findHelp(root, key); 
     }
 
@@ -106,18 +106,27 @@ public class BST <E extends Comparable<? super E>> {
     
     /**
      * 
+     * @Override
+     */
+    public int compareTo(Object o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    /**
+     * 
      * @param rt
      * @param key
      * @return
      */
-    private Comparable<E> findHelp(BSTNode rt, Comparable<E> key) {
+    private Comparable findHelp(BSTNode rt, Comparable key) {
         if (rt == null) {
             return null;
         }
-        if (rt.value().compareTo((E)key) > 0) {
+        if (rt.value().compareTo(key) > 0) {
             return findHelp(rt.left(), key);
         }
-        else if (rt.value().compareTo((E)key) == 0) {
+        else if (rt.value().compareTo(key) == 0) {
             return rt.value();
         }
         else {
@@ -131,11 +140,11 @@ public class BST <E extends Comparable<? super E>> {
      * @param e
      * @return
      */
-    private BSTNode insertHelp(BSTNode rt, Comparable<E> e) {
+    private BSTNode insertHelp(BSTNode rt, Comparable e) {
         if (rt == null) {
-            return new BSTNode((E)e);
+            return new BSTNode(e);
         }
-        if (rt.value().compareTo((E)e) >= 0) {
+        if (rt.value().compareTo(e) >= 0) {
             rt.setLeft(insertHelp(rt.left(), e));
         }
         else {
@@ -150,14 +159,14 @@ public class BST <E extends Comparable<? super E>> {
      * @param key
      * @return
      */
-    private BSTNode removeHelp(BSTNode rt, Comparable<E> key) {
+    private BSTNode removeHelp(BSTNode rt, Comparable key) {
         if (rt == null) {
             return null;
         }
-        if (rt.value().compareTo((E)key) > 0) {
+        if (rt.value().compareTo(key) > 0) {
             rt.setLeft(removeHelp(rt.left(), key));
         }
-        else if (rt.value().compareTo((E)key) < 0) {
+        else if (rt.value().compareTo(key) < 0) {
             rt.setRight(removeHelp(rt.right(), key));
         }
         else { // Found it
@@ -176,7 +185,11 @@ public class BST <E extends Comparable<? super E>> {
         return rt;
     }
     
-    // Get the maximum valued element in a subtree
+    /**
+     * Get the maximum valued element in a subtree.
+     * @param rt
+     * @return
+     */
     private BSTNode getMax(BSTNode rt) {
         if (rt.right() == null) { 
             return rt; 
@@ -184,6 +197,11 @@ public class BST <E extends Comparable<? super E>> {
         return getMax(rt.right());
     }
     
+    /**
+     * Delete the maximum valued element in a subtree.
+     * @param rt
+     * @return
+     */
     private BSTNode deleteMax(BSTNode rt) {
         if (rt.right() == null) {
             return rt.left();
