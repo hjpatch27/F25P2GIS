@@ -77,6 +77,7 @@ public class KDTree
     
     private KDTreeNode root; // The root of the KDTree
     private int nodeCount; // The number of nodes in the KDTree
+    private static final int DIMENSIONS = 2;  // for (x,y)
     
     // ----------------------------------------------------------
     /**
@@ -105,4 +106,65 @@ public class KDTree
     {
         return nodeCount;
     }
+    
+    /**
+     * Insert a city into the KD Tree. It will check
+     * for any duplicates before inserting the city
+     * @param city is the City to insert
+     * @return true if inserted, false otherwise
+     */
+    public boolean insert(City city)
+    {
+        if (find(city.getX(), city.getY()) != null)
+        {
+            return false;
+        }
+        root = insertHelp(root, city, 0);
+        nodeCount++;
+        return true;
+    }
+    
+    /**
+     * Helper method for insert()
+     * @param rt is the current node
+     * @param newCity is the city to insert
+     * @param level is the current depth
+     * @return rt the updated root of the subtree
+     */
+    private KDTreeNode insertHelp(KDTreeNode rt, City newCity, int level)
+    {
+        return rt;
+        
+    }
+    
+    /**
+     * Find a city's coordinates
+     * @param x is the x coordinate for the target city
+     * @param y is the x coordinate for the target city
+     * @return The City object if found and null otherwise
+     */
+    public City find(int x, int y)
+    {
+        return findHelp(root, x, y, 0);
+    }
+    
+    /**
+     * @param rt is the current node
+     * @param x is the target x coordinate
+     * @param y is the target y coordinate
+     * @param level is the current depth
+     * @return rt the City object if found, null otherwise
+     */
+    private City findHelp(KDTreeNode rt, int x, int y, int level)
+    {
+        if (rt == null)
+        {
+            return null;
+        }
+        // Get the city record 
+        City currentCity = rt.getCity();
+        return null;
+        
+    }
+    
 }
