@@ -53,7 +53,7 @@ public class GISDB implements GIS {
      */
     public boolean insert(String name, int x, int y) {
         City newCity = new City(name, x, y);
-        // Check if there's a duplicate city in the database. If so return false.
+        // Check for duplicate city in the database. If so, return false.
         if (bst.find(newCity) != null)
         {
             return false;
