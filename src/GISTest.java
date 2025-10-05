@@ -8,6 +8,7 @@ import student.TestCase;
 public class GISTest extends TestCase {
 
     private GIS it;
+    private BST<City> bst;
     private City city1;
     private City city2;
     private City city3;
@@ -17,12 +18,14 @@ public class GISTest extends TestCase {
     private City city7;
     private City city8;
     private City city9;
+    private City city10;
 
     /**
      * Sets up the tests that follow. In general, used for initialization
      */
     public void setUp() {
         it = new GISDB();
+        this.bst = new BST<>();
         city1 = new City("London", 1, 2);
         city2 = new City("London", 2, 1);
         city3 = new City("New York City", 1, 2);
@@ -32,6 +35,21 @@ public class GISTest extends TestCase {
         city7 = new City("London", 1, 2);
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
+        city10 = new City("Moscow", 4, 4);
+    }
+    
+    /**
+     * Tests the insert() method in the BST class.
+     */
+    public void testBSTInsert()
+    {
+        // Set initial conditions: Insert 3 City objects.
+        bst.insert(city1);
+        bst.insert(city4);
+        bst.insert(city10);
+        
+        // size() should return 3
+        assertEquals(bst.size(), 3);
     }
 
     /**
