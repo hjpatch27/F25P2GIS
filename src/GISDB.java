@@ -1,7 +1,7 @@
 //-------------------------------------------------------------------------
 /**
  * Implementation of the GIS interface. This is what calls the BST and the
- * Bintree to do the work.
+ * kd tree to do the work.
  *
  * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
  * @version 10.2.2025
@@ -51,9 +51,6 @@ public class GISDB implements GIS {
      * @return True iff the city is successfully entered into the database
      */
     public boolean insert(String name, int x, int y) {
-        /**
-         * Commented out for Milestone 1
-         
         City newCity = new City(name, x, y);
         // Check if there's a duplicate city in the database. If so return false.
         if (bst.find(newCity) != null)
@@ -63,8 +60,6 @@ public class GISDB implements GIS {
         // If there no's duplicate, insert the city and return true.
         bst.insert(newCity);
         return true;
-        */
-        return false;
     }
 
 
