@@ -20,6 +20,7 @@ public class GISTest extends TestCase {
     private City city8;
     private City city9;
     private City city10;
+    private City noCity;
 
     /**
      * Sets up the tests that follow. In general, used for initialization
@@ -37,6 +38,7 @@ public class GISTest extends TestCase {
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
+        noCity = null;
     }
     
     /**
@@ -51,6 +53,23 @@ public class GISTest extends TestCase {
         
         // size() should return 3
         assertEquals(bst.size(), 3);
+    }
+    
+    /**
+     * Tests the remove() method in the BST class.
+     */
+    public void testBSTRemove()
+    {
+        // Set initial conditions: Insert 3 City objects.
+        bst.insert(city1);
+        bst.insert(city4);
+        bst.insert(city10);
+        
+        // Call the method: Remove a City object
+        bst.remove(city1);
+        
+        // size() should now return 2
+        assertEquals(bst.size(), 2);
     }
 
     /**

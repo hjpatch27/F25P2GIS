@@ -43,7 +43,7 @@ public class GISDB implements GIS {
 
     // ----------------------------------------------------------
     /**
-     * A city at coordinate (x, y) with name name is entered into the database.
+     * A city at coordinate (x, y) with a name is entered into the database.
      * It is an error to insert two cities with identical coordinates,
      * but not an error to insert two cities with identical names.
      * @param name City name.
@@ -60,6 +60,11 @@ public class GISDB implements GIS {
         }
         // Check for bad inputs out of bounds between 0 and MAXCOORD.
         if (x < 0 || y < 0 || x > MAXCOORD || y > MAXCOORD)
+        {
+            return false;
+        }
+        // Check for duplicate coordinates. If so, return false.
+        if (info(x, y) != "")
         {
             return false;
         }
