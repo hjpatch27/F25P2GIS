@@ -73,4 +73,35 @@ public class KDTree
             this.right = right;
         }
     }
+    
+    private KDTreeNode root; // The root of the KDTree
+    private int nodeCount; // The number of nodes in the KDTree
+    
+    // ----------------------------------------------------------
+    /**
+     * Create a new KDTree object.
+     */
+    public KDTree()
+    {
+        root = null;
+        nodeCount = 0;
+    }
+    
+    /**
+     * Clears the entire tree
+     */
+    public void clear()
+    {
+        root = null;
+        nodeCount = 0;
+    }
+    
+    /**
+     * Gets the size of the tree
+     * @return nodeCount is the number of nodes in the KDTree
+     */
+    public int size()
+    {
+        return nodeCount;
+    }
 }
