@@ -164,17 +164,7 @@ public class BST<E extends Comparable<E>> {
         return nodeCount; 
     }
     
-    /**
-     * 
-     * @param o is the BST object we'll be comparing.
-     * @return 0 if the BST object's are equal and 1 or -1
-     * if the current BST object is greater or less than the
-     * other BST object.
-     * @Override
-     */
-    public int compareTo(Object o) {
-        return 0;
-    }
+
     
     /**
      * 

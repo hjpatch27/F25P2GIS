@@ -57,6 +57,11 @@ public class GISDB implements GIS {
         {
             return false;
         }
+        // Check for bad inputs out of bounds between 0 and MAXCOORD.
+        if (x < 0 || y < 0 || x > MAXCOORD || y > MAXCOORD)
+        {
+            return false;
+        }
         // If there no's duplicate, insert the city and return true.
         bst.insert(newCity);
         return true;
