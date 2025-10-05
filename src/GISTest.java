@@ -61,7 +61,6 @@ public class GISTest extends TestCase {
         assertTrue(it.clear());
     }
 
-
     /**
      * Print testing for empty trees
      * @throws IOException
@@ -77,7 +76,6 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("", it.delete(5, 5));
     }
 
-
     /**
      * Print bad input checks
      * @throws IOException
@@ -92,13 +90,10 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("", it.search(-1, -1, -1));
     }
 
-/**
-      Commented out for Milestone 1
- 
     /**
      * Insert some records and check output requirements for various commands
      * @throws IOException
-     
+     */
     public void testRefOutput()
         throws IOException
     {
@@ -119,8 +114,8 @@ public class GISTest extends TestCase {
             + "2    Washington (5, 350)\n", it.print());
         assertFuzzyEquals("2    Baltimore (0, 300)\n"
             + "3      Washington (5, 350)\n"
-            + "4        L (11, 500)\n"
             + "1  Atlanta (10, 500)\n"
+            + "2    L (11, 500)\n"
             + "0Chicago (100, 150)\n"
             + "1  Tacoma (1000, 100)\n"
             + "2    L (101, 150)\n", it.debug());
@@ -133,7 +128,6 @@ public class GISTest extends TestCase {
                 + "Baltimore (0, 300)\n"
                 + "Washington (5, 350)\n"
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
-        assertFuzzyEquals("Baltimore (0, 300)\n3", it.search(0, 300, 0));
+        assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
     }
-*/
 }
