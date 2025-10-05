@@ -52,7 +52,7 @@ public class City implements Comparable<City> {
     }
     
     /**
-     * Compares two City objects to each other, determining
+     * Compares two City objects to each other based on their name, determining
      * whether they are equal or if one is greater than or less
      * than the other.
      * @Override
@@ -62,7 +62,7 @@ public class City implements Comparable<City> {
      * greater than the City object, and -1 if it's less than the other.
      */
     public int compareTo(City o) {
-        return 0;
+        return this.name.compareTo(o.getName());
     }
 
     /**
