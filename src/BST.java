@@ -4,6 +4,8 @@
  * @author Henry Patch (hjpatch27)
  * @author Nyssa Loeu (nysaal23)
  * @version 10.5.2025
+ * 
+ * @param <E> for the Comparable object.
  */
 public class BST<E extends Comparable<E>> {
     
