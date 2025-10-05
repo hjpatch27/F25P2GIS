@@ -2,8 +2,9 @@
  * The City class represent the object we will be using
  * to store data within the BST and KDTree classes.
  * 
- * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
- * @version 10.2.2025
+ * @author Henry Patch (hjpatch27)
+ * @author Nyssa Loeu (nysaal23)
+ * @version 10.5.2025
  */
 public class City implements Comparable<City> {
 

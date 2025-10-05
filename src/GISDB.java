@@ -3,8 +3,9 @@
  * Implementation of the GIS interface. This is what calls the BST and the
  * kd tree to do the work.
  *
- * @author Henry Patch (hjpatch27), Nyssa Loeu (nysaal23)
- * @version 10.2.2025
+ * @author Henry Patch (hjpatch27)
+ * @author Nyssa Loeu (nysaal23)
+ * @version 10.5.2025
  *
  */
 public class GISDB implements GIS {
