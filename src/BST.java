@@ -164,8 +164,6 @@ public class BST<E extends Comparable<E>> {
         return nodeCount; 
     }
     
-
-    
     /**
      * 
      * @param rt
