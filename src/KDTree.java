@@ -384,6 +384,23 @@ public class KDTree
             rt.setRight(removeHelp(rt.getRight(), x , y, level + 1));
         }
         return rt; 
-        
+    }
+    
+    /**
+     * Remove a city by its coordinates
+     * 
+     * @param x is the target x coordinate
+     * @param y is the target y coordinate
+     * @return temp is the City object that was removed and null if not found
+     */
+    public City remove(int x, int y)
+    {
+        City temp = find(x, y); // Check if the coordinates exists
+        if (temp != null)
+        {
+            root = removeHelp(root, x, y, 0);
+            nodeCount--;
+        }
+        return temp;
     }
 }
