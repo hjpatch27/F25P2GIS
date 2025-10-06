@@ -115,6 +115,7 @@ public class GISDB implements GIS {
      * @return The city name if there is such a city, empty otherwise
      */
     public String info(int x, int y) {
+        // Use find() from KDTree to locate coordinate.
         return "";
     }
 
