@@ -140,6 +140,7 @@ public class GISTest extends TestCase {
         assertTrue(it.insert("Tacoma", 1000, 100));
         assertTrue(it.insert("Baltimore", 0, 300));
         assertTrue(it.insert("Washington", 5, 350));
+        assertEquals("(100, 150)", it.info(100, 150));
         assertFalse(it.insert("X", 100, 150));
         assertTrue(it.insert("L", 101, 150));
         assertTrue(it.insert("L", 11, 500));

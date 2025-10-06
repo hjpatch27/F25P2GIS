@@ -66,7 +66,7 @@ public class GISDB implements GIS {
             return false;
         }
         // Check for duplicate coordinates. If so, return false.
-        if (info(x, y) != "")
+        if (!info(x, y).equals(""))
         {
             return false;
         }
