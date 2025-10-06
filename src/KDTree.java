@@ -239,7 +239,7 @@ public class KDTree
      * @param rt is the current node
      * @param dim is the dimension (0 or 1)
      * @param level is the current nodes level
-     * @return the KDTREENODE that contains the minimum value for the dimension
+     * @return minNode the KDTreeNode that contains the minimum value for the dimension
      */
     private KDTreeNode findMinHelp(KDTreeNode rt, int dim, int level)
     {
@@ -251,14 +251,64 @@ public class KDTree
         int cd = level % DIMENSIONS;
         
         if (cd == dim)
-        {
+        {   // Only need to search the left of the tree since cd == dim
             if (rt.getLeft() == null)
             {
                 return rt;
             }
+            return findMinHelp(rt.getLeft(), dim, level + 1);
+        }
+        
+        // The min could be anywhere subtree or current node.
+        KDTreeNode leftMin = findMinHelp(rt.getLeft(), dim, level + 1);
+        KDTreeNode rightMin = findMinHelp(rt.getRight(), dim, level + 1);
+        
+        // Assume current node is the min
+        KDTreeNode minNode = rt;
+        
+        // Compare with left subtree
+        if (leftMin != null)
+        {
+            if (dim == 0 && leftMin.getCity().getX() < minNode.getCity().getX())
+            {
+                minNode = leftMin;
+            }
+            else if(dim == 1 && leftMin.getCity().getY() < minNode.getCity().getY())
+            {
+                minNode = leftMin;
+            }
+        }
+        // Compare with right subtree
+        if (rightMin != null)
+        {
+            if (dim == 0 && rightMin.getCity().getX() < minNode.getCity().getX())
+            {
+                minNode = rightMin;
+            }
+            else if(dim == 1 && rightMin.getCity().getY() < minNode.getCity().getY())
+            {
+                minNode = rightMin;
+            }
+        }
+        
+        return minNode;
+    }
+    
+    /**
+     * Removes the node with the minimum value for the specified dimension
+     * 
+     * @param rt is the current node\
+     * @param dim is the dimension (0 or 1)
+     * @param level is the current nodes level
+     * @return The updated root of the subtree after removed
+     */
+    private KDTreeNode removeMinHelp(KDTreeNode rt, int dim, int level)
+    {
+        if (rt == null)
+        {
+            return null;
         }
         return rt;
         
     }
-    
 }
