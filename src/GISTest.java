@@ -333,5 +333,90 @@ public class GISTest extends TestCase {
         assertNull(result);
     }
 
+    /**
+     * Test the remove method
+     */
+    public void testRemove2() {
+        KDTree emptyTree = new KDTree();
+        City result = emptyTree.remove(999, 999);
+        assertNull(result);
+    }
+    
+    /**
+     * Remove a node that has no left or right child
+     */
+    public void testRemove3() {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        // Beta has no right child, but has left child (Delta)
+        City removed = tree.remove(5, 25);
+        assertNotNull(removed);
+        assertEquals("Beta", removed.getName());
+
+        // Beta should be replaced by Delta (min in left subtree)
+        City replacement = tree.find(10, 12);
+        assertNotNull(replacement);
+        assertEquals("Delta", replacement.getName());
+
+        // Beta should no longer be found
+        assertNull(tree.find(5, 25));
+    }
+    
+    /**
+     * Test the remove method for the scenario where x coordinate matches
+     * but the y coordinate does not.
+     */
+    public void testRemove4() {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+
+        City f = new City("Zeta", 5, 999); // same x, different y
+        tree.insert(f);
+
+        City result = tree.remove(5, 999); // x matches Zeta, y matches → should remove Zeta
+        assertNotNull(result);
+        assertEquals("Zeta", result.getName());
+
+        // Beta should still be in the tree
+        City stillThere = tree.find(5, 25);
+        assertNotNull(stillThere);
+        assertEquals("Beta", stillThere.getName());
+    }
+
+    /**
+     * Test the remove method when y < currentCity.getY() 
+     */
+    public void testRemove5() 
+    {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        // At level 1, cd = 1 → compare y
+        // Beta is at (5, 25), so y = 10 is less → should go left
+        City f = new City("Zeta", 2, 10); // left of Beta by y
+        tree.insert(f);
+
+        // Remove Zeta to trigger traversal through Beta's left
+        City removed = tree.remove(2, 10);
+        assertNotNull(removed);
+        assertEquals("Zeta", removed.getName());
+
+        // Confirm Zeta is gone, Beta is still there
+        assertNull(tree.find(2, 10));
+        assertNotNull(tree.find(5, 25));
+    }
+
+
+
+
+
 
 }
