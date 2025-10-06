@@ -210,9 +210,12 @@ public class KDTree
         // Get the city record 
         City currentCity = rt.getCity();
         // Check if this city matches the targets coordinates
-        if (currentCity.getX() == x && currentCity.getY() == y)
+        if (currentCity.getX() == x)
         {
-            return currentCity;
+            if (currentCity.getY() == y)
+            {
+                return currentCity;
+            }
         }
         
         // Determine which dimension to compare: 0 for x, 1 for y

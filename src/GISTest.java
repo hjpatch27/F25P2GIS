@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.TreeMap;
 import student.TestCase;
 
 /**
@@ -21,6 +22,14 @@ public class GISTest extends TestCase {
     private City city9;
     private City city10;
     private City noCity;
+    private KDTree tree;
+    private City a;
+    private City b;
+    private City c;
+    private City d;
+    private City e;
+    
+    
 
     /**
      * Sets up the tests that follow. In general, used for initialization
@@ -39,6 +48,12 @@ public class GISTest extends TestCase {
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
         noCity = null;
+        tree = new KDTree();
+        a = new City("Alpha", 30, 40);
+        b = new City("Beta", 5, 25);
+        c = new City("Gamma", 70, 70);
+        d = new City("Delta", 10, 12);
+        e = new City("Epsilon", 50, 50);
     }
     
     /**
@@ -221,4 +236,102 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
         */
     }   
+    // ----------------Test KDTREE--------------------------------------------
+    /**
+     * Test the method insert() and size() for KDTree
+     */
+    public void testKDInsert()
+    {
+        assertTrue(tree.insert(a));
+        assertTrue(tree.insert(b));
+        assertTrue(tree.insert(c));
+        assertEquals(3, tree.size());
+    }
+    
+    /**
+     * Test to return false is there is a duplicate in KDTree
+     */
+    public void testInsertDuplicate()
+    {
+        tree.insert(a);
+        assertFalse(tree.insert(new City("Duplicate", 30, 40)));
+        assertEquals(1, tree.size());
+    }
+    
+    /**
+     * Test the Find() to find an existing city
+     */
+    public void testFindExistingCity()
+    {
+        tree.insert(a);
+        tree.insert(b);
+        City found = tree.find(5, 25);
+        assertNotNull(found);
+        assertEquals("Beta", found.getName());
+    }
+    
+    /**
+     * Test the mehtod find() and should return null
+     * since there is no city with x and y (99,99)
+     */
+    public void testFindNonexistentCity()
+    {
+        tree.insert(a);
+        assertNull(tree.find(99, 99));
+    }
+    
+    /**
+     * Test the remove method when removing a leaf node
+     */
+    public void testRemoveLeafNode()
+    {
+        tree.insert(a);
+        tree.insert(b);
+        assertNotNull(tree.remove(5, 25)); // remove city b
+        assertEquals(1, tree.size());
+        assertNull(tree.find(5, 25));
+    }
+    
+    /**
+     * Test the remove() when there is node with children
+     */
+    public void testRemoveNodeWithChildren()
+    {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        assertNotNull(tree.remove(30, 40));
+        assertEquals(4, tree.size());
+        assertNull(tree.find(30, 40));
+    }
+    
+    /**
+     * Test the clear() method and should return 0 for size
+     */
+    public void testClearTree()
+    {
+        tree.insert(a);
+        tree.insert(b);
+        tree.clear();
+        assertEquals(0, tree.size());
+        assertNull(tree.find(30, 40));
+    }
+    
+    /**
+     * Test the find method when currentCity.getY() is false.
+     * Where x matches but y does not
+     */
+    public void testFind2() 
+    {
+        City blacksburg = new City("Blacksburg", 30, 40);
+        tree.insert(blacksburg);
+
+        // Same x, different y — should not match
+        City result = tree.find(30, 999);
+        assertNull(result);
+    }
+
+
 }
