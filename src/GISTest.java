@@ -66,6 +66,31 @@ public class GISTest extends TestCase {
     }
     
     /**
+     * Tests the delete() method in GISDB. In this test case,
+     * we check scenarios where the City object is successfully
+     * removed as well as cases where no deletion occurs.
+     */
+    public void testDelete()
+    {
+        // Initial Condition: Add City objects to GIS
+        it.insert("London", 1, 2);
+        it.insert("Moscow", 3, 3);
+        it.insert("New York City", 6, 7);
+        
+        // Call the method: Remove New York City
+        // delete() should return "New York City"
+        String result = it.delete(6, 7);
+        assertEquals("New York City", result);
+        
+        // info(6,7) should return an empty string
+        assertEquals(it.info(6, 7), "");
+        
+        // Trying to delete a nonexistent coordinate
+        // should return an empty string.
+        assertEquals(it.delete(10, 10), "");
+    }
+    
+    /**
      * Tests the insert() method in the BST class.
      */
     public void testBSTInsert()

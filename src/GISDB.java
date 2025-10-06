@@ -96,6 +96,7 @@ public class GISDB implements GIS {
             result = result.substring(0, result.indexOf("(") - 1);
             // Remove the City object from BST and kd-tree
             bst.remove(city);
+            kd.remove(x, y);
             return result;
         }
         return "";
