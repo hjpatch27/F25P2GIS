@@ -233,5 +233,32 @@ public class KDTree
         return findHelp(rt.getRight(), x, y, level + 1); // when target y is greater than currentCity y
     }
     
+    /**
+     * Finds the node with the minimum value along the specified dimension (0 = x, 1 = y)
+     * 
+     * @param rt is the current node
+     * @param dim is the dimension (0 or 1)
+     * @param level is the current nodes level
+     * @return the KDTREENODE that contains the minimum value for the dimension
+     */
+    private KDTreeNode findMinHelp(KDTreeNode rt, int dim, int level)
+    {
+        if (rt == null)
+        {
+            return null;
+        }
+        // Current node dimension
+        int cd = level % DIMENSIONS;
+        
+        if (cd == dim)
+        {
+            if (rt.getLeft() == null)
+            {
+                return rt;
+            }
+        }
+        return rt;
+        
+    }
     
 }
