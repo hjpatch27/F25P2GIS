@@ -40,6 +40,7 @@ public class GISDB implements GIS {
      */
     public boolean clear() {
         bst.clear();
+        kd.clear();
         return true;
     }
 
