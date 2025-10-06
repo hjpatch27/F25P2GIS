@@ -125,6 +125,17 @@ public class KDTree
     }
     
     /**
+     * Find a city's coordinates
+     * @param x is the x coordinate for the target city
+     * @param y is the x coordinate for the target city
+     * @return The City object if found and null otherwise
+     */
+    public City find(int x, int y)
+    {
+        return findHelp(root, x, y, 0);
+    }
+    
+    /**
      * Helper method for insert()
      * @param rt is the current node
      * @param newCity is the city to insert
@@ -135,17 +146,6 @@ public class KDTree
     {
         return rt;
         
-    }
-    
-    /**
-     * Find a city's coordinates
-     * @param x is the x coordinate for the target city
-     * @param y is the x coordinate for the target city
-     * @return The City object if found and null otherwise
-     */
-    public City find(int x, int y)
-    {
-        return findHelp(root, x, y, 0);
     }
     
     /**
