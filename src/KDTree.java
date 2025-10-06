@@ -125,17 +125,6 @@ public class KDTree
     }
     
     /**
-     * Find a city's coordinates
-     * @param x is the x coordinate for the target city
-     * @param y is the x coordinate for the target city
-     * @return The City object if found and null otherwise
-     */
-    public City find(int x, int y)
-    {
-        return findHelp(root, x, y, 0);
-    }
-    
-    /**
      * Helper method for insert()
      * @param rt is the current node
      * @param newCity is the city to insert
@@ -149,6 +138,19 @@ public class KDTree
     }
     
     /**
+     * Find a city's coordinates
+     * @param x is the x coordinate for the target city
+     * @param y is the x coordinate for the target city
+     * @return The City object if found and null otherwise
+     */
+    public City find(int x, int y)
+    {
+        return findHelp(root, x, y, 0);
+    }
+    
+    /**
+     * Recursively searches for a city by its coordinates (x,y).
+     * It will alternate searching between x and y at each depth/level
      * @param rt is the current node
      * @param x is the target x coordinate
      * @param y is the target y coordinate
@@ -163,8 +165,29 @@ public class KDTree
         }
         // Get the city record 
         City currentCity = rt.getCity();
-        return null;
+        // Check if this city matches the targets coordinates
+        if (currentCity.getX() == x && currentCity.getY() == y)
+        {
+            return currentCity;
+        }
         
+        // Determine which dimension to compare: 0 for x, 1 for y
+        int cd = level % DIMENSIONS;
+        // Decide which subtree to search based on current dimension (cd)
+        if (cd == 0) // Compare x coordinates
+        {
+            if (x < currentCity.getX()) // If target x is less than currentCity x
+            {
+                return findHelp(rt.getLeft(), x, y, level + 1);
+            }
+            return findHelp(rt.getRight(), x, y, level + 1); // when target x is greater than currentCity x
+        }
+        if (y < currentCity.getY()) // Compare y coordinates: If target y is less than currentCity y
+        {
+            return findHelp(rt.getLeft(), x, y, level + 1);
+        }
+        return findHelp(rt.getRight(), x, y, level + 1); // when target y is greater than currentCity y
     }
+    
     
 }

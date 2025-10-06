@@ -252,7 +252,7 @@ public class BST<E extends Comparable<E>> {
         }
         return getMax(rt.right());
     }
-    
+  
     /**
      * Delete the maximum valued element in a subtree.
      * @param rt
