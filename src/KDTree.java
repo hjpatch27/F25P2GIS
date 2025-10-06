@@ -300,7 +300,7 @@ public class KDTree
      * @param rt is the current node\
      * @param dim is the dimension (0 or 1)
      * @param level is the current depth of the tree
-     * @return The updated root of the subtree after removed
+     * @return rt is the updated root of the subtree after removed
      */
     private KDTreeNode removeMinHelp(KDTreeNode rt, int dim, int level)
     {
@@ -331,17 +331,59 @@ public class KDTree
     }
     
     /**
-     * Finds and removes a City by x and y coordinates
+     * Finds and removes a City by x and y coordinates.
+     * If the node to remove is found, replace by the minimum node
      * 
      * @param rt is the current node
      * @param x is the city's x coordinate
      * @param y is the city's y coordinate
      * @param level is the current depth 
-     * @return The updated root of the subtree
+     * @return rt is the updated root of the subtree
      */
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level)
     {
-        return root;
+        if (rt == null)
+        {
+            return null;
+        }
+        int cd = level % DIMENSIONS;
+        City currentCity = rt.getCity();
+        
+        // Find node to remove
+        if (currentCity.getX() == x && currentCity.getY() == y)
+        {
+            // Node has right subtree -> replace with min from right
+            if (rt.getRight() != null)
+            {
+                KDTreeNode minNode = findMinHelp(rt.getRight(), cd, level + 1);
+                rt.cityRecord = minNode.getCity(); // Replace current nodes city
+                rt.setRight(removeMinHelp(rt.getRight(), cd, level + 1)); // Remove the min node
+            }
+            // No right but has left subtree -> replace with min from left
+            else if (rt.getLeft() != null)
+            {
+                KDTreeNode minNode = findMinHelp(rt.getLeft(), cd, level + 1);
+                rt.cityRecord = minNode.getCity();
+                rt.setRight(removeMinHelp(rt.getLeft(), cd, level + 1)); // Move left subtree to right
+                rt.setLeft(null); // Clear left since it was removed
+            }
+            else
+            {
+                // Leaf node so just remove
+                return null;
+            }
+            return rt;
+        }
+        // Recurse into left or right subtree based on current dimension (cd)
+        if ((cd == 0 && x < currentCity.getX()) || (cd == 1 && y < currentCity.getY()))
+        {
+            rt.setLeft(removeHelp(rt.getLeft(), x , y, level + 1));
+        }
+        else
+        {
+            rt.setRight(removeHelp(rt.getRight(), x , y, level + 1));
+        }
+        return rt; 
         
     }
 }
