@@ -86,7 +86,19 @@ public class GISDB implements GIS {
      *          was deleted).
      */
     public String delete(int x, int y) {
-        return "";
+        // Use find() from KDTree to search for coordinates.
+        City city = kd.find(x, y); 
+        // If City object found, use toString() to obtain the name.
+        if (city != null)
+        {
+            String result = city.toString();
+            // Remove coordinates from the String.
+            result = result.substring(0, result.indexOf("(") - 1);
+            // Remove the City object from BST and kd-tree
+            bst.remove(city);
+            return result;
+        }
+        return "No such city at this location exists";
     }
 
 
