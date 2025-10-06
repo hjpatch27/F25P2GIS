@@ -55,11 +55,6 @@ public class GISDB implements GIS {
      */
     public boolean insert(String name, int x, int y) {
         City newCity = new City(name, x, y);
-        // Check for duplicate city in the database. If so, return false.
-        if (bst.find(newCity) != null)
-        {
-            return false;
-        }
         // Check for bad inputs out of bounds between 0 and MAXCOORD.
         if (x < 0 || y < 0 || x > MAXCOORD || y > MAXCOORD)
         {
@@ -72,6 +67,7 @@ public class GISDB implements GIS {
         }
         // If there no's duplicate, insert the city and return true.
         bst.insert(newCity);
+        kd.insert(newCity);
         return true;
     }
 
@@ -124,7 +120,7 @@ public class GISDB implements GIS {
         {
             String result = city.toString();
             // Remove coordinates from the String.
-            result = result.substring(0, result.indexOf("("));
+            result = result.substring(0, result.indexOf("(") - 1);
             return result;
         }
         return "";

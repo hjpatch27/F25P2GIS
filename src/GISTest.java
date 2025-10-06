@@ -140,9 +140,10 @@ public class GISTest extends TestCase {
         assertTrue(it.insert("Tacoma", 1000, 100));
         assertTrue(it.insert("Baltimore", 0, 300));
         assertTrue(it.insert("Washington", 5, 350));
-        assertEquals("(100, 150)", it.info(100, 150));
+        assertEquals("Chicago", it.info(100, 150));
         assertFalse(it.insert("X", 100, 150));
         assertTrue(it.insert("L", 101, 150));
+        assertEquals("", it.info(11, 500));
         assertTrue(it.insert("L", 11, 500));
         assertFuzzyEquals("1  Atlanta (10, 500)\n"
             + "2    Baltimore (0, 300)\n"
