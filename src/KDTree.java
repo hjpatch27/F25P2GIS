@@ -234,11 +234,11 @@ public class KDTree
     }
     
     /**
-     * Finds the node with the minimum value along the specified dimension (0 = x, 1 = y)
+     * Finds the node with the minimum value along the specified dimension (0 = x, 1 = y).
      * 
      * @param rt is the current node
      * @param dim is the dimension (0 or 1)
-     * @param level is the current nodes level
+     * @param level is the current depth of the tree
      * @return minNode the KDTreeNode that contains the minimum value for the dimension
      */
     private KDTreeNode findMinHelp(KDTreeNode rt, int dim, int level)
@@ -295,11 +295,11 @@ public class KDTree
     }
     
     /**
-     * Removes the node with the minimum value for the specified dimension
+     * Removes the node with the minimum value for the specified dimension.
      * 
      * @param rt is the current node\
      * @param dim is the dimension (0 or 1)
-     * @param level is the current nodes level
+     * @param level is the current depth of the tree
      * @return The updated root of the subtree after removed
      */
     private KDTreeNode removeMinHelp(KDTreeNode rt, int dim, int level)
@@ -308,7 +308,40 @@ public class KDTree
         {
             return null;
         }
+        int cd = level % DIMENSIONS;
+        
+        if (cd == dim)
+        {
+            // If current dim matches the target, the min is in the left subtree
+            if (rt.getLeft() == null)
+            {
+                // Remove node by returning its right child
+                return rt.getRight();
+            }
+            // Remove the min by recursing into left subtree
+            rt.setLeft(removeMinHelp(rt.getLeft(), dim, level + 1));
+        }
+        else
+        {   // If current dim does not match, min could be anywhere
+            // Much check both subtree
+            rt.setLeft(removeMinHelp(rt.getLeft(), dim, level + 1));
+            rt.setRight(removeMinHelp(rt.getRight(), dim, level + 1));
+        }
         return rt;
+    }
+    
+    /**
+     * Finds and removes a City by x and y coordinates
+     * 
+     * @param rt is the current node
+     * @param x is the city's x coordinate
+     * @param y is the city's y coordinate
+     * @param level is the current depth 
+     * @return The updated root of the subtree
+     */
+    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level)
+    {
+        return root;
         
     }
 }
