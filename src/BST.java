@@ -170,6 +170,19 @@ public class BST<E extends Comparable<E>> {
     }
     
     /**
+     * Print a listing of the BST in alphabetical order (inorder traversal)
+     * on the names.
+     * Each city should be printed on a separate line. Each line should start
+     * with the level of the current node, then be indented by 2 * level spaces
+     * for a node at a given level, counting the root as level 0.
+     * @return String listing the cities as specified.
+     */
+    public String print()
+    {
+        return printHelp(root, 0);
+    }
+    
+    /**
      * Helper method for find().
      * @param rt
      * @param key
@@ -264,5 +277,27 @@ public class BST<E extends Comparable<E>> {
         }
         rt.setRight(deleteMax(rt.right()));
         return rt;
+    }
+    
+    /**
+     * Helper method for print().
+     * @param node is the node the method is currently on.
+     * @param level is the level the tree is currently on.
+     * @return String listing the cities as specified.
+     */
+    private String printHelp(BSTNode node, int level) {
+        if (node == null) {
+            return "";
+        }
+        // Create StringBuilder object
+        StringBuilder sb = new StringBuilder();
+        sb.append(printHelp(node.left(), level + 1));
+        sb.append(" ".repeat(2 * level))
+        .append(level)
+        .append(": ")
+        .append(node.value().toString())
+        .append("\n");
+        sb.append(printHelp(node.right(), level + 1));
+        return sb.toString();
     }
 }

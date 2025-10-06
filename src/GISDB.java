@@ -98,7 +98,7 @@ public class GISDB implements GIS {
             bst.remove(city);
             return result;
         }
-        return "No such city at this location exists";
+        return "";
     }
 
 
@@ -208,6 +208,6 @@ public class GISDB implements GIS {
      * @return String listing the cities as specified.
      */
     public String print() {
-        return "";
+        return bst.print();
     }
 }
