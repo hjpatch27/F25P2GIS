@@ -139,7 +139,8 @@ public class GISDB implements GIS {
      *          empty if there are none.
      */
     public String info(String name) {
-     // Use find() from BST to locate City object.
+        /**
+        // Use find() from BST to locate City object.
         City city = bst.find(name);
         // If City object found, use toString() to return the name.
         if (city != null)
@@ -149,6 +150,7 @@ public class GISDB implements GIS {
             result = result.substring(result.indexOf("("), result.indexOf(")"));
             return result;
         }
+        */
         return "";
     }
 
