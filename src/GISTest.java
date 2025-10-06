@@ -131,7 +131,7 @@ public class GISTest extends TestCase {
     /**
      * Insert some records and check output requirements for various commands
      * @throws IOException
-     *
+     */
     public void testRefOutput()
         throws IOException
     {
@@ -168,5 +168,4 @@ public class GISTest extends TestCase {
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
     }
-    */
 }

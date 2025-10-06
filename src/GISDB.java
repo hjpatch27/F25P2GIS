@@ -21,6 +21,7 @@ public class GISDB implements GIS {
     public static final int DIMENSION = 2;
     
     private BST<City> bst;
+    private KDTree kd;
 
     // ----------------------------------------------------------
     /**
@@ -28,6 +29,7 @@ public class GISDB implements GIS {
      */
     GISDB() {
         this.bst = new BST<>();
+        this.kd = new KDTree();
     }
 
 
@@ -115,7 +117,16 @@ public class GISDB implements GIS {
      * @return The city name if there is such a city, empty otherwise
      */
     public String info(int x, int y) {
-        // Use find() from KDTree to locate coordinate.
+        // Use find() from KDTree to locate City object.
+        City city = kd.find(x, y);
+        // If City object found, use toString() to return the name.
+        if (city != null)
+        {
+            String result = city.toString();
+            // Remove coordinates from the String.
+            result = result.substring(0, result.indexOf("("));
+            return result;
+        }
         return "";
     }
 
@@ -128,6 +139,16 @@ public class GISDB implements GIS {
      *          empty if there are none.
      */
     public String info(String name) {
+     // Use find() from BST to locate City object.
+        City city = bst.find(name);
+        // If City object found, use toString() to return the name.
+        if (city != null)
+        {
+            String result = city.toString();
+            // Remove name from the String.
+            result = result.substring(result.indexOf("("), result.indexOf(")"));
+            return result;
+        }
         return "";
     }
 
