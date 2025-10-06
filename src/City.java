@@ -81,7 +81,7 @@ public class City implements Comparable<City> {
             return false;
         }
         City other = (City) obj;
-        return name.equals(other.name) && x == other.x && y == other.y;
+        return name.equals(other.getName()) && x == other.getX() && y == other.getY();
     }
     
     /**
