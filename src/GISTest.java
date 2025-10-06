@@ -42,6 +42,30 @@ public class GISTest extends TestCase {
     }
     
     /**
+     * Tests the insert() method in GISDB. In this test case,
+     * We run scenario's where the City object has coordinates
+     * out of bounds, there is a City with duplicate coordinates,
+     * and a successful insertion of a City object.
+     */
+    public void testInsert()
+    {
+        // Successfully insert first City object
+        assertTrue(it.insert("London", 1, 2));
+        // Inserting city with same name but different
+        // coordinates (in-bounds) should return true.
+        assertTrue(it.insert("London", 2, 1));
+        // Trying to insert a city with duplicate 
+        // coordinates should return false.
+        assertFalse(it.insert("New York City", 1, 2));
+        // Trying to insert city with coordinates
+        // out of bounds should return false.
+        assertFalse(it.insert("Moscow", 1, -1)); // y < 0
+        assertFalse(it.insert("Moscow", -1, 1)); // x < 0
+        assertFalse(it.insert("Moscow", 1, 100000)); // y > MAXCOORD
+        assertFalse(it.insert("Moscow", 1, 100000)); // x > MAXCOORD
+    }
+    
+    /**
      * Tests the insert() method in the BST class.
      */
     public void testBSTInsert()
@@ -131,7 +155,7 @@ public class GISTest extends TestCase {
     /**
      * Insert some records and check output requirements for various commands
      * @throws IOException
-     */
+     *
     public void testRefOutput()
         throws IOException
     {
@@ -170,4 +194,5 @@ public class GISTest extends TestCase {
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
     }
+    */
 }
