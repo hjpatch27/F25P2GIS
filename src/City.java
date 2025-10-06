@@ -35,7 +35,7 @@ public class City implements Comparable<City> {
     }
     
     /**
-     * Getter method for x
+     * Getter method for x.
      * @return x
      */
     public int getX()
@@ -44,7 +44,7 @@ public class City implements Comparable<City> {
     }
     
     /**
-     * Getter method for y
+     * Getter method for y.
      * @return y
      */
     public int getY()
@@ -81,7 +81,8 @@ public class City implements Comparable<City> {
             return false;
         }
         City other = (City) obj;
-        return name.equals(other.getName()) && x == other.getX() && y == other.getY();
+        return name.equals(other.getName()) 
+            && x == other.getX() && y == other.getY();
     }
     
     /**
