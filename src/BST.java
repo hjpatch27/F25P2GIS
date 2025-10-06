@@ -291,13 +291,23 @@ public class BST<E extends Comparable<E>> {
         }
         // Create StringBuilder object
         StringBuilder sb = new StringBuilder();
+        // Use inorder traversal to move through tree.
+        // Traverse left subtree
         sb.append(printHelp(node.left(), level + 1));
-        sb.append(" ".repeat(2 * level))
-        .append(level)
-        .append(": ")
-        .append(node.value().toString())
-        .append("\n");
+
+        // Print current node with correct indentation
+        sb.append(" ".repeat(2 * level))  // Indent by 2 * level spaces
+          // Append level of node.
+          .append(level)
+          .append(": ")
+          // Append name and coordinates of the city object.
+          .append(node.value().toString())
+          .append("\n");
+
+        // Traverse right subtree
         sb.append(printHelp(node.right(), level + 1));
+
         return sb.toString();
+
     }
 }
