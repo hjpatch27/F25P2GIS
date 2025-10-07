@@ -64,6 +64,7 @@ public class GISTest extends TestCase {
      */
     public void testInsert()
     {
+        
         // Successfully insert first City object
         assertTrue(it.insert("London", 1, 2));
         // Inserting city with same name but different
@@ -413,9 +414,6 @@ public class GISTest extends TestCase {
         assertNull(tree.find(2, 10));
         assertNotNull(tree.find(5, 25));
     }
-
-
-
 
 
 

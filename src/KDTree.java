@@ -345,6 +345,11 @@ public class KDTree
      */
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level)
     {
+        if (rt == null) 
+        {
+            return null;
+        }
+        
         int cd = level % DIMENSIONS;
         City currentCity = rt.getCity();
         
@@ -365,10 +370,12 @@ public class KDTree
                 {
                     KDTreeNode minNode = findMinHelp(rt.getLeft(), cd, level + 1);
                     rt.cityRecord = minNode.getCity();
-                    rt.setRight(removeMinHelp(rt.getLeft(), cd, level + 1)); // Move left subtree to right
+                    // Delete the min node from the left subtree
+                    rt.setLeft(removeMinHelp(rt.getLeft(), cd, level + 1));
+                    rt.setRight(rt.getLeft()); // Move the ramaining left subtree to the right
                     rt.setLeft(null); // Clear left since it was removed
                 }
-                else
+                else 
                 {
                     // Leaf node so just remove
                     return null;
