@@ -125,6 +125,29 @@ public class GISTest extends TestCase {
     }
     
     /**
+     * Tests the find() method in the BST class.
+     */
+    public void testBSTFind()
+    {
+        // Set initial conditions: Insert City objects.
+        bst.insert(a);
+        bst.insert(b);
+        bst.insert(c);
+        bst.insert(d);
+        bst.insert(e);
+        
+        // Searching for a nonexistent City will return null.
+        assertNull(bst.find(city10));
+        
+        // Searching for an existing City will return the 
+        // City object.
+        assertEquals(bst.find(a), a);
+        
+        // Scenario where find() should traverse to the right.
+        assertEquals(bst.find(e), e);
+    }
+    
+    /**
      * All remove()/delete() methods commented out for 
      * Milestone 2 Mutation Coverage (75%)
      * 
