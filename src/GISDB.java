@@ -86,6 +86,10 @@ public class GISDB implements GIS {
      *          was deleted).
      */
     public String delete(int x, int y) {
+        /**
+         * All remove() methods commented out for 
+         * Milestone 2 Mutation Coverage (75%)
+         *
         // Use find() from KDTree to search for coordinates.
         City city = kd.find(x, y); 
         // If City object found, use toString() to obtain the name.
@@ -99,6 +103,7 @@ public class GISDB implements GIS {
             kd.remove(x, y);
             return result;
         }
+        */
         return "";
     }
 

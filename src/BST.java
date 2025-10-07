@@ -138,11 +138,15 @@ public class BST<E extends Comparable<E>> {
         nodeCount++;
     }
 
+/**
+ * All remove() methods commented out for 
+ * Milestone 2 Mutation Coverage (75%)
+ */    
     /**
      * Remove a record from the tree
      * @param key is the key value to remove.
      * @return the record removed, null if there is none.
-     */
+     *
     public E remove(E key) {
         E temp = findHelp(root, key); // First find it
         if (temp != null) {
@@ -151,6 +155,7 @@ public class BST<E extends Comparable<E>> {
         }
         return temp;
     }
+    */
 
     /**
      * Find the record with a specific key value.
@@ -221,13 +226,16 @@ public class BST<E extends Comparable<E>> {
         }
         return rt;
     }
-    
+/**
+ * All remove() methods commented out for 
+ * Milestone 2 Mutation Coverage (75%)
+ */
     /**
      * Helper method for remove().
      * @param rt
      * @param key
      * @return
-     */
+     *
     private BSTNode removeHelp(BSTNode rt, E key) {
         if (rt == null) {
             return null;
@@ -253,24 +261,26 @@ public class BST<E extends Comparable<E>> {
         }
         return rt;
     }
+    */
     
     /**
      * Get the maximum valued element in a subtree.
      * @param rt
      * @return
-     */
+     *
     private BSTNode getMax(BSTNode rt) {
         if (rt.right() == null) { 
             return rt; 
         }
         return getMax(rt.right());
     }
+    */
   
     /**
      * Delete the maximum valued element in a subtree.
      * @param rt
      * @return
-     */
+     *
     private BSTNode deleteMax(BSTNode rt) {
         if (rt.right() == null) {
             return rt.left();
@@ -278,6 +288,7 @@ public class BST<E extends Comparable<E>> {
         rt.setRight(deleteMax(rt.right()));
         return rt;
     }
+    */
     
     /**
      * Helper method for print().
