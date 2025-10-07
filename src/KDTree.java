@@ -252,7 +252,7 @@ public class KDTree {
      * @return minNode the KDTreeNode that contains the minimum value for the
      *         dimension
     
-    private KDTreeNode findMinHelp(KDTreeNode rt, int dim, int level) {
+    public KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
         if (rt == null) {
             return null;
         }
