@@ -356,14 +356,10 @@ public class KDTree {
      * Finds and removes a City by x and y coordinates.
      * If the node to remove is found, replace by the minimum node
      * 
-     * @param rt
-     *            is the current node
-     * @param x
-     *            is the city's x coordinate
-     * @param y
-     *            is the city's y coordinate
-     * @param level
-     *            is the current depth
+     * @param rt is the current node
+     * @param x is the city's x coordinate
+     * @param y is the city's y coordinate
+     * @param level is the current depth
      * @return rt is the updated root of the subtree
      *
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level) {
@@ -452,10 +448,8 @@ public class KDTree {
     /**
      * Remove a city by its coordinates
      * 
-     * @param x
-     *            is the target x coordinate
-     * @param y
-     *            is the target y coordinate
+     * @param x is the target x coordinate
+     * @param y is the target y coordinate
      * @return temp is the City object that was removed and null if not found
      *
     public City remove(int x, int y) {
