@@ -335,11 +335,12 @@ public class GISTest extends TestCase {
         tree.insert(c);
         tree.insert(d);
         tree.insert(e);
-     /// Remove the root node (Alpha at 30, 40)
+        // Remove the root node (Alpha at 30, 40)
         City removed = tree.remove(30, 40);
 
         assertNotNull(removed);
-        assertEquals("Alpha", removed.getName()); // Check that the correct city was returned
+        // Check that the correct city was returned
+        assertEquals("Alpha", removed.getName());
         assertEquals(4, tree.size());
 
         // CRITICAL: The physical location (30, 40) still holds a node.
@@ -348,7 +349,8 @@ public class GISTest extends TestCase {
         assertNotNull(replacement);
         assertEquals("Epsilon", replacement.getName()); // Should now be Epsilon
         
-        // The original coordinates of the replacement node (50, 50) should now be empty.
+        // The original coordinates of the replacement node (50, 50) 
+        // should now be empty.
         assertNull(tree.find(50, 50)); 
     }
     
@@ -400,10 +402,12 @@ public class GISTest extends TestCase {
         assertNotNull(removed);
         assertEquals("Beta", removed.getName());
 
-        // Check 1: The original node (Beta) now holds the replacement data (Delta).
+        // Check 1: The original node (Beta) now holds the 
+        // replacement data (Delta).
         City replacement = tree.find(5, 25); 
         assertNotNull(replacement);
-        assertEquals("Delta", replacement.getName()); // Pass if data replacement worked
+        // Pass if data replacement worked
+        assertEquals("Delta", replacement.getName());
 
         // Check 2: The replacement node's original coordinates are now empty.
         // The node at (10, 12) should be gone.
@@ -423,8 +427,9 @@ public class GISTest extends TestCase {
 
         City f = new City("Zeta", 5, 999); // same x, different y
         tree.insert(f);
-
-        City result = tree.remove(5, 999); // x matches Zeta, y matches → should remove Zeta
+        
+        // x matches Zeta, y matches → should remove Zeta
+        City result = tree.remove(5, 999);
         assertNotNull(result);
         assertEquals("Zeta", result.getName());
 
@@ -459,6 +464,11 @@ public class GISTest extends TestCase {
         assertNotNull(tree.find(5, 25));
     }
 
+    /**
+     * Tests remove() within the KDTree class. In this scenario,
+     * we are reviewing it's usage of findMinHelp(),
+     * specifically with minX.
+     */
     public void testRemove_ValidatesFindMinHelp_MinX() {
         tree.insert(a); // Root: Alpha (30, 40)
         tree.insert(b);
@@ -473,22 +483,30 @@ public class GISTest extends TestCase {
         assertEquals("Alpha", removed.getName());
         assertEquals(4, tree.size());
 
-        // The node with coordinates (30, 40) should now contain Epsilon's data (the Min X replacement).
-        // Since the KDTree finds by coordinates (30, 40) but returns the City object stored there,
-        // we check that the city at (30, 40) is now Epsilon.
+        // The node with coordinates (30, 40) should now contain Epsilon's 
+        // data (the Min X replacement). Since the KDTree finds by coordinates 
+        // (30, 40) but returns the City object stored there, we check that the 
+        // city at (30, 40) is now Epsilon.
         City replacement = tree.find(30, 40); 
         assertNotNull(replacement);
-        assertEquals("Epsilon", replacement.getName()); // Validation of Epsilon as the replacement
+        // Validation of Epsilon as the replacement
+        assertEquals("Epsilon", replacement.getName());
         
-        // The original coordinates of Epsilon (50, 50) should no longer contain data,
-        // because the node containing Epsilon's data was removed after replacement.
+        // The original coordinates of Epsilon (50, 50) shouldn't contain data,
+        // because the node with Epsilon's data was removed after replacement.
         assertNull(tree.find(50, 50)); 
     }
     
+    /**
+     * Tests the remove() method in the KDTree class. In
+     * this scenario, we are testing minX when it's a leaf node.
+     */
     public void testRemove_MinXIsLeafNode() {
         tree.insert(a); // Root (X-split): Alpha (30, 40)
         tree.insert(c); // Right (Y-split): Gamma (70, 70)
-        tree.insert(e); // Right/Left (X-split): Epsilon (50, 50) <-- MinX in right subtree
+        // Right/Left (X-split): 
+        // Epsilon (50, 50) <-- MinX in right subtree
+        tree.insert(e);
         
         // Structure: A -> C -> E (E is a leaf)
 
@@ -497,19 +515,19 @@ public class GISTest extends TestCase {
         // 2. Data at (30, 40) is replaced with Epsilon's name.
         // 3. removeMinHelp(rt.getRight(), 0, 1) is called to remove Epsilon.
         
-        // Since Epsilon is a leaf node, removeMinHelp recursively hits E's null children, 
-        // triggering the 'if (rt == null)' base case in the helper method.
+        // Since Epsilon is a leaf node, removeMinHelp recursively hits E's 
+        // null children, triggering the 'if (rt == null)' base case in the 
+        // helper method.
         City removed = tree.remove(30, 40); 
         
         assertNotNull(removed);
         assertEquals("Alpha", removed.getName());
-        assertEquals(2, tree.size()); // Should be 2 nodes left (C and the new A/Epsilon)
+        // Should be 2 nodes left (C and the new A/Epsilon)
+        assertEquals(2, tree.size());
 
         // Verify Epsilon is now at the root's coordinates
         City replacement = tree.find(30, 40);
         assertNotNull(replacement);
         assertEquals("Epsilon", replacement.getName());
     }
-
-
 }
