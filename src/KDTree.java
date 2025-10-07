@@ -41,14 +41,13 @@ public class KDTree {
          * Replaces the city record stored in this node with a new City object.
          * 
          * @param other the City to store in this node
-         
-
+         */
         public void setCity(City other)
         {
             this.cityRecord = new City(other.getName(), other.getX(), other.getY());
 
         }
-        */
+        
 
         /**
          * Gets the left KDTreeNode.
@@ -252,7 +251,7 @@ public class KDTree {
      * @param level is the current depth of the tree
      * @return minNode the KDTreeNode that contains the minimum value for the
      *         dimension
-   
+     */
     private KDTreeNode findMinHelp(KDTreeNode rt, int dim, int level) {
         if (rt == null) {
             return null;
@@ -320,7 +319,7 @@ public class KDTree {
        }
 
     }
-  */
+
 
     /**
      * Removes the node with the minimum value for the specified dimension.
@@ -332,7 +331,7 @@ public class KDTree {
      * @param level
      *            is the current depth of the tree
      * @return rt is the updated root of the subtree after removed
-     
+     */
     private KDTreeNode removeMinHelp(KDTreeNode rt, int level) {
         if (rt == null) {
             return null;
@@ -350,7 +349,7 @@ public class KDTree {
         
         return rt;
     }
-*/
+
 
     /**
      * Finds and removes a City by x and y coordinates.
@@ -365,7 +364,7 @@ public class KDTree {
      * @param level
      *            is the current depth
      * @return rt is the updated root of the subtree
-    
+     */
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level) {
         if (rt == null) {
             return null;
@@ -446,7 +445,7 @@ public class KDTree {
         }
         return rt;
     }
- */
+
 
     /**
      * Remove a city by its coordinates
@@ -456,7 +455,7 @@ public class KDTree {
      * @param y
      *            is the target y coordinate
      * @return temp is the City object that was removed and null if not found
-     
+     */
     public City remove(int x, int y) {
         City temp = find(x, y); // Check if the coordinates exists
         if (temp != null) {
@@ -465,7 +464,7 @@ public class KDTree {
         }
         return temp;
     }
-    */
+
     
 
     /**
