@@ -416,6 +416,18 @@ public class GISTest extends TestCase {
         assertNull(tree.find(2, 10));
         assertNotNull(tree.find(5, 25));
     }
+    
+    /**
+     * !compareX && dim == 1 with left child present
+     */
+    public void testRemove6() {
+        KDTree tree = new KDTree();
+        tree.insert(new City("A", 5, 5));
+        tree.insert(new City("B", 3, 7));
+        tree.insert(new City("C", 1, 9)); // deeper left
+        tree.remove(5, 5); // triggers Y-axis match at odd level
+        assertNotNull(tree.find(1, 9));
+    }
      
 
 
