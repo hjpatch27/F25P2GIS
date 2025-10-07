@@ -432,8 +432,4 @@ public class GISTest extends TestCase {
         assertNotNull(tree.find(1, 9));
     }
     */
-     
-
-
-
 }
