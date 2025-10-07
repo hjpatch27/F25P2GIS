@@ -333,7 +333,7 @@ public class GISTest extends TestCase {
         tree.insert(c);
         tree.insert(d);
         tree.insert(e);
-     // Remove the root node (Alpha at 30, 40)
+     /// Remove the root node (Alpha at 30, 40)
         City removed = tree.remove(30, 40);
 
         assertNotNull(removed);
@@ -347,7 +347,7 @@ public class GISTest extends TestCase {
         assertEquals("Epsilon", replacement.getName()); // Should now be Epsilon
         
         // The original coordinates of the replacement node (50, 50) should now be empty.
-        assertNull(tree.find(50, 50));  
+        assertNull(tree.find(50, 50)); 
     }
     
     /**
