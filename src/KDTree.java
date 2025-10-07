@@ -251,7 +251,7 @@ public class KDTree {
      * @param level is the current depth of the tree
      * @return minNode the KDTreeNode that contains the minimum value for the
      *         dimension
-     */
+    
     private KDTreeNode findMinHelp(KDTreeNode rt, int dim, int level) {
         if (rt == null) {
             return null;
@@ -319,6 +319,7 @@ public class KDTree {
        }
 
     }
+    */
 
 
     /**

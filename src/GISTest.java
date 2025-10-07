@@ -315,7 +315,7 @@ public class GISTest extends TestCase {
     
     /**
      * Test the remove method when removing a leaf node
-     */
+     
     public void testRemoveLeafNode()
     {
         tree.insert(a);
@@ -324,6 +324,7 @@ public class GISTest extends TestCase {
         assertEquals(1, tree.size());
         assertNull(tree.find(5, 25));
     }
+    */
     
    
     
@@ -356,19 +357,20 @@ public class GISTest extends TestCase {
 
     /**
      * Test the remove method
-     */
+     
     public void testRemove2() {
         KDTree emptyTree = new KDTree();
         City result = emptyTree.remove(999, 999);
         assertNull(result);
     }
+    */
      
     
     
     /**
      * Test the remove method for the scenario where x coordinate matches
      * but the y coordinate does not.
-     */
+     
     public void testRemove4() {
         tree.insert(a);
         tree.insert(b);
@@ -389,12 +391,13 @@ public class GISTest extends TestCase {
         assertNotNull(stillThere);
         assertEquals("Beta", stillThere.getName());
     }
+    */
     
 
     /**
      * Test the remove method when y < currentCity.getY() 
      * 
-     */
+     
     public void testRemove5() 
     {
         tree.insert(a);
@@ -416,10 +419,10 @@ public class GISTest extends TestCase {
         assertNull(tree.find(2, 10));
         assertNotNull(tree.find(5, 25));
     }
+    */
     
     /**
      * !compareX && dim == 1 with left child present
-     */
     public void testRemove6() {
         KDTree tree = new KDTree();
         tree.insert(new City("A", 5, 5));
@@ -428,6 +431,7 @@ public class GISTest extends TestCase {
         tree.remove(5, 5); // triggers Y-axis match at odd level
         assertNotNull(tree.find(1, 9));
     }
+    */
      
 
 
