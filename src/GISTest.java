@@ -347,7 +347,7 @@ public class GISTest extends TestCase {
         assertEquals("Epsilon", replacement.getName()); // Should now be Epsilon
         
         // The original coordinates of the replacement node (50, 50) should now be empty.
-        assertNull(tree.find(50, 50)); 
+        assertNull(tree.find(50, 50));  
     }
     
     /**
