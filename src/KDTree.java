@@ -375,7 +375,7 @@ public class KDTree
                     rt.setRight(rt.getLeft()); // Move the ramaining left subtree to the right
                     rt.setLeft(null); // Clear left since it was removed
                 }
-                else
+                else 
                 {
                     // Leaf node so just remove
                     return null;
