@@ -210,35 +210,36 @@ public class KDTree {
         if (rt == null) {
             return null;
         }
-        // Get the city record
+        
         City currentCity = rt.getCity();
-        // Check if this city matches the targets coordinates
+        // 1. Check if we found the city
         if (currentCity.getX() == x && currentCity.getY() == y) {
             return currentCity;
         }
 
-        // Determine which dimension to compare: 0 for x, 1 for y
         int cd = level % DIMENSIONS;
-        // Decide which subtree to search based on current dimension (cd)
+        
+        // 2. Decide which subtree to search
         if (cd == 0) // Compare x coordinates
         {
-            if (x < currentCity.getX()) // If target x is less than currentCity
-                                        // x
-            {
+            // Traverse based on the target x coordinate
+            if (x < currentCity.getX()) {
                 return findHelp(rt.getLeft(), x, y, level + 1);
             }
-            return findHelp(rt.getRight(), x, y, level + 1); // when target x is
-                                                             // greater than
-                                                             // currentCity x
+            else { // Go right for x >= currentCity.getX(). This matches insertHelp.
+                return findHelp(rt.getRight(), x, y, level + 1);
+            }
         }
-        if (y < currentCity.getY()) // Compare y coordinates: If target y is
-                                    // less than currentCity y
+        else // cd == 1 (Compare y coordinates)
         {
-            return findHelp(rt.getLeft(), x, y, level + 1);
-        }
-        return findHelp(rt.getRight(), x, y, level + 1); // when target y is
-                                                         // greater than
-                                                         // currentCity y
+            // Traverse based on the target y coordinate
+            if (y < currentCity.getY()) {
+                return findHelp(rt.getLeft(), x, y, level + 1);
+            }
+            else { // Go right for y >= currentCity.getY(). This matches insertHelp.
+                return findHelp(rt.getRight(), x, y, level + 1);
+            }
+        }                                   // currentCity y
     }
 
 
