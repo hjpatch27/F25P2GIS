@@ -333,9 +333,21 @@ public class GISTest extends TestCase {
         tree.insert(c);
         tree.insert(d);
         tree.insert(e);
-        assertNotNull(tree.remove(30, 40));
+     // Remove the root node (Alpha at 30, 40)
+        City removed = tree.remove(30, 40);
+
+        assertNotNull(removed);
+        assertEquals("Alpha", removed.getName()); // Check that the correct city was returned
         assertEquals(4, tree.size());
-        assertNull(tree.find(30, 40));
+
+        // CRITICAL: The physical location (30, 40) still holds a node.
+        // This node now holds the replacement city's data (Epsilon).
+        City replacement = tree.find(30, 40); 
+        assertNotNull(replacement);
+        assertEquals("Epsilon", replacement.getName()); // Should now be Epsilon
+        
+        // The original coordinates of the replacement node (50, 50) should now be empty.
+        assertNull(tree.find(50, 50)); 
     }
     
     /**
@@ -382,18 +394,18 @@ public class GISTest extends TestCase {
         tree.insert(c);
         tree.insert(d);
         tree.insert(e);
-        // Beta has no right child, but has left child (Delta)
         City removed = tree.remove(5, 25);
         assertNotNull(removed);
         assertEquals("Beta", removed.getName());
 
-        // Beta should be replaced by Delta (min in left subtree)
-        City replacement = tree.find(10, 12);
+        // Check 1: The original node (Beta) now holds the replacement data (Delta).
+        City replacement = tree.find(5, 25); 
         assertNotNull(replacement);
-        assertEquals("Delta", replacement.getName());
+        assertEquals("Delta", replacement.getName()); // Pass if data replacement worked
 
-        // Beta should no longer be found
-        assertNull(tree.find(5, 25));
+        // Check 2: The replacement node's original coordinates are now empty.
+        // The node at (10, 12) should be gone.
+        assertNull(tree.find(10, 12)); // This should now pass!
     }
     
     /**
@@ -445,6 +457,57 @@ public class GISTest extends TestCase {
         assertNotNull(tree.find(5, 25));
     }
 
+    public void testRemove_ValidatesFindMinHelp_MinX() {
+        tree.insert(a); // Root: Alpha (30, 40)
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        
+        // Remove the root node (A: Alpha 30, 40)
+        City removed = tree.remove(30, 40); 
+        
+        assertNotNull(removed);
+        assertEquals("Alpha", removed.getName());
+        assertEquals(4, tree.size());
+
+        // The node with coordinates (30, 40) should now contain Epsilon's data (the Min X replacement).
+        // Since the KDTree finds by coordinates (30, 40) but returns the City object stored there,
+        // we check that the city at (30, 40) is now Epsilon.
+        City replacement = tree.find(30, 40); 
+        assertNotNull(replacement);
+        assertEquals("Epsilon", replacement.getName()); // Validation of Epsilon as the replacement
+        
+        // The original coordinates of Epsilon (50, 50) should no longer contain data,
+        // because the node containing Epsilon's data was removed after replacement.
+        assertNull(tree.find(50, 50)); 
+    }
+    
+    public void testRemove_MinXIsLeafNode() {
+        tree.insert(a); // Root (X-split): Alpha (30, 40)
+        tree.insert(c); // Right (Y-split): Gamma (70, 70)
+        tree.insert(e); // Right/Left (X-split): Epsilon (50, 50) <-- MinX in right subtree
+        
+        // Structure: A -> C -> E (E is a leaf)
+
+        // Remove the root (A at 30, 40).
+        // 1. findMinHelp(rt.getRight(), 0, 1) returns Epsilon (50, 50).
+        // 2. Data at (30, 40) is replaced with Epsilon's name.
+        // 3. removeMinHelp(rt.getRight(), 0, 1) is called to remove Epsilon.
+        
+        // Since Epsilon is a leaf node, removeMinHelp recursively hits E's null children, 
+        // triggering the 'if (rt == null)' base case in the helper method.
+        City removed = tree.remove(30, 40); 
+        
+        assertNotNull(removed);
+        assertEquals("Alpha", removed.getName());
+        assertEquals(2, tree.size()); // Should be 2 nodes left (C and the new A/Epsilon)
+
+        // Verify Epsilon is now at the root's coordinates
+        City replacement = tree.find(30, 40);
+        assertNotNull(replacement);
+        assertEquals("Epsilon", replacement.getName());
+    }
 
 
 }

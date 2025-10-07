@@ -362,14 +362,19 @@ public class KDTree
                 if (rt.getRight() != null)
                 {
                     KDTreeNode minNode = findMinHelp(rt.getRight(), cd, level + 1);
-                    rt.cityRecord = minNode.getCity(); // Replace current nodes city
+                    // Two child case
+                    City data = minNode.getCity();
+                    rt.cityRecord = new City(data.getName(), currentCity.getX(), currentCity.getY());
+                    //rt.cityRecord = minNode.getCity(); // Replace current nodes city
                     rt.setRight(removeMinHelp(rt.getRight(), cd, level + 1)); // Remove the min node
                 }
                 // No right but has left subtree -> replace with min from left
                 else if (rt.getLeft() != null)
                 {
                     KDTreeNode minNode = findMinHelp(rt.getLeft(), cd, level + 1);
-                    rt.cityRecord = minNode.getCity();
+                   // rt.cityRecord = minNode.getCity();
+                    City data = minNode.getCity();
+                    rt.cityRecord = new City(data.getName(), currentCity.getX(), currentCity.getY());
                     // Delete the min node from the left subtree
                     rt.setLeft(removeMinHelp(rt.getLeft(), cd, level + 1));
                     rt.setRight(rt.getLeft()); // Move the ramaining left subtree to the right
