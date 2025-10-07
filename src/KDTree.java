@@ -19,8 +19,7 @@ public class KDTree {
         /**
          * The constructor for KDTreeNode.
          * 
-         * @param city
-         *            is the City object to be stored in the node
+         * @param city is the City object to be stored in the node
          */
         public KDTreeNode(City city) {
             this.cityRecord = city;
@@ -74,8 +73,7 @@ public class KDTree {
         /**
          * Setter method for KDTreeNode left
          * 
-         * @param left
-         *            is the element to be changed too
+         * @param left is the element to be changed too
          */
         public void setLeft(KDTreeNode left) {
             this.left = left;
@@ -85,8 +83,7 @@ public class KDTree {
         /**
          * Setter method for KDTreeNode right
          * 
-         * @param right
-         *            is the element to be changed too
+         * @param right is the element to be changed too
          */
         public void setRight(KDTreeNode right) {
             this.right = right;
@@ -130,8 +127,7 @@ public class KDTree {
      * Insert a new city into the KD Tree. It will check
      * for any duplicates before inserting the city.
      * 
-     * @param city
-     *            is the City to insert
+     * @param city is the City to insert
      * @return true if inserted, false otherwise
      */
     public boolean insert(City city) {
@@ -148,12 +144,9 @@ public class KDTree {
      * Recursively inserts a new city into KDTree.
      * Alternates between comparing x and y at each level.
      * 
-     * @param rt
-     *            is the current node
-     * @param newCity
-     *            is the city to insert
-     * @param level
-     *            is the current depth
+     * @param rt is the current node
+     * @param newCity is the city to insert
+     * @param level is the current depth
      * @return rt the updated root of the subtree
      */
     private KDTreeNode insertHelp(KDTreeNode rt, City newCity, int level) {
@@ -194,10 +187,8 @@ public class KDTree {
     /**
      * Find a city's coordinates
      * 
-     * @param x
-     *            is the x coordinate for the target city
-     * @param y
-     *            is the x coordinate for the target city
+     * @param x is the x coordinate for the target city
+     * @param y is the x coordinate for the target city
      * @return The City object if found and null otherwise
      */
     public City find(int x, int y) {
@@ -209,14 +200,10 @@ public class KDTree {
      * Recursively searches for a city by its coordinates (x,y).
      * It will alternate searching between x and y at each depth/level.
      * 
-     * @param rt
-     *            is the current node
-     * @param x
-     *            is the target x coordinate
-     * @param y
-     *            is the target y coordinate
-     * @param level
-     *            is the current depth
+     * @param rt is the current node
+     * @param x is the target x coordinate
+     * @param y is the target y coordinate
+     * @param level is the current depth
      * @return the City object if found, null otherwise
      */
     private City findHelp(KDTreeNode rt, int x, int y, int level) {
@@ -259,12 +246,9 @@ public class KDTree {
      * Finds the node with the minimum value along the specified dimension (0 =
      * x, 1 = y).
      * 
-     * @param rt
-     *            is the current node
-     * @param dim
-     *            is the dimension (0 or 1)
-     * @param level
-     *            is the current depth of the tree
+     * @param rt is the current node
+     * @param dim is the dimension (0 or 1)
+     * @param level is the current depth of the tree
      * @return minNode the KDTreeNode that contains the minimum value for the
      *         dimension
    
