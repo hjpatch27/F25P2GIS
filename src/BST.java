@@ -165,6 +165,17 @@ public class BST<E extends Comparable<E>> {
     public E find(E key) { 
         return findHelp(root, key); 
     }
+    
+    /**
+     * Find the record of all objects with a given City name
+     * and return it in a string format.
+     * @param name is the name of the City object that
+     * we're looking for.
+     * @return the list of records with the given name.
+     */
+    public String findAll(String name) {
+        return findAllHelp(root, name);
+    }
 
     /**
      * Return the number of records in the dictionary.
@@ -191,7 +202,7 @@ public class BST<E extends Comparable<E>> {
      * Helper method for find().
      * @param rt
      * @param key
-     * @return
+     * @return the record with key value k, null if none exists.
      */
     private E findHelp(BSTNode rt, E key) {
         if (rt == null) {
@@ -206,6 +217,37 @@ public class BST<E extends Comparable<E>> {
         else {
             return findHelp(rt.right(), key);
         }
+    }
+    
+    /**
+     * Helper method for findAll().
+     * @param rt
+     * @param name
+     * @return the list of records with the given name.
+     */
+    private String findAllHelp(BSTNode rt, String name) {
+        // Return an empty string if the node is null.
+        if (rt == null) {
+              return "";
+          }
+        
+        String result = "";
+
+
+        // Check current node first (preorder traversal)
+        if (rt.value() instanceof City) {
+            City city = (City) rt.value();
+            if (city.getName().equals(name)) {
+                result += city.toString() + "\n";
+            }
+        }
+
+        // Then traverse left and right
+        result += findAllHelp(rt.left(), name);
+       result += findAllHelp(rt.right(), name);
+
+        // Return the final string
+        return result;
     }
     
     /**
