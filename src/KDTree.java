@@ -331,7 +331,7 @@ public class KDTree {
      * @param level
      *            is the current depth of the tree
      * @return rt is the updated root of the subtree after removed
-     */
+     *
     private KDTreeNode removeMinHelp(KDTreeNode rt, int level) {
         if (rt == null) {
             return null;
@@ -349,6 +349,7 @@ public class KDTree {
         
         return rt;
     }
+    */
 
 
     /**
@@ -364,7 +365,7 @@ public class KDTree {
      * @param level
      *            is the current depth
      * @return rt is the updated root of the subtree
-     */
+     *
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level) {
         if (rt == null) {
             return null;
@@ -445,6 +446,7 @@ public class KDTree {
         }
         return rt;
     }
+    */
 
 
     /**
@@ -455,7 +457,7 @@ public class KDTree {
      * @param y
      *            is the target y coordinate
      * @return temp is the City object that was removed and null if not found
-     */
+     *
     public City remove(int x, int y) {
         City temp = find(x, y); // Check if the coordinates exists
         if (temp != null) {
@@ -464,6 +466,7 @@ public class KDTree {
         }
         return temp;
     }
+    */
 
     
 

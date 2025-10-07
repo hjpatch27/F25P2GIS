@@ -20,7 +20,7 @@ public class GISTest extends TestCase {
     private City city8;
     private City city9;
     private City city10;
-    private City noCity;
+    //private City noCity;
     private KDTree tree;
     private City a;
     private City b;
@@ -46,7 +46,7 @@ public class GISTest extends TestCase {
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
-        noCity = null;
+        //noCity = null;
         tree = new KDTree();
         a = new City("Alpha", 30, 40);
         b = new City("Beta", 5, 25);
