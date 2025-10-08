@@ -269,6 +269,7 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
         */
     }   
+    
     // ----------------Test KDTREE--------------------------------------------
     /**
      * Test the method insert() and size() for KDTree
@@ -315,7 +316,7 @@ public class GISTest extends TestCase {
     
     /**
      * Test the remove method when removing a leaf node
-     
+     */
     public void testRemoveLeafNode()
     {
         tree.insert(a);
@@ -324,11 +325,7 @@ public class GISTest extends TestCase {
         assertEquals(1, tree.size());
         assertNull(tree.find(5, 25));
     }
-    */
-    
-   
-    
-    
+      
     /**
      * Test the clear() method and should return 0 for size
      */
