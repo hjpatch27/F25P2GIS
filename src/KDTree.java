@@ -251,7 +251,7 @@ public class KDTree {
      * @param level is the current depth of the tree
      * @return minNode the KDTreeNode that contains the minimum value for the
      *         dimension
-    
+     */    
     public KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
         if (rt == null) {
             return null;
@@ -265,7 +265,7 @@ public class KDTree {
            {
                return rt;
            }
-           return findMinHelp(rt.getLeft(), dim, level + 1);
+           return findMin(rt.getLeft(), dim, level + 1);
        }
        else if (!compareX && dim == 1)
        {
@@ -273,12 +273,12 @@ public class KDTree {
            {
                return rt;
            }
-           return findMinHelp(rt.getLeft(), dim, level + 1);
+           return findMin(rt.getLeft(), dim, level + 1);
        }
        else
        {
-           KDTreeNode leftMin = findMinHelp(rt.getLeft(), dim, level + 1);
-           KDTreeNode rightMin = findMinHelp(rt.getRight(), dim, level + 1);
+           KDTreeNode leftMin = findMin(rt.getLeft(), dim, level + 1);
+           KDTreeNode rightMin = findMin(rt.getRight(), dim, level + 1);
            KDTreeNode minNode = rt;
            
            if (leftMin != null)
@@ -319,7 +319,7 @@ public class KDTree {
        }
 
     }
-    */
+    
 
 
     /**
@@ -332,7 +332,7 @@ public class KDTree {
      * @param level
      *            is the current depth of the tree
      * @return rt is the updated root of the subtree after removed
-     *
+     */
     private KDTreeNode removeMinHelp(KDTreeNode rt, int level) {
         if (rt == null) {
             return null;
@@ -350,7 +350,7 @@ public class KDTree {
         
         return rt;
     }
-    */
+    
 
 
     /**
@@ -362,7 +362,7 @@ public class KDTree {
      * @param y is the city's y coordinate
      * @param level is the current depth
      * @return rt is the updated root of the subtree
-     *
+     */
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level) {
         if (rt == null) {
             return null;
@@ -380,12 +380,12 @@ public class KDTree {
                 if (compareX)
                 {
                     // Find the min node in the right subtree based on x
-                    minNode = findMinHelp(rt.getRight(), 0, level + 1);
+                    minNode = findMin(rt.getRight(), 0, level + 1);
                 }
                 else
                 {
                     // Find the min node in the right subtree based on y
-                    minNode = findMinHelp(rt.getRight(), 1, level + 1);
+                    minNode = findMin(rt.getRight(), 1, level + 1);
                 }
                 // Replace current node's city with min node
                 rt.setCity(minNode.getCity());
@@ -398,11 +398,11 @@ public class KDTree {
                 KDTreeNode minNode;
                 if(compareX)
                 {
-                    minNode = findMinHelp(rt.getLeft(), 0, level + 1);
+                    minNode = findMin(rt.getLeft(), 0, level + 1);
                 }
                 else
                 {
-                    minNode = findMinHelp(rt.getLeft(), 1, level + 1);
+                    minNode = findMin(rt.getLeft(), 1, level + 1);
                 }
                 
                 rt.setCity(minNode.getCity());
@@ -443,7 +443,7 @@ public class KDTree {
         }
         return rt;
     }
-    */
+    
 
 
     /**
@@ -452,7 +452,7 @@ public class KDTree {
      * @param x is the target x coordinate
      * @param y is the target y coordinate
      * @return temp is the City object that was removed and null if not found
-     *
+     */
     public City remove(int x, int y) {
         City temp = find(x, y); // Check if the coordinates exists
         if (temp != null) {
@@ -461,7 +461,6 @@ public class KDTree {
         }
         return temp;
     }
-    */
 
     
 
