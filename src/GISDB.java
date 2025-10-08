@@ -115,7 +115,33 @@ public class GISDB implements GIS {
      *          (listed in preorder as they are deleted).
      */
     public String delete(String name) {
-        return "";
+        // Use info(name) to get a string of all matching cities (Preorder).
+        String matches = info(name);
+        if (matches.isEmpty()) {
+            return "";
+        }
+
+        // Split the string into lines to extract each city
+        String[] lines = matches.split("\n");
+        StringBuilder result = new StringBuilder();
+
+        for (String line : lines) {
+            // Parse city name and coordinates from the line
+            String cityName = name; // already known
+            int xStart = line.indexOf('(');
+            int comma = line.indexOf(',', xStart);
+            int yEnd = line.indexOf(')', comma);
+
+            int x = Integer.parseInt(line.substring(xStart + 1, comma).trim());
+            int y = Integer.parseInt(line.substring(comma + 1, yEnd).trim());
+
+            City cityToRemove = new City(cityName, x, y);
+            bst.remove(cityToRemove);
+            kd.remove(x, y); // assuming you have a remove method in KDTree
+
+            result.append("(").append(x).append(", ").append(y).append(")\n");
+        }
+        return result.toString();
     }
 
 
