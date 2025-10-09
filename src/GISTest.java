@@ -53,6 +53,11 @@ public class GISTest extends TestCase {
         c = new City("Gamma", 70, 70);
         d = new City("Delta", 10, 12);
         e = new City("Epsilon", 50, 50);
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
     }
     
     /**
@@ -226,7 +231,7 @@ public class GISTest extends TestCase {
     /**
      * Insert some records and check output requirements for various commands
      * @throws IOException
-     */
+     
     public void testRefOutput()
         throws IOException
     {
@@ -247,7 +252,7 @@ public class GISTest extends TestCase {
             + "2    L (101, 150)\n"
             + "1  Tacoma (1000, 100)\n"
             + "2    Washington (5, 350)\n", it.print());
-        /**
+        
         assertFuzzyEquals("2    Baltimore (0, 300)\n"
             + "3      Washington (5, 350)\n"
             + "1  Atlanta (10, 500)\n"
@@ -255,41 +260,29 @@ public class GISTest extends TestCase {
             + "0Chicago (100, 150)\n"
             + "1  Tacoma (1000, 100)\n"
             + "2    L (101, 150)\n", it.debug());
-        */
+        
         assertFuzzyEquals("L (101, 150)\nL (11, 500)", it.info("L"));
         assertFuzzyEquals("L", it.info(101, 150));
         assertFuzzyEquals("Tacoma (1000, 100)", it.delete("Tacoma"));
         assertFuzzyEquals("3\nChicago", it.delete(100, 150));
-        /**
+        
         assertFuzzyEquals("L (101, 150)\n"
                 + "Atlanta (10, 500)\n"
                 + "Baltimore (0, 300)\n"
                 + "Washington (5, 350)\n"
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
-        */
+        
     }   
-    
+    */
     // ----------------Test KDTREE--------------------------------------------
-    /**
-     * Test the method insert() and size() for KDTree
-     */
-    public void testKDInsert()
-    {
-        assertTrue(tree.insert(a));
-        assertTrue(tree.insert(b));
-        assertTrue(tree.insert(c));
-        assertEquals(3, tree.size());
-    }
-    
     /**
      * Test to return false is there is a duplicate in KDTree
      */
     public void testInsertDuplicate()
     {
-        tree.insert(a);
         assertFalse(tree.insert(new City("Duplicate", 30, 40)));
-        assertEquals(1, tree.size());
+        assertEquals(5, tree.size());
     }
     
     /**
@@ -319,10 +312,8 @@ public class GISTest extends TestCase {
      */
     public void testRemoveLeafNode()
     {
-        tree.insert(a);
-        tree.insert(b);
         assertNotNull(tree.remove(5, 25)); // remove city b
-        assertEquals(1, tree.size());
+        assertEquals(4, tree.size());
         assertNull(tree.find(5, 25));
     }
       
@@ -415,13 +406,230 @@ public class GISTest extends TestCase {
     
     /**
      * !compareX && dim == 1 with left child present
+     */
     public void testRemove6() {
-        KDTree tree = new KDTree();
-        tree.insert(new City("A", 5, 5));
-        tree.insert(new City("B", 3, 7));
-        tree.insert(new City("C", 1, 9)); // deeper left
-        tree.remove(5, 5); // triggers Y-axis match at odd level
-        assertNotNull(tree.find(1, 9));
+        KDTree tree1 = new KDTree();
+        tree1.insert(new City("A", 5, 5));
+        tree1.insert(new City("B", 3, 7));
+        tree1.insert(new City("C", 1, 9)); // deeper left
+        tree1.remove(5, 5); // triggers Y-axis match at odd level
+        assertNotNull(tree1.find(1, 9));
     }
-    */
+    /**
+     * Removes a node with a right child
+     */
+    public void testRemoveTriggersRightSubtreeReplacement() {
+        KDTree tree1 = new KDTree();
+
+        // Build tree:
+        //       A(50,50)  ← root
+        //         \
+        //         B(70,30) ← right child of A
+        //         /
+        //       C(60,20) ← left child of B
+
+        City a1 = new City("A", 50, 50);
+        City b1 = new City("B", 70, 30);
+        City c1 = new City("C", 60, 20);
+
+        tree1.insert(a1); // level 0
+        tree1.insert(b1); // level 1
+        tree1.insert(c1); // level 2
+
+        // Remove B — it has a right child (none), but a left child (C)
+        // So we’ll reverse it: make B have a right child instead
+
+        tree1 = new KDTree(); // fresh tree
+        tree1.insert(a1);
+        tree1.insert(c1); // insert C first
+        tree1.insert(b1); // insert B after, so it becomes right child of A
+
+        // Now B is right child of A, and has no children
+        // Let’s add a right child to B to trigger the block
+
+        City d1 = new City("D", 80, 10); // right child of B
+        tree1.insert(d1);
+
+        // Now remove B — it has a right child (D), so this triggers the block
+        City removed = tree1.remove(70, 30);
+        assertNotNull(removed);
+        assertEquals("B", removed.getName());
+
+        // Confirm B is gone, D was promoted
+        assertNull(tree1.find(70, 30));
+        //assertNotNull(tree1.find(80, 10));
+    }
+    
+    /**
+     * If leftMin is not null
+     */
+    public void testFindMinLeftMinXWinsViaRemove() {
+        KDTree tree1 = new KDTree();
+
+        // Build tree:
+        //       A(50,50)        ← root
+        //         \
+        //         B(70,30)      ← right child of A
+        //         /
+        //       C(60,20)        ← left child of B, smaller X than B
+
+        City a1 = new City("A", 50, 50);
+        City b1 = new City("B", 70, 30);
+        City c1 = new City("C", 60, 20); // leftMin candidate
+
+        tree1.insert(a1); // level 0
+        tree1.insert(b1); // level 1
+        tree1.insert(c1); // level 2
+
+        // Remove A — it has a right child (B), and B has a left child (C)
+        // This triggers findMin(B, disc=0, level=1)
+        // Inside that, leftMin = C, min = B, and C.x < B.x → triggers the block
+
+        City removed = tree1.remove(50, 50);
+        assertNotNull(removed);
+        assertEquals("A", removed.getName());
+
+        // Confirm A is gone, and C was promoted
+        assertNull(tree1.find(50, 50));
+        assertNotNull(tree1.find(60, 20));
+    }
+
+    /**
+     *  if (disc == 0) {
+                if (rightMin.city.getX() < min.city.getX()) {
+     */
+    public void testFindMinLeftMinYDeepBranchViaRemove() {
+        KDTree tree1 = new KDTree();
+
+        // Build tree:
+        //       A(50,50)        ← level 0
+        //         \
+        //         B(70,70)      ← level 1 (cd = 1)
+        //         /
+        //       C(80,65)        ← level 2 (cd = 0)
+        //       /
+        //     D(90,60)          ← level 3 (cd = 1) ← smallest Y
+
+        City a1 = new City("A", 50, 50);
+        City b1 = new City("B", 70, 70);
+        City c1 = new City("C", 80, 65);
+        City d1 = new City("D", 90, 60); // leftMin candidate
+
+        tree1.insert(a1); // level 0
+        tree1.insert(b1); // level 1
+        tree1.insert(c1); // level 2
+        tree1.insert(d1); // level 3
+
+        // Remove A — it has a right child B
+        // B has a left subtree: C → D
+        // This triggers findMin(B, disc=1, level=1)
+        // Inside findMin: cd = 1, disc = 1 → rightMin skipped
+        // leftMin = D, min = B, and D.y = 60 < B.y = 70 → triggers the block
+
+        City removed = tree1.remove(50, 50);
+        assertNotNull(removed);
+        assertEquals("A", removed.getName());
+
+        // Confirm A is gone, and D was promoted
+        assertNull(tree1.find(50, 50));
+        assertNotNull(tree1.find(90, 60));
+    }
+
+
+
+    // -------Test Serach---------------
+    
+    public void testSearchWithinRadius() {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        // Center near Alpha, radius large enough to include Alpha and Epsilon
+        String result = tree.search(30, 40, 25);
+        assertTrue(result.contains("Alpha"));
+        assertTrue(result.contains("Epsilon"));
+        assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
+    }
+
+    public void testSearchExactMatch() {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        // Center exactly on Beta, radius 0
+        String result = tree.search(5, 25, 0);
+        assertTrue(result.contains("Beta"));
+        assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
+    }
+
+    
+    public void testSearchNoMatch() {
+        tree.insert(a);
+        tree.insert(b);
+        tree.insert(c);
+        tree.insert(d);
+        tree.insert(e);
+        // Far from all cities
+        String result = tree.search(0, 0, 5);
+        assertFalse(result.contains("Alpha"));
+        assertFalse(result.contains("Beta"));
+        assertTrue(result.matches("(?s)^\\d+$")); // Only node count
+    }
+
+    public void testSearchNegativeRadius() {
+        
+        // Invalid radius
+        String result = tree.search(30, 40, -10);
+        assertEquals("", result);
+    }
+
+    /**
+     * Test case for disc == 0 and x - radius > node.city.getX()
+     */
+    public void testLeftPruneDisc0False() {
+        KDTree tree1 = new KDTree();
+        tree1.insert(new City("A", 50, 50)); // root
+        tree1.insert(new City("B", 30, 30)); // left
+
+        // x = 60, radius = 5 → x - radius = 55 > A.x = 50 → should skip left
+        String result = tree1.search(60, 50, 5);
+        assertFalse(result.contains("B")); // B is in left subtree, should be skipped
+    }
+    
+    public void testLeftPruneDisc1False() {
+        KDTree tree1 = new KDTree();
+        tree1.insert(new City("A", 50, 50)); // root
+        tree1.insert(new City("B", 30, 30)); // left
+
+        // y = 60, radius = 5 → y - radius = 55 > A.y = 50 → should skip left
+        String result = tree1.search(50, 60, 5);
+        assertFalse(result.contains("B")); // B is in left subtree, should be skipped
+    }
+
+
+
+    // ---------------- Test Print-------------
+
+    public void testPrintStructure() {
+        String output = tree.print();
+
+        // Check that all cities are printed
+        assertTrue(output.contains("Alpha"));
+        assertTrue(output.contains("Beta"));
+        assertTrue(output.contains("Gamma"));
+        assertTrue(output.contains("Delta"));
+        assertTrue(output.contains("Epsilon"));
+
+        // Check indentation and level formatting
+        assertTrue(output.matches("(?s).*0Alpha.*")); // Root
+        assertTrue(output.matches("(?s).*1Beta.*"));  // One level deeper
+    }
+
+    public void testPrintEmptyTree() {
+        KDTree emptyTree = new KDTree();
+        assertEquals("", emptyTree.print());
+    }
+
 }

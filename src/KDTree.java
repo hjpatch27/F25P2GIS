@@ -19,7 +19,8 @@ public class KDTree {
         /**
          * The constructor for KDTreeNode.
          * 
-         * @param newCity is the City object to be stored in the node
+         * @param newCity
+         *            is the City object to be stored in the node
          */
         public KDTreeNode(City newCity) {
             this.city = newCity;
@@ -36,18 +37,19 @@ public class KDTree {
         public City getCity() {
             return city;
         }
-        
+
+
         /**
          * Replaces the city record stored in this node with a new City object.
          * 
-         * @param other the City to store in this node
+         * @param other
+         *            the City to store in this node
          */
-        public void setCity(City other)
-        {
+        public void setCity(City other) {
             this.city = new City(other.getName(), other.getX(), other.getY());
 
         }
-        
+
 
         /**
          * Gets the left KDTreeNode.
@@ -72,7 +74,8 @@ public class KDTree {
         /**
          * Setter method for KDTreeNode left
          * 
-         * @param left is the element to be changed too
+         * @param left
+         *            is the element to be changed too
          */
         public void setLeft(KDTreeNode left) {
             this.left = left;
@@ -82,7 +85,8 @@ public class KDTree {
         /**
          * Setter method for KDTreeNode right
          * 
-         * @param right is the element to be changed too
+         * @param right
+         *            is the element to be changed too
          */
         public void setRight(KDTreeNode right) {
             this.right = right;
@@ -110,7 +114,7 @@ public class KDTree {
         root = null;
         nodeCount = 0;
     }
-    
+
 
     /**
      * Gets the size of the tree
@@ -126,7 +130,8 @@ public class KDTree {
      * Insert a new city into the KD Tree. It will check
      * for any duplicates before inserting the city.
      * 
-     * @param city is the City to insert
+     * @param city
+     *            is the City to insert
      * @return true if inserted, false otherwise
      */
     public boolean insert(City city) {
@@ -134,18 +139,22 @@ public class KDTree {
             return false;
         }
         root = insertHelp(root, city, 0);
-        nodeCount++;
+        nodeCount += 1;
         return true;
     }
 
 
+    
     /**
      * Recursively inserts a new city into KDTree.
      * Alternates between comparing x and y at each level.
      * 
-     * @param rt is the current node
-     * @param newCity is the city to insert
-     * @param level is the current depth
+     * @param rt
+     *            is the current node
+     * @param newCity
+     *            is the city to insert
+     * @param level
+     *            is the current depth
      * @return rt the updated root of the subtree
      */
     private KDTreeNode insertHelp(KDTreeNode rt, City newCity, int level) {
@@ -154,29 +163,33 @@ public class KDTree {
         }
 
         // Determine which dimension to compare: 0 for x, 1 for y
-        int cd = level % DIMENSIONS;
+        int cd = level & 1;
 
         // Compare based on the current dimension (cd)
         if (cd == 0) // Compare x coordinate
         {
+            level += 1;
             if (newCity.getX() < rt.getCity().getX()) {
                 // Go left since newCity x is smaller
-                rt.setLeft(insertHelp(rt.getLeft(), newCity, level + 1));
+                rt.setLeft(insertHelp(rt.getLeft(), newCity, level));
             }
             else {
                 // Go right since newCity x is bigger
-                rt.setRight(insertHelp(rt.getRight(), newCity, level + 1));
+                level += 1;
+                rt.setRight(insertHelp(rt.getRight(), newCity, level));
             }
         }
         else {
+            level += 1;
             // Compare y coordinate
             if (newCity.getY() < rt.getCity().getY()) {
                 // Go left since newCity y is smaller
-                rt.setLeft(insertHelp(rt.getLeft(), newCity, level + 1));
+                rt.setLeft(insertHelp(rt.getLeft(), newCity, level));
             }
             else {
                 // Go right since newCity y is bigger
-                rt.setRight(insertHelp(rt.getRight(), newCity, level + 1));
+                level += 1;
+                rt.setRight(insertHelp(rt.getRight(), newCity, level));
             }
         }
         return rt;
@@ -186,8 +199,10 @@ public class KDTree {
     /**
      * Find a city's coordinates
      * 
-     * @param x is the x coordinate for the target city
-     * @param y is the x coordinate for the target city
+     * @param x
+     *            is the x coordinate for the target city
+     * @param y
+     *            is the x coordinate for the target city
      * @return The City object if found and null otherwise
      */
     public City find(int x, int y) {
@@ -199,72 +214,100 @@ public class KDTree {
      * Recursively searches for a city by its coordinates (x,y).
      * It will alternate searching between x and y at each depth/level.
      * 
-     * @param rt is the current node
-     * @param x is the target x coordinate
-     * @param y is the target y coordinate
-     * @param level is the current depth
+     * @param rt
+     *            is the current node
+     * @param x
+     *            is the target x coordinate
+     * @param y
+     *            is the target y coordinate
+     * @param level
+     *            is the current depth
      * @return the City object if found, null otherwise
      */
     private City findHelp(KDTreeNode rt, int x, int y, int level) {
-        if (rt == null) return null; // Base case: not found
+        if (rt == null)
+            return null; // Base case: not found
 
         if (rt.city.getX() == x && rt.city.getY() == y) {
             return rt.city; // Found the city
         }
 
-        int disc = level % DIMENSIONS;
+        int cd = level & 1;
 
-        if ((disc == 0 && x < rt.city.getX())
-                || (disc == 1 && y < rt.city.getY())) {
-            return findHelp(rt.left, x, y, level + 1); // Go left
+        if ((cd == 0 && x < rt.city.getX()) || (cd == 1 && y < rt.city
+            .getY())) {
+            level += 1;
+            return findHelp(rt.left, x, y, level); // Go left
         }
-        return findHelp(rt.right, x, y, level + 1); // Go right
+        level += 1;
+        return findHelp(rt.right, x, y, level); // Go right
     }
+
 
     /**
      * Remove a city at given coordinates
-     * @param x x-coordinate
-     * @param y y-coordinate
+     * 
+     * @param x
+     *            x-coordinate
+     * @param y
+     *            y-coordinate
      * @return City object removed, null if not found
      */
-    public City remove(int x, int y) {
-        RemoveResult result = removeHelp(root, x, y, 0); // Call recursive helper
+    public City remove(int x, int y) 
+    {
+        RemoveResult result = removeHelp(root, x, y, 0); // Call recursive
+                                                         // helper
         root = result.node; // Update root in case it changed
-        if (result.removed != null) nodeCount--; // Decrement node count if removed
+        if (result.removed != null)
+            nodeCount--; // Decrement node count if removed
         return result.removed; // Return removed city or null
     }
- // Helper class to return both new node and removed city
+
+    // Helper class to return both new node and removed city
     private class RemoveResult {
         KDTreeNode node; // Node after deletion
-        City removed;    // City removed
-        RemoveResult(KDTreeNode n, City r) { node = n; removed = r; }
+        City removed; // City removed
+
+        RemoveResult(KDTreeNode n, City r) {
+            node = n;
+            removed = r;
+        }
     }
+
     /**
      * Recursive helper for remove
      */
     private RemoveResult removeHelp(KDTreeNode node, int x, int y, int level) {
-        if (node == null) return new RemoveResult(null, null); // Base: not found
+        if (node == null)
+            return new RemoveResult(null, null); // Base: not found
 
-        int disc = level % DIMENSIONS;
+        int cd = level & 1;
         City removedCity = null;
 
         if (node.city.getX() == x && node.city.getY() == y) {
             // Node to remove found
             removedCity = node.city;
 
-            if (node.right != null) {
+            if (node.right != null) 
+            {
                 // Replace with min in right subtree for current discriminator
-                KDTreeNode min = findMin(node.right, disc, level + 1);
+                KDTreeNode min = findMin(node.right, cd, level + 1);
                 node.city = min.city; // Copy city
-                RemoveResult rr = removeHelp(node.right, min.city.getX(), min.city.getY(), level + 1);
+                RemoveResult rr = removeHelp(node.right, min.city.getX(),
+                    min.city.getY(), level + 1);
                 node.right = rr.node; // Update right subtree
-            } else if (node.left != null) {
+            }
+            else if (node.left != null) 
+            {
                 // Replace with min in left subtree
-                KDTreeNode min = findMin(node.left, disc, level + 1);
+                level += 1;
+                KDTreeNode min = findMin(node.left, cd, level);
                 node.city = min.city; // Copy city
-                RemoveResult rr = removeHelp(node.left, min.city.getX(), min.city.getY(), level + 1);
+                RemoveResult rr = removeHelp(node.left, min.city.getX(),
+                    min.city.getY(), level);
                 node.left = rr.node; // Update left subtree
-            } else {
+            }
+            else {
                 // Leaf node
                 return new RemoveResult(null, removedCity);
             }
@@ -273,48 +316,74 @@ public class KDTree {
         }
 
         // Recurse left or right
-        if ((disc == 0 && x < node.city.getX()) || (disc == 1 && y < node.city.getY())) {
-            RemoveResult rr = removeHelp(node.left, x, y, level + 1);
+        if ((cd == 0 && x < node.city.getX()) || (cd == 1 && y < node.city
+            .getY())) {
+            level += 1;
+            RemoveResult rr = removeHelp(node.left, x, y, level);
             node.left = rr.node;
-            if (removedCity == null) removedCity = rr.removed;
-        } else {
-            RemoveResult rr = removeHelp(node.right, x, y, level + 1);
+            if (removedCity == null)
+            {
+                removedCity = rr.removed;
+            }
+        }
+        else {
+            level += 1;
+            RemoveResult rr = removeHelp(node.right, x, y, level);
             node.right = rr.node;
-            if (removedCity == null) removedCity = rr.removed;
+            if (removedCity == null)
+            {
+                removedCity = rr.removed;
+            }
         }
 
         return new RemoveResult(node, removedCity);
     }
 
+
     /**
      * Find node with minimum coordinate in a subtree
-     * @param node subtree root
-     * @param disc discriminator to minimize (0=x,1=y)
-     * @param level current level
+     * 
+     * @param node
+     *            subtree root
+     * @param disc
+     *            discriminator to minimize (0=x,1=y)
+     * @param level
+     *            current level
      * @return node with minimum coordinate at disc
      */
     private KDTreeNode findMin(KDTreeNode node, int disc, int level) {
-        if (node == null) return null; // Empty subtree
+        if (node == null)
+        {
+            return null; // Empty subtree
+        }
+        int cd = level & 1;
 
-        int currDisc = level % DIMENSIONS;
-
-        KDTreeNode leftMin = findMin(node.left, disc, level + 1);   // Min from left
+        KDTreeNode leftMin = findMin(node.left, disc, level + 1); // Min from
+                                                                  // left
         KDTreeNode rightMin = null;
 
-        if (currDisc != disc) {
-            rightMin = findMin(node.right, disc, level + 1);        // Min from right if needed
+        if (cd != disc) {
+            level += 1;
+            rightMin = findMin(node.right, disc, level); // Min from right
+                                                             // if needed
         }
 
         // Determine smallest among node, leftMin, rightMin
         KDTreeNode min = node;
 
-        if (leftMin != null) {
-            if (disc == 0) {
-                if (leftMin.city.getX() < min.city.getX()) {
+        if (leftMin != null) 
+        {
+            if (disc == 0) 
+            {
+                if (leftMin.city.getX() < min.city.getX()) 
+                {
                     min = leftMin;
                 }
-            } else {
-                if (leftMin.city.getY() < min.city.getY()) {
+            }
+            else 
+            {
+                if (leftMin.city.getY() < min.city.getY()) 
+                {
                     min = leftMin;
                 }
             }
@@ -325,7 +394,8 @@ public class KDTree {
                 if (rightMin.city.getX() < min.city.getX()) {
                     min = rightMin;
                 }
-            } else {
+            }
+            else {
                 if (rightMin.city.getY() < min.city.getY()) {
                     min = rightMin;
                 }
@@ -335,55 +405,75 @@ public class KDTree {
         return min;
     }
 
+
     /**
      * Region search: find all cities within radius of (x,y)
-     * @param x center x
-     * @param y center y
-     * @param radius search radius
+     * 
+     * @param x
+     *            center x
+     * @param y
+     *            center y
+     * @param radius
+     *            search radius
      * @return formatted string of cities found + nodes visited
      */
     public String search(int x, int y, int radius) {
-        if (radius < 0) return "";        // Bad radius
+        if (radius < 0)
+            return ""; // Bad radius
         StringBuilder sb = new StringBuilder();
-        int[] count = new int[]{0};       // Nodes visited count as array to pass by reference
+        int[] count = new int[] { 0 }; // Nodes visited count as array to pass
+                                       // by reference
         regionSearchHelp(root, x, y, radius, 0, sb, count); // Start recursion
-        sb.append(count[0]);               // Append node visit count
+        sb.append(count[0]); // Append node visit count
         return sb.toString();
     }
+
 
     /**
      * Recursive helper for region search
      */
-    private void regionSearchHelp(KDTreeNode node, int x, int y, int radius,
-                                  int level, StringBuilder sb, int[] count) {
-        if (node == null) return;          // Base: null node
-        count[0]++;                        // Increment nodes visited
+    private void regionSearchHelp(KDTreeNode node, int x, int y,
+        int radius, int level, StringBuilder sb, int[] count) 
+    {
+        if (node == null)
+        {
+            return; // Base: null node
+        }
+        count[0]++; // Increment nodes visited
 
         // Compute Euclidean distance
         double dx = node.city.getX() - x;
         double dy = node.city.getY() - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist <= radius) {              // Within circle
+        if (dist <= radius) { // Within circle
             sb.append(node.city.toString()).append("\n");
         }
 
         int disc = level % DIMENSIONS;
 
         // Check left subtree if circle overlaps
-        if ((disc == 0 && x - radius <= node.city.getX()) || (disc == 1 && y - radius <= node.city.getY())) {
-            regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
+        if ((disc == 0 && x - radius <= node.city.getX()) || (disc == 1 && y
+            - radius <= node.city.getY())) 
+        {
+            level += 1;
+            regionSearchHelp(node.left, x, y, radius, level, sb, count);
         }
 
         // Check right subtree if circle overlaps
-        if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y + radius >= node.city.getY())) {
-            regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
+        if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
+            + radius >= node.city.getY())) 
+        {
+            level += 1;
+            regionSearchHelp(node.right, x, y, radius, level, sb, count);
         }
     }
+
 
     /**
      * Print the KD Tree using inorder traversal
      * Each line starts with level and indent = 2*level spaces
+     * 
      * @return formatted string
      */
     public String print() {
@@ -392,20 +482,24 @@ public class KDTree {
         return sb.toString();
     }
 
+
     /**
      * Recursive helper for print
      */
     private void printHelp(KDTreeNode node, int level, StringBuilder sb) {
-        if (node == null) return;          // Base: nothing to print
+        if (node == null)
+        {
+            return; // Base: nothing to print
+        }
         printHelp(node.left, level + 1, sb); // Left subtree
         // Indentation: 2 spaces per level
-        for (int i = 0; i < level * 2; i++) sb.append(' ');
-        sb.append(level).append(node.city.toString()).append("\n"); // Print node
-        printHelp(node.right, level + 1, sb); // Right subtree
+        for (int i = 0; i < level * 2; i++) {
+            sb.append(' ');
+        }
+        sb.append(level).append(node.city.toString()).append("\n"); // Print
+        level += 1;                                                  // node
+        printHelp(node.right, level, sb); // Right subtree
     }
-    
-
-    
 
     /**
      * methods to add
