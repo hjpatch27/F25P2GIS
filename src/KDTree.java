@@ -336,65 +336,57 @@ public class KDTree {
     */
 
     /**
-     * Helper recursive remove method.
+     * Helper recursive remove method
+     * @param rt
+     * @param x
+     * @param y
+     * @param level
+     * @param removed
+     * @return
      *
-    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, 
-    KDTreeNode removed) {
-        // Base case: tree empty or node not found
-        if (rt == null) {
-            return null;
-        }
+      private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, KDTreeNode removed) {
+          if (rt == null) {
+              return null;}
 
-        nodesVisited++; // Increment nodeVisited for the current node
-        
-        // If this node matches the (x, y) coordinates
-        if (rt.city.getX() == x && rt.city.getY() == y) {
-            removed.city = rt.city;
+            nodesVisited++; // Count every node visited
 
-            // Case 1: right child exists
-            if (rt.right != null) {
-                KDTreeNode minNode = findMin(rt.right, 
-                (level % 2 == 0) ? 0 : 1, level + 1);
-                rt.city = minNode.city;
-                rt.right = removeMinHelp(rt.right, 
-                (level % 2 == 0) ? 0 : 1, level + 1);
+            int disc = level % 2;
+            int targetCoord = (disc == 0) ? x : y;
+            int nodeCoord = (disc == 0) ? rt.city.getX() : rt.city.getY();
+
+            // Traverse left or right based on discriminator
+            if (targetCoord < nodeCoord) {
+                rt.left = removeHelp(rt.left, x, y, level + 1, removed);
+            } else {
+                rt.right = removeHelp(rt.right, x, y, level + 1, removed);
             }
-            // Case 2: right child missing, left child exists
-            else if (rt.left != null) {
-                KDTreeNode minNode = findMin(rt.left, 
-                (level % 2 == 0) ? 0 : 1, level + 1);
-                rt.city = minNode.city;
-                rt.right = removeMinHelp(rt.left, 
-                (level % 2 == 0) ? 0 : 1, level + 1);
-                rt.left = null;
+
+            // After traversal, check if this node matches the target coordinates
+            if (rt.city.getX() == x && rt.city.getY() == y && removed.city == null) {
+                removed.city = rt.city;
+
+                // Case 1: right child exists
+                if (rt.right != null) {
+                    KDTreeNode minNode = findMin(rt.right, (disc == 0) ? 0 : 1, level + 1);
+                    rt.city = minNode.city;
+                    rt.right = removeMinHelp(rt.right, (disc == 0) ? 0 : 1, level + 1);
+                }
+                // Case 2: right child missing, left child exists
+                else if (rt.left != null) {
+                    KDTreeNode minNode = findMin(rt.left, (disc == 0) ? 0 : 1, level + 1);
+                    rt.city = minNode.city;
+                    rt.right = removeMinHelp(rt.left, (disc == 0) ? 0 : 1, level + 1);
+                    rt.left = null;
+                }
+                // Case 3: leaf node — no children
+                else {
+                    return null;
+                }
             }
-            // Case 3: leaf node — no children
-            else {
-                return null;
-            }
+
             return rt;
         }
-
-        // Compare by discriminator
-        int disc = level % 2;
-        int targetCoord;
-        int nodeCoord;
-        if (disc == 0) {
-            targetCoord = x;
-            nodeCoord = rt.city.getX();
-        } else {
-            targetCoord = y;
-            nodeCoord = rt.city.getY();
-        }
-
-        if (targetCoord < nodeCoord) {
-            rt.left = removeHelp(rt.left, x, y, level + 1, removed);
-        } else {
-            rt.right = removeHelp(rt.right, x, y, level + 1, removed);
-        }
-        return rt;
-    }
-    */
+        */
     
     /**
      * Returns the coordinate value (x or y) based on the discriminator.

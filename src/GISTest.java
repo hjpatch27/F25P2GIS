@@ -126,6 +126,22 @@ public class GISTest extends TestCase {
     }
     
     /**
+     * Test for the BST class. In this test, we're inserting
+     * City objects and keeping track of the nodeCount variable.
+     */
+    public void testBSTInsertNodeCount() {
+        it.insert("A", 10, 10);
+        it.insert("B", 20, 20);
+        it.insert("C", 30, 30);
+
+        String output = it.print();
+        int lineCount = output.split("\n").length;
+
+        // Expect 3 lines for 3 inserted cities
+        assertEquals(3, lineCount);
+    }
+    
+    /**
      * Tests the find() method in the BST class.
      */
     public void testBSTFind()
