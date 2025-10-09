@@ -178,6 +178,7 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(city5));   // cannot equal other object
         assertFalse(city1.equals(city2));   // different x/y values
         assertFalse(city1.equals(city3));   // different names
+        assertFalse(city1.equals(null));    // cannot equal null
         assertFalse(city1.equals(city4));   // different names and x/y values
         assertFalse(city1.equals(city6));   // different names and y values
         assertTrue(city1.equals(city7));    // equal names and x/y values
