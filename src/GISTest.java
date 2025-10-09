@@ -180,7 +180,7 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(city3));   // different names
         assertFalse(city1.equals(city4));   // different names and x/y values
         assertFalse(city1.equals(city6));   // different names and y values
-        //assertTrue(city1.equals(city7));    // equal names and x/y values
+        assertTrue(city1.equals(city7));    // equal names and x/y values
         assertFalse(city1.equals(city8));   // different x values
         assertFalse(city1.equals(city9));   // different y values
         
@@ -661,32 +661,32 @@ public class GISTest extends TestCase {
 
     /**
      * Test case for disc == 0 and x - radius > node.city.getX()
-     *
+     */
     public void testLeftPruneDisc0False() {
-        KDTree tree1 = new KDTree();
-        tree1.insert(new City("A", 50, 50)); // root
-        tree1.insert(new City("B", 30, 30)); // left
+        it.insert("A", 50, 50); // root
+        it.insert("B", 30, 30); // left
 
         // x = 60, radius = 5 → x - radius = 55 > A.x = 50 → should skip left
-        String result = tree1.search(60, 50, 5);
+        String result = it.search(60, 50, 5);
+        
         // B is in left subtree, should be skipped
         assertFalse(result.contains("B"));
     }
-    */
     
     /**
+     * Test case for search() method.
+     */
     public void testLeftPruneDisc1False() {
-        KDTree tree1 = new KDTree();
-        tree1.insert(new City("A", 50, 50)); // root
-        tree1.insert(new City("B", 30, 30)); // left
+        it.insert("A", 50, 50); // root
+        it.insert("B", 30, 30); // left
 
         // y = 60, radius = 5 → y - radius = 55 > A.y = 50 → should skip left
-        String result = tree1.search(50, 60, 5);
+        String result = it.search(50, 60, 5);
+        
         // B is in left subtree, should be skipped
         assertFalse(result.contains("B"));
     }
-    */
-
+    
     // -------Test Debug---------------
     /**
      * Testing the debug() method. In this test case,

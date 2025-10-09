@@ -74,6 +74,7 @@ public class City implements Comparable<City> {
      * @param obj is the City object we'll be comparing with
      * the current City object.
      * @return True if the objects are equal and false if not.
+     * @Override
      */
     public boolean equals(Object obj) {
         // If comparing the same object to itself, return true
@@ -81,14 +82,15 @@ public class City implements Comparable<City> {
             return true;
         }
         // If the other object isn't a City, return false
-        if (!(obj instanceof City)) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
+        
         // If the other object has an identical name and coordinates,
         // return true. If not, return false.
         City other = (City) obj;
-        return (name.equals(other.getName()) && x == other.getX() 
-            && y == other.getY());
+        return name.equals(other.getName()) && x == other.getX() 
+            && y == other.getY();
     }
     
     /**
