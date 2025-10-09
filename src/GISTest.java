@@ -155,7 +155,7 @@ public class GISTest extends TestCase {
      * Milestone 2 Mutation Coverage (75%)
      * 
      * Tests the remove() method in the BST class.
-     *
+     */
     public void testBSTRemove()
     {
         // Set initial conditions: Insert 3 City objects.
@@ -169,7 +169,7 @@ public class GISTest extends TestCase {
         // size() should now return 2
         assertEquals(bst.size(), 2);
     }
-    */
+    
 
     /**
      * Tests the equals() method of the City object.
