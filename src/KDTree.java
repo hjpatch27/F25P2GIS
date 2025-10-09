@@ -87,7 +87,6 @@ public class KDTree {
     }
 
     private KDTreeNode root; // The root of the KDTree
-    private int nodeCount; // The number of nodes in the KDTree
     private static final int DIMENSIONS = 2; // for (x,y)
     private int nodesVisited; // The number of nodes visited in remove()
 
@@ -97,7 +96,6 @@ public class KDTree {
      */
     public KDTree() {
         root = null;
-        nodeCount = 0;
     }
 
     /**
@@ -105,16 +103,6 @@ public class KDTree {
      */
     public void clear() {
         root = null;
-        nodeCount = 0;
-    }
-
-    /**
-     * Gets the size of the tree
-     * 
-     * @return nodeCount is the number of nodes in the KDTree
-     */
-    public int size() {
-        return nodeCount;
     }
 
     /**
@@ -129,18 +117,12 @@ public class KDTree {
      // If the tree is empty, the city becomes the root node.
         if (root == null) {
             root = new KDTreeNode(city);
-            nodeCount++;
             return true;
         }
 
         // Otherwise, call the recursive insertion helper starting at root.
         boolean inserted = insertHelp(root, city, 0);
-
-        // Only increase node count if the insertion actually occurred.
-        if (inserted) 
-        {
-            nodeCount++;
-        }
+        
         // Return whether the insert succeeded or failed due to a duplicate.
         return inserted;
     }
@@ -328,7 +310,6 @@ public class KDTree {
         KDTreeNode removed = new KDTreeNode(null); // holder for removed node
         root = removeHelp(root, x, y, 0, removed);
         if (removed.city != null) {
-            nodeCount--;  // update node count only if something was removed
             return nodesVisited; // Return number of nodes visited
         }
         return 0; // coordinates not found

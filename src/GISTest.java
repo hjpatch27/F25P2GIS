@@ -43,17 +43,11 @@ public class GISTest extends TestCase {
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
-        //tree = new KDTree();
         a = new City("Alpha", 30, 40);
         b = new City("Beta", 5, 25);
         c = new City("Gamma", 70, 70);
         d = new City("Delta", 10, 12);
         e = new City("Epsilon", 50, 50);
-        //tree.insert(a);
-        //tree.insert(b);
-        //tree.insert(c);
-        //tree.insert(d);
-        //tree.insert(e);
     }
     
     /**

@@ -98,7 +98,6 @@ public class BST<E extends Comparable<E>> {
     }
     
     private BSTNode root; // Root of the BST
-    private int nodeCount; // Number of nodes in the BST
 
     /**
      * Constructor for BST. Sets root to null 
@@ -106,7 +105,7 @@ public class BST<E extends Comparable<E>> {
      */
     BST() { 
         root = null; 
-        nodeCount = 0; 
+
     }
 
     /**
@@ -115,7 +114,6 @@ public class BST<E extends Comparable<E>> {
      */
     public void clear() { 
         root = null; 
-        nodeCount = 0; 
     }
  
     /**
@@ -124,7 +122,6 @@ public class BST<E extends Comparable<E>> {
      */
     public void insert(E e) {
         root = insertHelp(root, e);
-        nodeCount++;
     }
   
     /**
@@ -136,7 +133,6 @@ public class BST<E extends Comparable<E>> {
         E temp = findHelp(root, key); // First find it
         if (temp != null) {
             root = removeHelp(root, key); // Now remove it
-            nodeCount--;
         }
         return temp;
     }
@@ -160,14 +156,6 @@ public class BST<E extends Comparable<E>> {
      */
     public String findAll(String name) {
         return findAllHelp(root, name);
-    }
-
-    /**
-     * Return the number of records in the dictionary.
-     * @return nodeCount which is the number of nodes in the BST.
-     */
-    public int size() { 
-        return nodeCount; 
     }
     
     /**
