@@ -121,13 +121,11 @@ public class GISDB implements GIS {
             return "";
         }
 
-        // Split the string into lines to extract each city
         String[] lines = matches.split("\n");
         StringBuilder result = new StringBuilder();
 
         for (String line : lines) {
             // Parse city name and coordinates from the line
-            String cityName = name; // already known
             int xStart = line.indexOf('(');
             int comma = line.indexOf(',', xStart);
             int yEnd = line.indexOf(')', comma);
@@ -135,13 +133,19 @@ public class GISDB implements GIS {
             int x = Integer.parseInt(line.substring(xStart + 1, comma).trim());
             int y = Integer.parseInt(line.substring(comma + 1, yEnd).trim());
 
-            City cityToRemove = new City(cityName, x, y);
+            City cityToRemove = new City(name, x, y);
             bst.remove(cityToRemove);
-            kd.remove(x, y); // assuming you have a remove method in KDTree
+            kd.remove(x, y); // assuming this method exists
 
-            result.append("(").append(x).append(", ").append(y).append(")\n");
+            // Include name and coordinates in the output
+            result.append(name)
+            .append(" (")
+            .append(x)
+            .append(", ")
+            .append(y)
+            .append(")\n");
         }
-        return result.toString();
+        return result.toString().trim();
     }
 
 

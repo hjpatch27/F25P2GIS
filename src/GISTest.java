@@ -231,7 +231,7 @@ public class GISTest extends TestCase {
     /**
      * Insert some records and check output requirements for various commands
      * @throws IOException
-     
+     */
     public void testRefOutput()
         throws IOException
     {
@@ -252,7 +252,7 @@ public class GISTest extends TestCase {
             + "2    L (101, 150)\n"
             + "1  Tacoma (1000, 100)\n"
             + "2    Washington (5, 350)\n", it.print());
-        
+        /**
         assertFuzzyEquals("2    Baltimore (0, 300)\n"
             + "3      Washington (5, 350)\n"
             + "1  Atlanta (10, 500)\n"
@@ -260,21 +260,23 @@ public class GISTest extends TestCase {
             + "0Chicago (100, 150)\n"
             + "1  Tacoma (1000, 100)\n"
             + "2    L (101, 150)\n", it.debug());
-        
+        */
         assertFuzzyEquals("L (101, 150)\nL (11, 500)", it.info("L"));
+        /**
         assertFuzzyEquals("L", it.info(101, 150));
+        */
         assertFuzzyEquals("Tacoma (1000, 100)", it.delete("Tacoma"));
+        /**
         assertFuzzyEquals("3\nChicago", it.delete(100, 150));
-        
         assertFuzzyEquals("L (101, 150)\n"
                 + "Atlanta (10, 500)\n"
                 + "Baltimore (0, 300)\n"
                 + "Washington (5, 350)\n"
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
+        */
         
     }   
-    */
     // ----------------Test KDTREE--------------------------------------------
     /**
      * Test to return false is there is a duplicate in KDTree
