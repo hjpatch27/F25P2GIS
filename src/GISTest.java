@@ -103,7 +103,7 @@ public class GISTest extends TestCase {
         // Call the method: Remove New York City
         // delete() should return "New York City"
         String result = it.delete(6, 7);
-        assertEquals("New York City", result);
+        assertEquals("3\nNew York City", result);
         
         // info(6,7) should return an empty string
         assertEquals(it.info(6, 7), "");

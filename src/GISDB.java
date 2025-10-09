@@ -96,7 +96,7 @@ public class GISDB implements GIS {
             bst.remove(city);
             // Use returned integer of kd.remove as nodeVisited.
             int nodesVisited = kd.remove(x, y);
-            return nodesVisited + "/n" + name;
+            return nodesVisited + "\n" + name;
         }
         return "";
     }
