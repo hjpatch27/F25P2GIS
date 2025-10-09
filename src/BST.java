@@ -213,8 +213,8 @@ public class BST<E extends Comparable<E>> {
     private String findAllHelp(BSTNode rt, String name) {
         // Return an empty string if the node is null.
         if (rt == null) {
-              return "";
-          }
+            return "";
+        }
         
         String result = "";
 
@@ -229,7 +229,7 @@ public class BST<E extends Comparable<E>> {
 
         // Then traverse left and right
         result += findAllHelp(rt.left(), name);
-       result += findAllHelp(rt.right(), name);
+        result += findAllHelp(rt.right(), name);
 
         // Return the final string
         return result;
@@ -337,8 +337,7 @@ public class BST<E extends Comparable<E>> {
         sb.append(level)
           .append(" ".repeat(2 * level))  // Indent by 2 * level spaces
           // Append name and coordinates of the city object.
-          .append(node.value().toString())
-          .append("\n");
+          .append(node.value().toString()).append("\n");
 
         // Traverse right subtree
         sb.append(printHelp(node.right(), level + 1));
