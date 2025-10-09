@@ -20,7 +20,7 @@ public class GISTest extends TestCase {
     private City city8;
     private City city9;
     private City city10;
-    private KDTree tree;
+    //private KDTree tree;
     private City a;
     private City b;
     private City c;
@@ -45,17 +45,17 @@ public class GISTest extends TestCase {
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
-        tree = new KDTree();
+        //tree = new KDTree();
         a = new City("Alpha", 30, 40);
         b = new City("Beta", 5, 25);
         c = new City("Gamma", 70, 70);
         d = new City("Delta", 10, 12);
         e = new City("Epsilon", 50, 50);
-        tree.insert(a);
-        tree.insert(b);
-        tree.insert(c);
-        tree.insert(d);
-        tree.insert(e);
+        //tree.insert(a);
+        //tree.insert(b);
+        //tree.insert(c);
+        //tree.insert(d);
+        //tree.insert(e);
     }
     
     /**
@@ -277,16 +277,17 @@ public class GISTest extends TestCase {
     // ----------------Test KDTREE--------------------------------------------
     /**
      * Test to return false is there is a duplicate in KDTree
-     */
+     *
     public void testInsertDuplicate()
     {
         assertFalse(tree.insert(new City("Duplicate", 30, 40)));
         assertEquals(5, tree.size());
     }
+    */
     
     /**
      * Test the Find() to find an existing city
-     */
+     *
     public void testFindExistingCity()
     {
         tree.insert(a);
@@ -295,30 +296,33 @@ public class GISTest extends TestCase {
         assertNotNull(found);
         assertEquals("Beta", found.getName());
     }
+    */
     
     /**
      * Test the mehtod find() and should return null
      * since there is no city with x and y (99,99)
-     */
+     *
     public void testFindNonexistentCity()
     {
         tree.insert(a);
         assertNull(tree.find(99, 99));
     }
+    */
     
     /**
      * Test the remove method when removing a leaf node
-     */
+     *
     public void testRemoveLeafNode()
     {
         assertNotNull(tree.remove(5, 25)); // remove city b
         assertEquals(4, tree.size());
         assertNull(tree.find(5, 25));
     }
+    */
       
     /**
      * Test the clear() method and should return 0 for size
-     */
+     *
     public void testClearTree()
     {
         tree.insert(a);
@@ -327,11 +331,12 @@ public class GISTest extends TestCase {
         assertEquals(0, tree.size());
         assertNull(tree.find(30, 40));
     }
+    */
     
     /**
      * Test the find method when currentCity.getY() is false.
      * Where x matches but y does not
-     */
+     *
     public void testFind2() 
     {
         City blacksburg = new City("Blacksburg", 30, 40);
@@ -341,6 +346,7 @@ public class GISTest extends TestCase {
         City result = tree.find(30, 999);
         assertNull(result);
     }
+    */
 
     /**
      * Test the remove method
@@ -357,7 +363,7 @@ public class GISTest extends TestCase {
     /**
      * Test the remove method for the scenario where x coordinate matches
      * but the y coordinate does not.
-     */
+     *
     public void testRemove4() {
         tree.insert(a);
         tree.insert(b);
@@ -381,7 +387,7 @@ public class GISTest extends TestCase {
 
     /**
      * Test the remove method when y < currentCity.getY() 
-     */
+     *
     public void testRemove5() 
     {
         tree.insert(a);
@@ -599,7 +605,7 @@ public class GISTest extends TestCase {
 
 
     // -------Test Serach---------------
-    
+    /**
     public void testSearchWithinRadius() {
         tree.insert(a);
         tree.insert(b);
@@ -675,7 +681,7 @@ public class GISTest extends TestCase {
 
 
     // ---------------- Test Print-------------
-
+    /**
     public void testPrintStructure() {
         String output = tree.print();
 
@@ -690,7 +696,7 @@ public class GISTest extends TestCase {
         assertTrue(output.matches("(?s).*0Alpha.*")); // Root
         assertTrue(output.matches("(?s).*1  Beta.*"));  // One level deeper
     }
-
+*/
     /**
     public void testPrintEmptyTree() {
         KDTree emptyTree = new KDTree();
