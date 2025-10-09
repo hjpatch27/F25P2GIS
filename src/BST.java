@@ -95,17 +95,6 @@ public class BST<E extends Comparable<E>> {
             right = p; 
         }
 
-        
-        /**
-         * Commmented out for Mutation Coverage
-         * 
-         * Determine whether the node is a leaf node.
-         * @return True if a leaf node, false otherwise
-         *
-        public boolean isLeaf() { 
-            return (left == null) && (right == null); 
-        }
-        */
     }
     
     private BSTNode root; // Root of the BST
