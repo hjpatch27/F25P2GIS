@@ -89,6 +89,7 @@ public class KDTree {
     private KDTreeNode root; // The root of the KDTree
     private int nodeCount; // The number of nodes in the KDTree
     private static final int DIMENSIONS = 2; // for (x,y)
+    private int nodesVisited; // The number of nodes visited in remove()
 
     // ----------------------------------------------------------
     /**
@@ -465,6 +466,7 @@ public class KDTree {
         }
         return rt;
     }
+    
     /**
      * Removes a city from the KD-Tree at the given coordinates.
      * 
@@ -472,14 +474,15 @@ public class KDTree {
      * @param y Y-coordinate of the city to remove.
      * @return The City that was removed, or null if not found.
      */
-    public City remove(int x, int y) {
+    public int remove(int x, int y) {
+        nodesVisited = 0;
         KDTreeNode removed = new KDTreeNode(null); // holder for removed node
         root = removeHelp(root, x, y, 0, removed);
         if (removed.city != null) {
             nodeCount--;  // update node count only if something was removed
-            return removed.city;
+            return nodesVisited; // Return number of nodes visited
         }
-        return null; // not found
+        return 0; // coordinates not found
     }
 
     /**
@@ -491,6 +494,8 @@ public class KDTree {
             return null;
         }
 
+        nodesVisited++; // Increment nodeVisited for the current node
+        
         // If this node matches the (x, y) coordinates
         if (rt.city.getX() == x && rt.city.getY() == y) {
             removed.city = rt.city;
@@ -534,6 +539,7 @@ public class KDTree {
         }
         return rt;
     }
+    
     /**
      * Returns the coordinate value (x or y) based on the discriminator.
      * @param c City object.
