@@ -537,7 +537,7 @@ public class GISTest extends TestCase {
         assertNotNull(tree1.find(90, 60));
     }
 
-    /**
+    /** 
      * return c.getY(); for getCoord()
      */
     public void testFindMinLeftBranchTaken() {
@@ -681,7 +681,7 @@ public class GISTest extends TestCase {
 
         // Check indentation and level formatting
         assertTrue(output.matches("(?s).*0Alpha.*")); // Root
-        assertTrue(output.matches("(?s).*1Beta.*"));  // One level deeper
+        assertTrue(output.matches("(?s).*1  Beta.*"));  // One level deeper
     }
 
     public void testPrintEmptyTree() {
