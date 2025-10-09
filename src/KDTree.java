@@ -239,7 +239,7 @@ public class KDTree {
      * @param x is the x-coordinate
      * @param y is the y-coordinate
      * @return City object removed, null if not found
-     */
+     
     public City remove(int x, int y) 
     {
         RemoveResult result = removeHelp(root, x, y, 0); // Call recursive
@@ -260,10 +260,11 @@ public class KDTree {
             removed = r;
         }
     }
+    */
 
     /**
      * Recursive helper for remove
-     */
+     
     private RemoveResult removeHelp(KDTreeNode node, int x, int y, int level) {
         if (node == null)
             return new RemoveResult(null, null); // Base: not found
@@ -325,7 +326,7 @@ public class KDTree {
 
         return new RemoveResult(node, removedCity);
     }
-
+    */
     /**
      * Find node with minimum coordinate in a subtree
      * 
@@ -333,7 +334,7 @@ public class KDTree {
      * @param disc is the discriminator to minimize (0=x,1=y)
      * @param level is the current level
      * @return node with minimum coordinate at disc
-     */
+   
     private KDTreeNode findMin(KDTreeNode node, int disc, int level) {
         if (node == null)
         {
@@ -385,7 +386,169 @@ public class KDTree {
         }
         return min;
     }
+    */
+    
 
+    
+    /**
+     * Finds the node with the minimum value in the given dimension.
+     * 
+     * @param rt The root of the subtree to search.
+     * @param dim The dimension to compare: 0 for x, 1 for y.
+     * @param level The current level (used to determine which coordinate to compare).
+     * @return The node with the minimum value in that dimension.
+     */
+    private KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
+        if (rt == null) {
+            return null;
+        }
+
+        int currentDisc = level % 2;
+
+        // If current level compares the same dimension as we're searching for
+        if (currentDisc == dim) {
+            // The minimum must be in the left subtree (if it exists)
+            if (rt.left == null) {
+                return rt;
+            } else {
+                return findMin(rt.left, dim, level + 1);
+            }
+        } 
+        else {
+            // Otherwise, compare current node, left min, and right min
+            KDTreeNode leftMin = findMin(rt.left, dim, level + 1);
+            KDTreeNode rightMin = findMin(rt.right, dim, level + 1);
+            KDTreeNode min = rt;
+
+            // Compare with left min
+            if (leftMin != null) {
+                if (getCoord(leftMin.city, dim) < getCoord(min.city, dim)) {
+                    min = leftMin;
+                }
+            }
+            // Compare with right min
+            if (rightMin != null) {
+                if (getCoord(rightMin.city, dim) < getCoord(min.city, dim)) {
+                    min = rightMin;
+                }
+            }
+            return min;
+        }
+    }
+    
+    /**
+     * Removes the node with the minimum value in the given dimension.
+     * 
+     * @param rt The root of the subtree to search.
+     * @param dim The dimension to compare: 0 for x, 1 for y.
+     * @param level The current level.
+     * @return The updated subtree root after removal.
+     */
+    private KDTreeNode removeMinHelp(KDTreeNode rt, int dim, int level) {
+        if (rt == null) {
+            return null;
+        }
+
+        int currentDisc = level % 2;
+
+        // If this level compares the same dimension
+        if (currentDisc == dim) {
+            if (rt.left == null) {
+                return rt.right; // Replace with right child
+            } else {
+                rt.left = removeMinHelp(rt.left, dim, level + 1);
+            }
+        } else {
+            // Go down both subtrees as needed
+            rt.left = removeMinHelp(rt.left, dim, level + 1);
+            rt.right = removeMinHelp(rt.right, dim, level + 1);
+        }
+        return rt;
+    }
+    /**
+     * Removes a city from the KD-Tree at the given coordinates.
+     * 
+     * @param x X-coordinate of the city to remove.
+     * @param y Y-coordinate of the city to remove.
+     * @return The City that was removed, or null if not found.
+     */
+    public City remove(int x, int y) {
+        KDTreeNode removed = new KDTreeNode(null); // holder for removed node
+        root = removeHelp(root, x, y, 0, removed);
+        if (removed.city != null) {
+            nodeCount--;  // update node count only if something was removed
+            return removed.city;
+        }
+        return null; // not found
+    }
+
+    /**
+     * Helper recursive remove method.
+     */
+    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, KDTreeNode removed) {
+        // Base case: tree empty or node not found
+        if (rt == null) {
+            return null;
+        }
+
+        // If this node matches the (x, y) coordinates
+        if (rt.city.getX() == x && rt.city.getY() == y) {
+            removed.city = rt.city;
+
+            // Case 1: right child exists
+            if (rt.right != null) {
+                KDTreeNode minNode = findMin(rt.right, (level % 2 == 0) ? 0 : 1, level + 1);
+                rt.city = minNode.city;
+                rt.right = removeMinHelp(rt.right, (level % 2 == 0) ? 0 : 1, level + 1);
+            }
+            // Case 2: right child missing, left child exists
+            else if (rt.left != null) {
+                KDTreeNode minNode = findMin(rt.left, (level % 2 == 0) ? 0 : 1, level + 1);
+                rt.city = minNode.city;
+                rt.right = removeMinHelp(rt.left, (level % 2 == 0) ? 0 : 1, level + 1);
+                rt.left = null;
+            }
+            // Case 3: leaf node — no children
+            else {
+                return null;
+            }
+            return rt;
+        }
+
+        // Compare by discriminator
+        int disc = level % 2;
+        int targetCoord;
+        int nodeCoord;
+        if (disc == 0) {
+            targetCoord = x;
+            nodeCoord = rt.city.getX();
+        } else {
+            targetCoord = y;
+            nodeCoord = rt.city.getY();
+        }
+
+        if (targetCoord < nodeCoord) {
+            rt.left = removeHelp(rt.left, x, y, level + 1, removed);
+        } else {
+            rt.right = removeHelp(rt.right, x, y, level + 1, removed);
+        }
+        return rt;
+    }
+    /**
+     * Returns the coordinate value (x or y) based on the discriminator.
+     * @param c City object.
+     * @param disc 0 for x-coordinate, 1 for y-coordinate.
+     * @return Corresponding coordinate value.
+     */
+    private int getCoord(City c, int disc) {
+        if (disc == 0) {
+            return c.getX();
+        } else {
+            return c.getY();
+        }
+    }
+    
+    
     /**
      * Region search: find all cities within radius of (x,y)
      * 
@@ -404,7 +567,8 @@ public class KDTree {
         sb.append(count[0]); // Append node visit count
         return sb.toString();
     }
-
+    
+    
     /**
      * Recursive helper for region search
      */
@@ -444,7 +608,7 @@ public class KDTree {
             regionSearchHelp(node.right, x, y, radius, level, sb, count);
         }
     }
-
+    
     /**
      * Print the KD Tree using inorder traversal
      * Each line starts with level and indent = 2*level spaces
@@ -475,9 +639,4 @@ public class KDTree {
         printHelp(node.right, level + 1, sb); // Right subtree
     }
 
-    /**
-     * methods to add
-     * search(int x, int y, int radius)
-     * toStringIndented()
-     */
 }
