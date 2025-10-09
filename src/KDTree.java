@@ -383,8 +383,7 @@ public class KDTree {
         }
     }
     */
-    
-    
+       
     /**
      * Region search: find all cities within radius of (x,y)
      * 

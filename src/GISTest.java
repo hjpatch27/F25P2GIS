@@ -193,8 +193,7 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(city6));   // different names and y values
         assertTrue(city1.equals(city7));    // equal names and x/y values
         assertFalse(city1.equals(city8));   // different x values
-        assertFalse(city1.equals(city9));   // different y values
-        
+        assertFalse(city1.equals(city9));   // different y values   
     }
     
     /**
@@ -276,13 +275,13 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("Tacoma (1000, 100)", it.delete("Tacoma"));
         
         assertFuzzyEquals("3\nChicago", it.delete(100, 150));
-        *
+        */
         assertFuzzyEquals("L (101, 150)\n"
                 + "Atlanta (10, 500)\n"
                 + "Baltimore (0, 300)\n"
                 + "Washington (5, 350)\n"
                 + "L (11, 500)\n5", it.search(0, 0, 2000));
-                */
+                
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
         
     }   
