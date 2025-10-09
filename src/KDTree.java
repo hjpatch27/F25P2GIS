@@ -137,7 +137,7 @@ public class KDTree {
      * @return rt the updated root of the subtree
      */
     private boolean insertHelp(KDTreeNode rt, City newCity, int level) {
-        int disc = level % DIMENSIONS;  // 0 = x, 1 = y
+        int disc = level & 1;  // 0 = x, 1 = y
 
         // Compare coordinates based on discriminator
         int cityCoord; 
@@ -425,7 +425,7 @@ public class KDTree {
             sb.append(node.city.toString()).append("\n");
         }
 
-        int disc = level % DIMENSIONS;
+        int disc = level & 1;
 
         // Check left subtree if circle overlaps
         if ((disc == 0 && x - radius <= node.city.getX()) || (disc == 1 && y
