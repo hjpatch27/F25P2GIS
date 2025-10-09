@@ -76,15 +76,22 @@ public class City implements Comparable<City> {
      * @return True if the objects are equal and false if not.
      */
     public boolean equals(Object obj) {
+        // If comparing the same object to itself, return true
         if (this == obj) {
             return true;
         }
+        // If the other object isn't a City, return false
         if (!(obj instanceof City)) {
             return false;
         }
+        // If the other object has an identical name and coordinates,
+        // return true. If not, return false.
         City other = (City) obj;
-        return name.equals(other.getName()) 
-            && x == other.getX() && y == other.getY();
+        if (name.equals(other.getName()) && x == other.getX() && y == other.getY())
+        {
+            return true;
+        }
+        return false;
     }
     
     /**

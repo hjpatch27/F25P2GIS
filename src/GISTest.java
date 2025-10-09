@@ -114,15 +114,17 @@ public class GISTest extends TestCase {
     /**
      * Tests the insert() method in the BST class.
      */
-    public void testBSTInsert()
+    public void testInsert2()
     {
         // Set initial conditions: Insert 3 City objects.
-        bst.insert(city1);
-        bst.insert(city4);
-        bst.insert(city10);
+        assertTrue(it.insert("London", 1, 2));
+        assertTrue(it.insert("New York City", 2, 1));
+        assertTrue(it.insert("Moscow", 4, 4));
         
-        // size() should return 3
-        assertEquals(bst.size(), 3);
+        // info(name) should return the name of each city inserted.
+        assertEquals(it.info("London"), "London (1, 2)\n");
+        assertEquals(it.info("New York City"), "New York City (2, 1)\n");
+        assertEquals(it.info("Moscow"), "Moscow (4, 4)\n");
     }
     
     /**
