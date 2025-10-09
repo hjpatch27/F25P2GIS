@@ -158,11 +158,13 @@ public class KDTree {
         int disc = level % DIMENSIONS;  // 0 = x, 1 = y
 
         // Compare coordinates based on discriminator
-        int cityCoord, nodeCoord;
+        int cityCoord; 
+        int nodeCoord;
         if (disc == 0) {
             cityCoord = newCity.getX();
             nodeCoord = rt.city.getX();
-        } else {
+        } 
+        else {
             cityCoord = newCity.getY();
             nodeCoord = rt.city.getY();
         }
@@ -240,7 +242,8 @@ public class KDTree {
      * 
      * @param rt The root of the subtree to search.
      * @param dim The dimension to compare: 0 for x, 1 for y.
-     * @param level The current level (used to determine which coordinate to compare).
+     * @param level is the current level (used to determine which 
+     * coordinate to compare).
      * @return The node with the minimum value in that dimension.
      *
     private KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
@@ -335,7 +338,8 @@ public class KDTree {
     /**
      * Helper recursive remove method.
      *
-    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, KDTreeNode removed) {
+    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, 
+    KDTreeNode removed) {
         // Base case: tree empty or node not found
         if (rt == null) {
             return null;
@@ -349,15 +353,19 @@ public class KDTree {
 
             // Case 1: right child exists
             if (rt.right != null) {
-                KDTreeNode minNode = findMin(rt.right, (level % 2 == 0) ? 0 : 1, level + 1);
+                KDTreeNode minNode = findMin(rt.right, 
+                (level % 2 == 0) ? 0 : 1, level + 1);
                 rt.city = minNode.city;
-                rt.right = removeMinHelp(rt.right, (level % 2 == 0) ? 0 : 1, level + 1);
+                rt.right = removeMinHelp(rt.right, 
+                (level % 2 == 0) ? 0 : 1, level + 1);
             }
             // Case 2: right child missing, left child exists
             else if (rt.left != null) {
-                KDTreeNode minNode = findMin(rt.left, (level % 2 == 0) ? 0 : 1, level + 1);
+                KDTreeNode minNode = findMin(rt.left, 
+                (level % 2 == 0) ? 0 : 1, level + 1);
                 rt.city = minNode.city;
-                rt.right = removeMinHelp(rt.left, (level % 2 == 0) ? 0 : 1, level + 1);
+                rt.right = removeMinHelp(rt.left, 
+                (level % 2 == 0) ? 0 : 1, level + 1);
                 rt.left = null;
             }
             // Case 3: leaf node — no children
@@ -490,8 +498,9 @@ public class KDTree {
         for (int i = 0; i < level * 2; i++) {
             space += " ";
         }
-        sb.append(level).append(space).append(node.city.toString()).append("\n"); // Print                                                // node
+        sb.append(level).append(space).append(node.city.toString())
+        .append("\n"); // Print node
+        
         printHelp(node.right, level + 1, sb); // Right subtree
     }
-
 }

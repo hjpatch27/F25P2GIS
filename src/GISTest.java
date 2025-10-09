@@ -351,7 +351,7 @@ public class GISTest extends TestCase {
 
         // Same x, different y — should not match
         // Should return an empty string
-        assertEquals(it.info(30,999), "");
+        assertEquals(it.info(30, 999), "");
     }
 
     /**
@@ -442,7 +442,8 @@ public class GISTest extends TestCase {
         tree1 = new KDTree(); // fresh tree
         tree1.insert("A", 50, 50);
         it.insert("B", 70, 30); // insert C first
-        it.insert("C", 60, 20); // insert B after, so it becomes right child of A
+        // insert B after, so it becomes right child of A
+        it.insert("C", 60, 20);
 
         // Now B is right child of A, and has no children
         // Let’s add a right child to B to trigger the block
@@ -563,8 +564,10 @@ public class GISTest extends TestCase {
         // At level 0, dim = 0 → currentDisc == dim
         // rt.right == null, rt.left != null → triggers:
         // findMin(rt.left, dim, level + 1)
-        // Inside findMin, rt = B, level = 1, dim = 0 → currentDisc = 1 ≠ dim → goes to else
-        // Then inside findMin(B.left, dim, level + 2), rt = C, level = 2, currentDisc = 0 == dim
+        // Inside findMin, rt = B, level = 1, 
+        /// dim = 0 → currentDisc = 1 ≠ dim → goes to else
+        // Then inside findMin(B.left, dim, level + 2), 
+        ///rt = C, level = 2, currentDisc = 0 == dim
         // rt.left == null → returns C
 
         // But we want to hit the else branch: rt.left != null
@@ -576,8 +579,10 @@ public class GISTest extends TestCase {
         // Now remove B (30, 40) instead of A
         // At level 1, dim = 1 → currentDisc == dim
         // rt.left = C → triggers findMin(C, dim, level + 1)
-        // Inside findMin, level = 2, dim = 1, currentDisc = 0 ≠ dim → goes to else
-        // Then findMin(C.left, dim, level + 2) → rt = D, level = 3, currentDisc = 1 == dim
+        // Inside findMin, level = 2, dim = 1, 
+        ///currentDisc = 0 ≠ dim → goes to else
+        // Then findMin(C.left, dim, level + 2) → rt = D, 
+        ///level = 3, currentDisc = 1 == dim
         // rt.left != null → finally hits the line!
 
         //City removed = tree.remove(30, 40);
@@ -648,7 +653,8 @@ public class GISTest extends TestCase {
 
         // x = 60, radius = 5 → x - radius = 55 > A.x = 50 → should skip left
         String result = tree1.search(60, 50, 5);
-        assertFalse(result.contains("B")); // B is in left subtree, should be skipped
+        // B is in left subtree, should be skipped
+        assertFalse(result.contains("B"));
     }
     */
     
@@ -660,7 +666,8 @@ public class GISTest extends TestCase {
 
         // y = 60, radius = 5 → y - radius = 55 > A.y = 50 → should skip left
         String result = tree1.search(50, 60, 5);
-        assertFalse(result.contains("B")); // B is in left subtree, should be skipped
+        // B is in left subtree, should be skipped
+        assertFalse(result.contains("B"));
     }
     */
 

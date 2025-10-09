@@ -87,11 +87,8 @@ public class City implements Comparable<City> {
         // If the other object has an identical name and coordinates,
         // return true. If not, return false.
         City other = (City) obj;
-        if (name.equals(other.getName()) && x == other.getX() && y == other.getY())
-        {
-            return true;
-        }
-        return false;
+        return (name.equals(other.getName()) && x == other.getX() 
+            && y == other.getY());
     }
     
     /**
