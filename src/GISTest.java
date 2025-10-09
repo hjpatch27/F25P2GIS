@@ -671,12 +671,22 @@ public class GISTest extends TestCase {
     }
     */
 
-
-
-    // ---------------- Test Print-------------
     /**
-    public void testPrintStructure() {
-        String output = tree.print();
+     * Testing the debug() method. In this test case,
+     * we'll be ensuring that all names inserted in the
+     * GISDB object are found in debug() as well as that
+     * the identation/level formatting are correct.
+     */
+    public void testDebugStructure() {
+        // Set initial conditions: Insert 5 City objects
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
+        
+        // Call the method
+        String output = it.debug();
 
         // Check that all cities are printed
         assertTrue(output.contains("Alpha"));
@@ -689,12 +699,15 @@ public class GISTest extends TestCase {
         assertTrue(output.matches("(?s).*0Alpha.*")); // Root
         assertTrue(output.matches("(?s).*1  Beta.*"));  // One level deeper
     }
-*/
+    
     /**
+     * Tests the debug() method. In this scenario,
+     * we'll be running debug() on an empty GISDB object,
+     * therefore, debug() should return an empty string.
+     */
     public void testPrintEmptyTree() {
-        KDTree emptyTree = new KDTree();
-        assertEquals("", emptyTree.print());
+        // Should return an empty string
+        assertEquals("", it.debug());
     }
-    */
 
 }
