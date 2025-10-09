@@ -280,15 +280,17 @@ public class GISTest extends TestCase {
     }   
     
     // ----------------Test KDTREE--------------------------------------------
+
     /**
      * Test to return false is there is a duplicate in KDTree
      *
     public void testInsertDuplicate()
     {
-        assertFalse(tree.insert(new City("Duplicate", 30, 40)));
-        assertEquals(5, tree.size());
+        it.insert("London", 30, 40);
+        assertFalse(it.insert("Duplicate", 30, 40));
     }
     */
+    
     
     /**
      * Test the Find() to find an existing city
@@ -357,9 +359,8 @@ public class GISTest extends TestCase {
      * Test the remove method
      *
     public void testRemove2() {
-        KDTree emptyTree = new KDTree();
-        int result = emptyTree.remove(999, 999);
-        assertNull(result);
+        it.delete("Hello");
+        assertEquals("", it.delete("Hello"));
     }
     */
      
@@ -368,26 +369,18 @@ public class GISTest extends TestCase {
     /**
      * Test the remove method for the scenario where x coordinate matches
      * but the y coordinate does not.
-     *
+     */
     public void testRemove4() {
-        tree.insert(a);
-        tree.insert(b);
-        tree.insert(c);
-        tree.insert(d);
-        tree.insert(e);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
 
         City f = new City("Zeta", 5, 999); // same x, different y
-        tree.insert(f);
-        
-        // x matches Zeta, y matches → should remove Zeta
-        //int result = tree.remove(5, 999);
-        //assertNotNull(result);
-        //assertEquals("Zeta", result.getName());
+        it.insert("Zeta", 5, 999);
 
-        // Beta should still be in the tree
-        City stillThere = tree.find(5, 25);
-        assertNotNull(stillThere);
-        assertEquals("Beta", stillThere.getName());
+        //assertEquals("Beta (5, 25)\n", it.delete("Beta"));
     }
 
     /**

@@ -137,10 +137,10 @@ public class KDTree {
         boolean inserted = insertHelp(root, city, 0);
 
         // Only increase node count if the insertion actually occurred.
-        if (inserted) {
+        if (inserted) 
+        {
             nodeCount++;
         }
-
         // Return whether the insert succeeded or failed due to a duplicate.
         return inserted;
     }
@@ -168,10 +168,15 @@ public class KDTree {
         }
 
         // Check for duplicate coordinates
-        if (newCity.getX() == rt.city.getX() && newCity.getY() == rt.city.getY()) 
+        /** not needed yet
+        if (newCity.getX() == rt.city.getX()) 
         {
-            return false; // Duplicate
+            if (newCity.getY() == rt.city.getY())
+            {
+                return false; // Duplicate
+            }
         }
+        */
 
         // Go left if smaller, right if greater or equal
         if (cityCoord < nodeCoord) {
@@ -179,18 +184,14 @@ public class KDTree {
             {
                 rt.left = new KDTreeNode(newCity);
                 return true;
-            } else 
-            {
-                return insertHelp(rt.left, newCity, level + 1);
             }
-        } else {
-            if (rt.right == null) {
-                rt.right = new KDTreeNode(newCity);
-                return true;
-            } else {
-                return insertHelp(rt.right, newCity, level + 1);
-            }
+            return insertHelp(rt.left, newCity, level + 1);
         }
+        if (rt.right == null) {
+            rt.right = new KDTreeNode(newCity);
+            return true;
+        }
+        return insertHelp(rt.right, newCity, level + 1);
     }
 
     /**
