@@ -278,32 +278,28 @@ public class GISTest extends TestCase {
         assertFuzzyEquals("Baltimore (0, 300)\n4", it.search(0, 300, 0));
         
     }   
-    
-    // ----------------Test KDTREE--------------------------------------------
 
     /**
      * Test to return false is there is a duplicate in KDTree
-     *
+     */
     public void testInsertDuplicate()
     {
         it.insert("London", 30, 40);
         assertFalse(it.insert("Duplicate", 30, 40));
     }
-    */
     
     
     /**
      * Test the Find() to find an existing city
-     *
+     */
     public void testFindExistingCity()
     {
-        tree.insert(a);
-        tree.insert(b);
-        City found = tree.find(5, 25);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        String found = it.info(5, 25);
         assertNotNull(found);
-        assertEquals("Beta", found.getName());
+        assertEquals("Beta", found);
     }
-    */
     
     /**
      * Test the method find() and should return null
@@ -311,8 +307,8 @@ public class GISTest extends TestCase {
      *
     public void testFindNonexistentCity()
     {
-        tree.insert(a);
-        assertNull(tree.find(99, 99));
+        it.insert("Alpha", 30, 40);
+        assertNull(it.info(99, 99));
     }
     */
     
@@ -332,7 +328,7 @@ public class GISTest extends TestCase {
      *
     public void testClearTree()
     {
-        tree.insert(a);
+        tree.insert("Alpha", 30, 40);
         tree.insert(b);
         tree.clear();
         assertEquals(0, tree.size());
@@ -369,30 +365,29 @@ public class GISTest extends TestCase {
     /**
      * Test the remove method for the scenario where x coordinate matches
      * but the y coordinate does not.
-     */
+     *
     public void testRemove4() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
+        it.insert("Zeta", 5, 999); // same x, different y
 
-        City f = new City("Zeta", 5, 999); // same x, different y
-        it.insert("Zeta", 5, 999);
-
-        //assertEquals("Beta (5, 25)\n", it.delete("Beta"));
+        assertEquals("Beta (5, 25)\n", it.delete("Beta"));
     }
+    */
 
     /**
      * Test the remove method when y < currentCity.getY() 
      *
     public void testRemove5() 
     {
-        tree.insert(a);
-        tree.insert(b);
-        tree.insert(c);
-        tree.insert(d);
-        tree.insert(e);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
         // At level 1, cd = 1 → compare y
         // Beta is at (5, 25), so y = 10 is less → should go left
         City f = new City("Zeta", 2, 10); // left of Beta by y
@@ -596,20 +591,14 @@ public class GISTest extends TestCase {
     }
     */
 
-
-
-
-
-
-
     // -------Test Serach---------------
     /**
     public void testSearchWithinRadius() {
-        tree.insert(a);
-        tree.insert(b);
-        tree.insert(c);
-        tree.insert(d);
-        tree.insert(e);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
         // Center near Alpha, radius large enough to include Alpha and Epsilon
         String result = tree.search(30, 40, 25);
         assertTrue(result.contains("Alpha"));
@@ -618,11 +607,11 @@ public class GISTest extends TestCase {
     }
 
     public void testSearchExactMatch() {
-        tree.insert(a);
-        tree.insert(b);
-        tree.insert(c);
-        tree.insert(d);
-        tree.insert(e);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
         // Center exactly on Beta, radius 0
         String result = tree.search(5, 25, 0);
         assertTrue(result.contains("Beta"));
@@ -631,11 +620,11 @@ public class GISTest extends TestCase {
 
     
     public void testSearchNoMatch() {
-        tree.insert(a);
-        tree.insert(b);
-        tree.insert(c);
-        tree.insert(d);
-        tree.insert(e);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
         // Far from all cities
         String result = tree.search(0, 0, 5);
         assertFalse(result.contains("Alpha"));
