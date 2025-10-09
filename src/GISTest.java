@@ -177,15 +177,15 @@ public class GISTest extends TestCase {
      */
     public void testCityEquals()
     {
-        assertTrue(city1.equals(city1));  // equals itself
-        assertFalse(city1.equals(city5)); // cannot equal other object
-        assertFalse(city1.equals(city2)); // different x/y values
-        assertFalse(city1.equals(city3)); // different names
-        assertFalse(city1.equals(city4)); // different names and x/y values
-        assertFalse(city1.equals(city6)); // different names and y values
-        assertTrue(city1.equals(city7)); // equal names and x/y values
-        assertFalse(city1.equals(city8)); // different x values
-        assertFalse(city1.equals(city9)); // different y values
+        assertTrue(city1.equals(city1));    // equals itself
+        assertFalse(city1.equals(city5));   // cannot equal other object
+        assertFalse(city1.equals(city2));   // different x/y values
+        assertFalse(city1.equals(city3));   // different names
+        assertFalse(city1.equals(city4));   // different names and x/y values
+        assertFalse(city1.equals(city6));   // different names and y values
+        assertTrue(city1.equals(city7));    // equal names and x/y values
+        assertFalse(city1.equals(city8));   // different x values
+        assertFalse(city1.equals(city9));   // different y values
         
     }
     
@@ -304,13 +304,15 @@ public class GISTest extends TestCase {
     /**
      * Test the method find() and should return null
      * since there is no city with x and y (99,99)
-     *
+     */
     public void testFindNonexistentCity()
     {
         it.insert("Alpha", 30, 40);
-        assertNull(it.info(99, 99));
+        
+        // Using info() in an empty coordinate
+        // should return an empty string.
+        assertEquals(it.info(99, 99), "");
     }
-    */
     
     /**
      * Test the remove method when removing a leaf node
@@ -325,31 +327,35 @@ public class GISTest extends TestCase {
       
     /**
      * Test the clear() method and should return 0 for size
-     *
-    public void testClearTree()
+     */
+    public void testClear()
     {
-        tree.insert("Alpha", 30, 40);
-        tree.insert(b);
-        tree.clear();
-        assertEquals(0, tree.size());
-        assertNull(tree.find(30, 40));
+        // Set initial conditions: Add 2 City objects
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        
+        // Call the method
+        it.clear();
+        
+        // Using info() to try and find the objects shouldn't work
+        assertEquals(it.info(30, 40), "");
+        assertEquals(it.info(5, 25), "");
+        assertEquals(it.info("Alpha"), "");
+        assertEquals(it.info("Beta"), "");
     }
-    */
     
     /**
      * Test the find method when currentCity.getY() is false.
      * Where x matches but y does not
-     *
+     */
     public void testFind2() 
     {
-        City blacksburg = new City("Blacksburg", 30, 40);
-        tree.insert(blacksburg);
+        it.insert("Blacksburg", 30, 40);
 
         // Same x, different y — should not match
-        City result = tree.find(30, 999);
-        assertNull(result);
+        // Should return an empty string
+        assertEquals(it.info(30,999), "");
     }
-    */
 
     /**
      * Test the remove method
@@ -420,7 +426,6 @@ public class GISTest extends TestCase {
      * Removes a node with a right child
      *
     public void testRemoveTriggersRightSubtreeReplacement() {
-        KDTree tree1 = new KDTree();
 
         // Build tree:
         //       A(50,50)  ← root
@@ -429,36 +434,33 @@ public class GISTest extends TestCase {
         //         /
         //       C(60,20) ← left child of B
 
-        City a1 = new City("A", 50, 50);
-        City b1 = new City("B", 70, 30);
-        City c1 = new City("C", 60, 20);
 
-        tree1.insert(a1); // level 0
-        tree1.insert(b1); // level 1
-        tree1.insert(c1); // level 2
+        it.insert("A", 50, 50); // level 0
+        it.insert("B", 70, 30); // level 1
+        it.insert("C", 60, 20); // level 2
 
         // Remove B — it has a right child (none), but a left child (C)
         // So we’ll reverse it: make B have a right child instead
 
         tree1 = new KDTree(); // fresh tree
-        tree1.insert(a1);
-        tree1.insert(c1); // insert C first
-        tree1.insert(b1); // insert B after, so it becomes right child of A
+        tree1.insert("A", 50, 50);
+        it.insert("B", 70, 30); // insert C first
+        it.insert("C", 60, 20); // insert B after, so it becomes right child of A
 
         // Now B is right child of A, and has no children
         // Let’s add a right child to B to trigger the block
 
-        City d1 = new City("D", 80, 10); // right child of B
-        tree1.insert(d1);
+        // right child of B
+        it.insert("D", 80, 10);
 
         // Now remove B — it has a right child (D), so this triggers the block
-        //int removed = tree1.remove(70, 30);
+        //int removed = it.delete(70, 30);
         //assertNotNull(removed);
         //assertEquals("B", removed.getName());
 
         // Confirm B is gone, D was promoted
-        assertNull(tree1.find(70, 30));
-        //assertNotNull(tree1.find(80, 10));
+        assertEquals(it.info(70, 30), "");
+        //assertEquals(it.info(80, 10), "D (80, 10));
     }
     */
     
