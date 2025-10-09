@@ -199,7 +199,8 @@ public class GISDB implements GIS {
      *          If k-d tree is empty, the number of nodes visited is zero.
      */
     public String search(int x, int y, int radius) {
-        return "";
+        return kd.search(x, y, radius);
+
     }
 
 
@@ -212,7 +213,7 @@ public class GISDB implements GIS {
      * @return String listing the cities as specified.
      */
     public String debug() {
-        return "";
+        return kd.print();
     }
 
 
@@ -228,5 +229,6 @@ public class GISDB implements GIS {
      */
     public String print() {
         return bst.print();
+        
     }
 }

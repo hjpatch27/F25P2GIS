@@ -94,6 +94,6 @@ public class City implements Comparable<City> {
      * the name, x-coordinate, and y-coordinate of the City object.
      */
     public String toString() {
-        return name + " (" + x + ", " + y + ")";
+        return getName().trim() + " (" + getX() + ", " + getY() + ")";
     } 
 }

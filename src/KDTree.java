@@ -125,12 +125,23 @@ public class KDTree {
      * @return true if inserted, false otherwise
      */
     public boolean insert(City city) {
-        if (find(city.getX(), city.getY()) != null) {
-            return false;
+     // If the tree is empty, the city becomes the root node.
+        if (root == null) {
+            root = new KDTreeNode(city);
+            nodeCount++;
+            return true;
         }
-        root = insertHelp(root, city, 0);
-        nodeCount += 1;
-        return true;
+
+        // Otherwise, call the recursive insertion helper starting at root.
+        boolean inserted = insertHelp(root, city, 0);
+
+        // Only increase node count if the insertion actually occurred.
+        if (inserted) {
+            nodeCount++;
+        }
+
+        // Return whether the insert succeeded or failed due to a duplicate.
+        return inserted;
     }
     
     /**
@@ -142,42 +153,43 @@ public class KDTree {
      * @param level is the current depth
      * @return rt the updated root of the subtree
      */
-    private KDTreeNode insertHelp(KDTreeNode rt, City newCity, int level) {
-        if (rt == null) {
-            return new KDTreeNode(newCity);
+    private boolean insertHelp(KDTreeNode rt, City newCity, int level) {
+        int disc = level % DIMENSIONS;  // 0 = x, 1 = y
+
+        // Compare coordinates based on discriminator
+        int cityCoord, nodeCoord;
+        if (disc == 0) {
+            cityCoord = newCity.getX();
+            nodeCoord = rt.city.getX();
+        } else {
+            cityCoord = newCity.getY();
+            nodeCoord = rt.city.getY();
         }
 
-        // Determine which dimension to compare: 0 for x, 1 for y
-        int cd = level & 1;
-
-        // Compare based on the current dimension (cd)
-        if (cd == 0) // Compare x coordinate
+        // Check for duplicate coordinates
+        if (newCity.getX() == rt.city.getX() && newCity.getY() == rt.city.getY()) 
         {
-            level += 1;
-            if (newCity.getX() < rt.getCity().getX()) {
-                // Go left since newCity x is smaller
-                rt.setLeft(insertHelp(rt.getLeft(), newCity, level));
+            return false; // Duplicate
+        }
+
+        // Go left if smaller, right if greater or equal
+        if (cityCoord < nodeCoord) {
+            if (rt.left == null) 
+            {
+                rt.left = new KDTreeNode(newCity);
+                return true;
+            } else 
+            {
+                return insertHelp(rt.left, newCity, level + 1);
             }
-            else {
-                // Go right since newCity x is bigger
-                level += 1;
-                rt.setRight(insertHelp(rt.getRight(), newCity, level));
+        } else {
+            if (rt.right == null) {
+                rt.right = new KDTreeNode(newCity);
+                return true;
+            } else {
+                return insertHelp(rt.right, newCity, level + 1);
             }
         }
-        else {
-            level += 1;
-            // Compare y coordinate
-            if (newCity.getY() < rt.getCity().getY()) {
-                // Go left since newCity y is smaller
-                rt.setLeft(insertHelp(rt.getLeft(), newCity, level));
-            }
-            else {
-                // Go right since newCity y is bigger
-                level += 1;
-                rt.setRight(insertHelp(rt.getRight(), newCity, level));
-            }
-        }
-        return rt;
     }
 
     /**
@@ -187,7 +199,8 @@ public class KDTree {
      * @param y is the x coordinate for the target city
      * @return The City object if found and null otherwise
      */
-    public City find(int x, int y) {
+    public City find(int x, int y) 
+    {
         return findHelp(root, x, y, 0);
     }
 
@@ -454,12 +467,12 @@ public class KDTree {
         }
         printHelp(node.left, level + 1, sb); // Left subtree
         // Indentation: 2 spaces per level
+        String space = "";
         for (int i = 0; i < level * 2; i++) {
-            sb.append(' ');
+            space += " ";
         }
-        sb.append(level).append(node.city.toString()).append("\n"); // Print
-        level += 1;                                                  // node
-        printHelp(node.right, level, sb); // Right subtree
+        sb.append(level).append(space).append(node.city.toString()).append("\n"); // Print                                                // node
+        printHelp(node.right, level + 1, sb); // Right subtree
     }
 
     /**
