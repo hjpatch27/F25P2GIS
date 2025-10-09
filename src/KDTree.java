@@ -241,7 +241,7 @@ public class KDTree {
      * @param dim The dimension to compare: 0 for x, 1 for y.
      * @param level The current level (used to determine which coordinate to compare).
      * @return The node with the minimum value in that dimension.
-     */
+     *
     private KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
         if (rt == null) {
             return null;
@@ -279,6 +279,7 @@ public class KDTree {
             return min;
         }
     }
+    */
     
     /**
      * Removes the node with the minimum value in the given dimension.
@@ -287,7 +288,7 @@ public class KDTree {
      * @param dim The dimension to compare: 0 for x, 1 for y.
      * @param level The current level.
      * @return The updated subtree root after removal.
-     */
+     *
     private KDTreeNode removeMinHelp(KDTreeNode rt, int dim, int level) {
         if (rt == null) {
             return null;
@@ -309,6 +310,7 @@ public class KDTree {
         }
         return rt;
     }
+    */
     
     /**
      * Removes a city from the KD-Tree at the given coordinates.
@@ -316,7 +318,7 @@ public class KDTree {
      * @param x X-coordinate of the city to remove.
      * @param y Y-coordinate of the city to remove.
      * @return The City that was removed, or null if not found.
-     */
+     *
     public int remove(int x, int y) {
         nodesVisited = 0;
         KDTreeNode removed = new KDTreeNode(null); // holder for removed node
@@ -327,10 +329,11 @@ public class KDTree {
         }
         return 0; // coordinates not found
     }
+    */
 
     /**
      * Helper recursive remove method.
-     */
+     *
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, KDTreeNode removed) {
         // Base case: tree empty or node not found
         if (rt == null) {
@@ -382,13 +385,14 @@ public class KDTree {
         }
         return rt;
     }
+    */
     
     /**
      * Returns the coordinate value (x or y) based on the discriminator.
      * @param c City object.
      * @param disc 0 for x-coordinate, 1 for y-coordinate.
      * @return Corresponding coordinate value.
-     */
+     *
     private int getCoord(City c, int disc) {
         if (disc == 0) {
             return c.getX();
@@ -396,6 +400,7 @@ public class KDTree {
             return c.getY();
         }
     }
+    */
     
     
     /**
