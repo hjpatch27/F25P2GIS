@@ -537,6 +537,61 @@ public class GISTest extends TestCase {
         assertNotNull(tree1.find(90, 60));
     }
 
+    /**
+     * return c.getY(); for getCoord()
+     */
+    public void testFindMinLeftBranchTaken() {
+        KDTree tree = new KDTree();
+
+        // Build tree:
+        //         A(50, 50) [level 0]
+        //        /
+        //     B(30, 40)    [level 1]
+        //    /
+        //  C(20, 30)       [level 2]
+
+        City a = new City("A", 50, 50);
+        City b = new City("B", 30, 40);
+        City c = new City("C", 20, 30);
+
+        tree.insert(a); // root
+        tree.insert(b); // left of A
+        tree.insert(c); // left of B
+
+        // Now remove A (50, 50)
+        // At level 0, dim = 0 → currentDisc == dim
+        // rt.right == null, rt.left != null → triggers:
+        // findMin(rt.left, dim, level + 1)
+        // Inside findMin, rt = B, level = 1, dim = 0 → currentDisc = 1 ≠ dim → goes to else
+        // Then inside findMin(B.left, dim, level + 2), rt = C, level = 2, currentDisc = 0 == dim
+        // rt.left == null → returns C
+
+        // But we want to hit the else branch: rt.left != null
+        // So we add a left child to C
+
+        City d = new City("D", 10, 20); // left of C
+        tree.insert(d);
+
+        // Now remove B (30, 40) instead of A
+        // At level 1, dim = 1 → currentDisc == dim
+        // rt.left = C → triggers findMin(C, dim, level + 1)
+        // Inside findMin, level = 2, dim = 1, currentDisc = 0 ≠ dim → goes to else
+        // Then findMin(C.left, dim, level + 2) → rt = D, level = 3, currentDisc = 1 == dim
+        // rt.left != null → finally hits the line!
+
+        City removed = tree.remove(30, 40);
+        assertEquals("B", removed.getName());
+        
+        // Confirm D is promoted
+        City promoted = tree.find(10, 20);
+        assertNotNull(promoted);
+        assertEquals("D", promoted.getName());
+    }
+
+
+
+
+
 
 
     // -------Test Serach---------------
