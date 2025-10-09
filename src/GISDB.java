@@ -91,13 +91,12 @@ public class GISDB implements GIS {
         // If City object found, use toString() to obtain the name.
         if (city != null)
         {
-            String result = city.toString();
-            // Remove coordinates from the String.
-            result = result.substring(0, result.indexOf("(") - 1);
-            // Remove the City object from BST and kd-tree
+            String name = city.getName();
+            // Remove the City object from BST and kd-tree.
             bst.remove(city);
-            kd.remove(x, y);
-            return result;
+            // Use returned integer of kd.remove as nodeVisited.
+            int nodesVisited = kd.remove(x, y);
+            return nodesVisited + "/n" + name;
         }
         return "";
     }
