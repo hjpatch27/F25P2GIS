@@ -130,14 +130,14 @@ public class GISDB implements GIS {
             int comma = line.indexOf(',', xStart);
             int yEnd = line.indexOf(')', comma);
 
-            int x = Integer.parseInt(line.substring(xStart + 1, comma).trim());
-            int y = Integer.parseInt(line.substring(comma + 1, yEnd).trim());
+            int x = Integer.parseInt(line.substring(xStart + 1, comma));
+            int y = Integer.parseInt(line.substring(comma + 1, yEnd));
 
             City cityToRemove = new City(name, x, y);
             bst.remove(cityToRemove);
             kd.remove(x, y); // assuming this method exists
 
-            // Include name and coordinates in the output
+            // Add name and coordinates to string for output.
             result.append(name)
             .append(" (")
             .append(x)
@@ -145,7 +145,7 @@ public class GISDB implements GIS {
             .append(y)
             .append(")\n");
         }
-        return result.toString().trim();
+        return result.toString();
     }
 
 

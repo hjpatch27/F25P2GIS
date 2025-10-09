@@ -343,12 +343,9 @@ public class KDTree {
     /**
      * Find node with minimum coordinate in a subtree
      * 
-     * @param node
-     *            subtree root
-     * @param disc
-     *            discriminator to minimize (0=x,1=y)
-     * @param level
-     *            current level
+     * @param node is the subtree root
+     * @param disc is the discriminator to minimize (0=x,1=y)
+     * @param level is the current level
      * @return node with minimum coordinate at disc
      */
     private KDTreeNode findMin(KDTreeNode node, int disc, int level) {
@@ -409,12 +406,9 @@ public class KDTree {
     /**
      * Region search: find all cities within radius of (x,y)
      * 
-     * @param x
-     *            center x
-     * @param y
-     *            center y
-     * @param radius
-     *            search radius
+     * @param x center x
+     * @param y center y
+     * @param radius search radius
      * @return formatted string of cities found + nodes visited
      */
     public String search(int x, int y, int radius) {
