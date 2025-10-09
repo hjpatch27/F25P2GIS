@@ -595,8 +595,11 @@ public class GISTest extends TestCase {
     }
     */
 
-    // -------Test Serach---------------
+    // -------Test Search---------------
     /**
+     * Test for the search() method. In this test case, search
+     * radius initially includes what we're looking for.
+     */
     public void testSearchWithinRadius() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
@@ -604,12 +607,16 @@ public class GISTest extends TestCase {
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
         // Center near Alpha, radius large enough to include Alpha and Epsilon
-        String result = tree.search(30, 40, 25);
+        String result = it.search(30, 40, 25);
         assertTrue(result.contains("Alpha"));
         assertTrue(result.contains("Epsilon"));
         assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
     }
 
+    /**
+     * Test for the search() method. In this case we start our search
+     * with the radius exactly over what we're looking for.
+     */
     public void testSearchExactMatch() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
@@ -617,12 +624,16 @@ public class GISTest extends TestCase {
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
         // Center exactly on Beta, radius 0
-        String result = tree.search(5, 25, 0);
+        String result = it.search(5, 25, 0);
         assertTrue(result.contains("Beta"));
         assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
     }
 
-    
+    /**
+     * Test for the search() method. In this case, we cannot find
+     * the coordinate that we're looking since it's not in the
+     * GISDB object.
+     */
     public void testSearchNoMatch() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
@@ -630,16 +641,21 @@ public class GISTest extends TestCase {
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
         // Far from all cities
-        String result = tree.search(0, 0, 5);
+        String result = it.search(0, 0, 5);
         assertFalse(result.contains("Alpha"));
         assertFalse(result.contains("Beta"));
         assertTrue(result.matches("(?s)^\\d+$")); // Only node count
     }
-
-    public void testSearchNegativeRadius() {
-        
-        // Invalid radius
-        String result = tree.search(30, 40, -10);
+    
+     /**
+      * Tests the search() method. In this scenario, the
+      * radius is negative so an empty string is returned.
+      */
+    public void testSearchNegativeRadius() {   
+       
+        // Invalid radius, it's negative
+        String result = it.search(30, 40, -10);
+        // Should return an empty string
         assertEquals("", result);
     }
 
@@ -671,6 +687,7 @@ public class GISTest extends TestCase {
     }
     */
 
+    // -------Test Debug---------------
     /**
      * Testing the debug() method. In this test case,
      * we'll be ensuring that all names inserted in the
