@@ -28,7 +28,6 @@ public class KDTree {
             this.right = null;
         }
 
-
         /**
          * Gets the city.
          * 
@@ -38,7 +37,6 @@ public class KDTree {
             return city;
         }
 
-
         /**
          * Replaces the city record stored in this node with a new City object.
          * 
@@ -47,9 +45,7 @@ public class KDTree {
          */
         public void setCity(City other) {
             this.city = new City(other.getName(), other.getX(), other.getY());
-
         }
-
 
         /**
          * Gets the left KDTreeNode.
@@ -60,7 +56,6 @@ public class KDTree {
             return left;
         }
 
-
         /**
          * Gets the right KDTreeNode
          * 
@@ -69,7 +64,6 @@ public class KDTree {
         public KDTreeNode getRight() {
             return right;
         }
-
 
         /**
          * Setter method for KDTreeNode left
@@ -80,7 +74,6 @@ public class KDTree {
         public void setLeft(KDTreeNode left) {
             this.left = left;
         }
-
 
         /**
          * Setter method for KDTreeNode right
@@ -106,7 +99,6 @@ public class KDTree {
         nodeCount = 0;
     }
 
-
     /**
      * Clears the entire tree.
      */
@@ -114,7 +106,6 @@ public class KDTree {
         root = null;
         nodeCount = 0;
     }
-
 
     /**
      * Gets the size of the tree
@@ -124,7 +115,6 @@ public class KDTree {
     public int size() {
         return nodeCount;
     }
-
 
     /**
      * Insert a new city into the KD Tree. It will check
@@ -142,19 +132,14 @@ public class KDTree {
         nodeCount += 1;
         return true;
     }
-
-
     
     /**
      * Recursively inserts a new city into KDTree.
      * Alternates between comparing x and y at each level.
      * 
-     * @param rt
-     *            is the current node
-     * @param newCity
-     *            is the city to insert
-     * @param level
-     *            is the current depth
+     * @param rt is the current node
+     * @param newCity is the city to insert
+     * @param level is the current depth
      * @return rt the updated root of the subtree
      */
     private KDTreeNode insertHelp(KDTreeNode rt, City newCity, int level) {
@@ -195,33 +180,25 @@ public class KDTree {
         return rt;
     }
 
-
     /**
      * Find a city's coordinates
      * 
-     * @param x
-     *            is the x coordinate for the target city
-     * @param y
-     *            is the x coordinate for the target city
+     * @param x is the x coordinate for the target city
+     * @param y is the x coordinate for the target city
      * @return The City object if found and null otherwise
      */
     public City find(int x, int y) {
         return findHelp(root, x, y, 0);
     }
 
-
     /**
      * Recursively searches for a city by its coordinates (x,y).
      * It will alternate searching between x and y at each depth/level.
      * 
-     * @param rt
-     *            is the current node
-     * @param x
-     *            is the target x coordinate
-     * @param y
-     *            is the target y coordinate
-     * @param level
-     *            is the current depth
+     * @param rt is the current node
+     * @param x is the target x coordinate
+     * @param y is the target y coordinate
+     * @param level is the current depth
      * @return the City object if found, null otherwise
      */
     private City findHelp(KDTreeNode rt, int x, int y, int level) {
@@ -243,14 +220,11 @@ public class KDTree {
         return findHelp(rt.right, x, y, level); // Go right
     }
 
-
     /**
      * Remove a city at given coordinates
      * 
-     * @param x
-     *            x-coordinate
-     * @param y
-     *            y-coordinate
+     * @param x is the x-coordinate
+     * @param y is the y-coordinate
      * @return City object removed, null if not found
      */
     public City remove(int x, int y) 
@@ -339,7 +313,6 @@ public class KDTree {
         return new RemoveResult(node, removedCity);
     }
 
-
     /**
      * Find node with minimum coordinate in a subtree
      * 
@@ -385,7 +358,6 @@ public class KDTree {
                 }
             }
         }
-
         if (rightMin != null) {
             if (disc == 0) {
                 if (rightMin.city.getX() < min.city.getX()) {
@@ -398,10 +370,8 @@ public class KDTree {
                 }
             }
         }
-
         return min;
     }
-
 
     /**
      * Region search: find all cities within radius of (x,y)
@@ -421,7 +391,6 @@ public class KDTree {
         sb.append(count[0]); // Append node visit count
         return sb.toString();
     }
-
 
     /**
      * Recursive helper for region search
@@ -463,7 +432,6 @@ public class KDTree {
         }
     }
 
-
     /**
      * Print the KD Tree using inorder traversal
      * Each line starts with level and indent = 2*level spaces
@@ -475,7 +443,6 @@ public class KDTree {
         printHelp(root, 0, sb);
         return sb.toString();
     }
-
 
     /**
      * Recursive helper for print

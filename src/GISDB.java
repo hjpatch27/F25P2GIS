@@ -130,8 +130,8 @@ public class GISDB implements GIS {
             int comma = line.indexOf(',', xStart);
             int yEnd = line.indexOf(')', comma);
 
-            int x = Integer.parseInt(line.substring(xStart + 1, comma));
-            int y = Integer.parseInt(line.substring(comma + 1, yEnd));
+            int x = Integer.parseInt(line.substring(xStart + 1, comma).trim());
+            int y = Integer.parseInt(line.substring(comma + 1, yEnd).trim());
 
             City cityToRemove = new City(name, x, y);
             bst.remove(cityToRemove);

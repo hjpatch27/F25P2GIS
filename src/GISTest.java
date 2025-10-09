@@ -92,7 +92,7 @@ public class GISTest extends TestCase {
      * Tests the delete() method in GISDB. In this test case,
      * we check scenarios where the City object is successfully
      * removed as well as cases where no deletion occurs.
-     *
+     */
     public void testDelete()
     {
         // Initial Condition: Add City objects to GIS
@@ -112,7 +112,6 @@ public class GISTest extends TestCase {
         // should return an empty string.
         assertEquals(it.delete(10, 10), "");
     }
-    */
     
     /**
      * Tests the insert() method in the BST class.
@@ -277,6 +276,7 @@ public class GISTest extends TestCase {
         */
         
     }   
+    
     // ----------------Test KDTREE--------------------------------------------
     /**
      * Test to return false is there is a duplicate in KDTree
