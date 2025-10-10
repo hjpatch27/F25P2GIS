@@ -615,7 +615,7 @@ public class GISTest extends TestCase {
     /**
      * Test for the search() method. In this test case, search
      * radius initially includes what we're looking for.
-     *
+     */
     public void testSearchWithinRadius() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
@@ -628,12 +628,11 @@ public class GISTest extends TestCase {
         assertTrue(result.contains("Epsilon"));
         assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
     }
-    */
 
     /**
      * Test for the search() method. In this case we start our search
      * with the radius exactly over what we're looking for.
-     *
+     */
     public void testSearchExactMatch() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
@@ -645,13 +644,12 @@ public class GISTest extends TestCase {
         assertTrue(result.contains("Beta"));
         assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
     }
-    */
 
     /**
      * Test for the search() method. In this case, we cannot find
      * the coordinate that we're looking since it's not in the
      * GISDB object.
-     *
+     */
     public void testSearchNoMatch() {
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
@@ -664,7 +662,6 @@ public class GISTest extends TestCase {
         assertFalse(result.contains("Beta"));
         assertTrue(result.matches("(?s)^\\d+$")); // Only node count
     }
-    */
     
      /**
       * Tests the search() method. In this scenario, the
