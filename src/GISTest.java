@@ -416,6 +416,32 @@ public class GISTest extends TestCase {
         assertEquals(it.info(5, 25), "Beta");
     }
     
+    public void testRemoveCase2_LeftOnly() {
+        // Insert cities to build the KDTree
+        assertTrue(it.insert("Root", 50, 50));         // Root node
+        assertTrue(it.insert("Left1", 25, 75));        // Goes to left of root
+        assertTrue(it.insert("Left2", 10, 80));        // Goes to left of Left1
+
+        // Tree structure before deletion:
+        //        Root (50, 50)
+        //       /
+        //   Left1 (25, 75)
+        //   /
+        // Left2 (10, 80)
+
+        // Now delete Root — it has only a left child
+        String visited = it.delete("Root"); // should trigger Case 2
+
+
+        // Confirm new root is Left2 (the min in new right subtree)
+        assertEquals("Left2", it.info(10, 80));
+
+        // Confirm Root is gone
+        assertEquals("", it.info(50, 50));
+
+        // Confirm Left1 is still present
+        assertEquals("Left1", it.info(25, 75));
+    }
     
     /**
      * !compareX && dim == 1 with left child present

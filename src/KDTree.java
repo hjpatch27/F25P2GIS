@@ -181,13 +181,15 @@ public class KDTree {
                 rt.left = new KDTreeNode(newCity);
                 return true;
             }
-            return insertHelp(rt.left, newCity, level + 1);
+            level += 1;
+            return insertHelp(rt.left, newCity, level);
         }
         if (rt.right == null) {
             rt.right = new KDTreeNode(newCity);
             return true;
         }
-        return insertHelp(rt.right, newCity, level + 1);
+        level += 1;
+        return insertHelp(rt.right, newCity, level);
     }
 
 
@@ -288,8 +290,6 @@ public class KDTree {
     }
 
 
-    
-
     /**
      * Removes a city from the KD-Tree at the given coordinates.
      * * @param x X-coordinate of the city to remove.
@@ -304,7 +304,7 @@ public class KDTree {
         KDTreeNode removed = new KDTreeNode(null); 
  
         // Store current nodesVisited, as it will be modified by removeHelp
-        int initialNodesVisited = this.nodesVisited; 
+        //int initialNodesVisited = this.nodesVisited; 
         // Call the recursive helper.
         root = removeHelp(root, x, y, 0, removed);
        
@@ -477,7 +477,8 @@ public class KDTree {
         if ((disc == 0 && x - radius <= node.city.getX()) || (disc == 1 && y
             - radius <= node.city.getY())) {
             // CORRECT: Pass level + 1
-            regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
+            level += 1;
+            regionSearchHelp(node.left, x, y, radius, level, sb, count);
         }
 
         // Check right subtree if circle overlaps (center+radius >= split
@@ -485,7 +486,8 @@ public class KDTree {
         if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
             + radius >= node.city.getY())) {
             // CORRECT: Pass level + 1
-            regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
+            level += 1;
+            regionSearchHelp(node.right, x, y, radius, level, sb, count);
         }
     }
 
