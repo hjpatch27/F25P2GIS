@@ -181,15 +181,13 @@ public class KDTree {
                 rt.left = new KDTreeNode(newCity);
                 return true;
             }
-            level += 1;
-            return insertHelp(rt.left, newCity, level);
+            return insertHelp(rt.left, newCity, level + 1);
         }
         if (rt.right == null) {
             rt.right = new KDTreeNode(newCity);
             return true;
         }
-        level += 1;
-        return insertHelp(rt.right, newCity, level);
+        return insertHelp(rt.right, newCity, level + 1);
     }
 
 
@@ -233,11 +231,9 @@ public class KDTree {
 
         if ((cd == 0 && x < rt.city.getX()) || (cd == 1 && y < rt.city
             .getY())) {
-            level += 1;
-            return findHelp(rt.left, x, y, level); // Go left
+            return findHelp(rt.left, x, y, level + 1); // Go left
         }
-        level += 1;
-        return findHelp(rt.right, x, y, level); // Go right
+        return findHelp(rt.right, x, y, level + 1); // Go right
     }
 
 
@@ -262,15 +258,13 @@ public class KDTree {
             if (rt.left == null) {
                 return rt;
             } else {
-                level += 1;
-                return findMin(rt.left, dim, level);
+                return findMin(rt.left, dim, level + 1);
             }
         } 
         else {
             // Otherwise, compare current node, left min, and right min
-            level += 1;
-            KDTreeNode leftMin = findMin(rt.left, dim, level);
-            KDTreeNode rightMin = findMin(rt.right, dim, level);
+            KDTreeNode leftMin = findMin(rt.left, dim, level + 1);
+            KDTreeNode rightMin = findMin(rt.right, dim, level + 1);
             KDTreeNode min = rt;
 
             // Compare with left min
@@ -340,11 +334,9 @@ public class KDTree {
         // --- 1. TRAVERSE DOWN ---
         // Recurse left or right based on discriminator to find the target node
         if (targetCoord < nodeCoord) {
-            level += 1;
-            rt.left = removeHelp(rt.left, x, y, level, removed);
+            rt.left = removeHelp(rt.left, x, y, level + 1, removed);
         } else {
-            level += 1;
-            rt.right = removeHelp(rt.right, x, y, level, removed);
+            rt.right = removeHelp(rt.right, x, y, level + 1, removed);
         }
 
         // --- 2. CHECK AND REMOVE ---
@@ -355,31 +347,29 @@ public class KDTree {
 
             // Case 1: right child exists
             if (rt.right != null) {
-                level += 1;
-                KDTreeNode minNode = findMin(rt.right, replacementDim, level);
+                KDTreeNode minNode = findMin(rt.right, replacementDim, level + 1);
                 
                 // 1. Replace data
                 rt.city = minNode.city;
                 
                 // 2. Recursively remove the replacement node from the right subtree 
                 //    using its own coordinates (new standard approach)
-                rt.right = removeHelp(rt.right, minNode.city.getX(), minNode.city.getY(), level, new KDTreeNode(null));
+                rt.right = removeHelp(rt.right, minNode.city.getX(), minNode.city.getY(), level + 1, new KDTreeNode(null));
             }
             // Case 2: right child missing, left child exists
             else if (rt.left != null) {
-                level += 1;
                 // 1. Shift the left subtree to the right pointer (CRITICAL SWAP)
                 rt.right = rt.left;
                 rt.left = null;
                 
                 // 2. Find replacement from the new right subtree
-                KDTreeNode minNode = findMin(rt.right, replacementDim, level);
+                KDTreeNode minNode = findMin(rt.right, replacementDim, level + 1);
                 
                 // 3. Replace data
                 rt.city = minNode.city;
 
                 // 4. Recursively remove the replacement node from the new right subtree
-                rt.right = removeHelp(rt.right, minNode.city.getX(), minNode.city.getY(), level, new KDTreeNode(null));
+                rt.right = removeHelp(rt.right, minNode.city.getX(), minNode.city.getY(), level + 1, new KDTreeNode(null));
             }
             // Case 3: leaf node — no children
             else {
@@ -477,8 +467,7 @@ public class KDTree {
         if ((disc == 0 && x - radius <= node.city.getX()) || (disc == 1 && y
             - radius <= node.city.getY())) {
             // CORRECT: Pass level + 1
-            level += 1;
-            regionSearchHelp(node.left, x, y, radius, level, sb, count);
+            regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
         }
 
         // Check right subtree if circle overlaps (center+radius >= split
@@ -486,8 +475,7 @@ public class KDTree {
         if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
             + radius >= node.city.getY())) {
             // CORRECT: Pass level + 1
-            level += 1;
-            regionSearchHelp(node.right, x, y, radius, level, sb, count);
+            regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
         }
     }
 
