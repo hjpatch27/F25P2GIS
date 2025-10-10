@@ -86,7 +86,6 @@ public class GISDB implements GIS {
      *          was deleted).
      */
     public String delete(int x, int y) {
-        /**
         // Use find() from KDTree to search for coordinates.
         City city = kd.find(x, y); 
         // If City object found, use toString() to obtain the name.
@@ -99,7 +98,6 @@ public class GISDB implements GIS {
             int nodesVisited = kd.remove(x, y);
             return nodesVisited + "\n" + name;
         }
-        */
         return "";
     }
 
