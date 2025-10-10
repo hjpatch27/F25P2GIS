@@ -250,7 +250,7 @@ public class KDTree {
             return null;
         }
 
-        int currentDisc = level % 2;
+        int currentDisc = level & 1;
 
         // If current level compares the same dimension as we're searching for
         if (currentDisc == dim) {
@@ -316,7 +316,7 @@ public class KDTree {
      * @param rt The current node.
      * @param x The target x-coordinate.
      * @param y The target y-coordinate.
-     * @param level The current depth (discriminator is level % 2).
+     * @param level The current depth (discriminator is level & 1).
      * @param removed Holder for the removed city record.
      * @return The updated root of the subtree.
      */
@@ -327,7 +327,7 @@ public class KDTree {
 
         nodesVisited++; // Count every node visited
 
-        int disc = level % 2;
+        int disc = level & 1;
         int targetCoord = (disc == 0) ? x : y;
         int nodeCoord = (disc == 0) ? rt.city.getX() : rt.city.getY();
 
