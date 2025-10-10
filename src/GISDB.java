@@ -116,7 +116,7 @@ public class GISDB implements GIS {
      *          (listed in preorder as they are deleted).
      */
     public String delete(String name) {
-        /**
+        
         // Use info(name) to get a string of all matching cities (Preorder).
         String matches = info(name);
         if (matches.isEmpty()) {
@@ -148,8 +148,7 @@ public class GISDB implements GIS {
             .append(")\n");
         }
         return result.toString();
-        */
-        return "";
+        
     }
 
 
@@ -203,7 +202,8 @@ public class GISDB implements GIS {
      *          If k-d tree is empty, the number of nodes visited is zero.
      */
     public String search(int x, int y, int radius) {
-        return kd.search(x, y, radius);
+        //return kd.search(x, y, radius);
+        return "";
 
     }
 
