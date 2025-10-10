@@ -86,19 +86,26 @@ public class GISDB implements GIS {
      *          was deleted).
      */
     public String delete(int x, int y) {
-        // Use find() from KDTree to search for coordinates.
+     // 1. Use find() from KDTree to search for coordinates.
         City city = kd.find(x, y); 
-        // If City object found, use toString() to obtain the name.
-        if (city != null)
+        
+        // If City object not found, return empty string.
+        if (city == null)
         {
-            String name = city.getName();
-            // Remove the City object from BST and kd-tree.
-            bst.remove(city);
-            // Use returned integer of kd.remove as nodeVisited.
-            int nodesVisited = kd.remove(x, y);
-            return nodesVisited + "\n" + name;
+            return "";
         }
-        return "";
+        
+        // 2. Get the name before deletion for the output string.
+        String name = city.getName();
+        
+        // 3. Remove the City object from BST.
+        bst.remove(city);
+        
+        // 4. Remove from KD-Tree and get the number of nodes visited.
+        int nodesVisited = kd.remove(x, y);
+
+        // 5. Return the required formatted string.
+        return nodesVisited + "\n" + name;
     }
 
 
@@ -200,8 +207,8 @@ public class GISDB implements GIS {
      *          If k-d tree is empty, the number of nodes visited is zero.
      */
     public String search(int x, int y, int radius) {
-        //return kd.search(x, y, radius);
-        return "";
+       return kd.search(x, y, radius);
+        
 
     }
 
