@@ -391,7 +391,7 @@ public class KDTree {
      * @param y center y
      * @param radius search radius
      * @return formatted string of cities found + nodes visited
-     */
+     *
     public String search(int x, int y, int radius) {
         if (radius < 0) {
             return ""; // Bad radius
@@ -404,11 +404,12 @@ public class KDTree {
         sb.append(count[0]); // Append node visit count
         return sb.toString();
     }
+    */
     
     
     /**
      * Recursive helper for region search
-     */
+     *
     private void regionSearchHelp(KDTreeNode node, int x, int y,
         int radius, int level, StringBuilder sb, int[] count) 
     {
@@ -445,6 +446,7 @@ public class KDTree {
             regionSearchHelp(node.right, x, y, radius, level, sb, count);
         }
     }
+    */
     
     /**
      * Print the KD Tree using inorder traversal
