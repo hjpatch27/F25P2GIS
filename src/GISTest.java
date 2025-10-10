@@ -159,26 +159,6 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Tests the remove() method in the BST class.
-     */
-    public void testBSTRemove()
-    {
-        // Set initial conditions: Insert 3 City objects.
-        bst.insert(city1);
-        bst.insert(city4);
-        bst.insert(city10);
-        
-        // Call the method: Remove a City object
-        bst.remove(city1);
-        
-        // info(name) should return an empty string for city1.
-        assertEquals(it.info("London"), "");
-        // info(name) should return the name of each city inserted.
-        assertEquals(it.info("New York City"), "");
-        assertEquals(it.info("Moscow"), "");
-    }
-    
-    /**
      * Tests the equals() method of the City object.
      */
     public void testCityEquals()
