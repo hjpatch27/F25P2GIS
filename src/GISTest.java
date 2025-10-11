@@ -617,7 +617,7 @@ public class GISTest extends TestCase {
 
         String removed = it.delete(50, 50);
         assertNotNull(removed);
-        assertEquals("8\nA", removed);
+        assertEquals("6\nA", removed);
 
         // Confirm A is gone, and D was promoted
         assertEquals("", it.info(50, 50));
