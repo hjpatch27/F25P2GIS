@@ -120,8 +120,7 @@ public class GISDB implements GIS {
      * @return A string with the coordinates of each city that is deleted
      *          (listed in preorder as they are deleted).
      */
-    public String delete(String name) {
-        
+    public String delete(String name) {      
         // Use info(name) to get a string of all matching cities (Preorder).
         String matches = info(name);
         if (matches.isEmpty()) {
@@ -146,14 +145,10 @@ public class GISDB implements GIS {
 
             // Add name and coordinates to string for output.
             result.append(name)
-            .append(" (")
-            .append(x)
-            .append(", ")
-            .append(y)
-            .append(")\n");
+            .append(" (").append(x).append(", ")
+            .append(y).append(")\n");
         }
-        return result.toString();
-        
+        return result.toString();       
     }
 
 
@@ -207,9 +202,7 @@ public class GISDB implements GIS {
      *          If k-d tree is empty, the number of nodes visited is zero.
      */
     public String search(int x, int y, int radius) {
-       return kd.search(x, y, radius);
-        
-
+        return kd.search(x, y, radius);
     }
 
 
@@ -237,7 +230,6 @@ public class GISDB implements GIS {
      * @return String listing the cities as specified.
      */
     public String print() {
-        return bst.print();
-        
+        return bst.print();      
     }
 }

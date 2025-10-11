@@ -317,7 +317,8 @@ public class KDTree {
      * @param removed Holder for the removed city record.
      * @return The updated root of the subtree.
      */
-    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level, KDTreeNode removed) {
+    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, 
+        int level, KDTreeNode removed) {
         if (rt == null) {
             return null;
         }
@@ -332,30 +333,34 @@ public class KDTree {
         // Recurse left or right based on discriminator to find the target node
         if (targetCoord < nodeCoord) {
             rt.left = removeHelp(rt.left, x, y, level + 1, removed);
-        } else {
+        } 
+        else {
             rt.right = removeHelp(rt.right, x, y, level + 1, removed);
         }
 
         // --- 2. CHECK AND REMOVE ---
-        if (rt.city.getX() == x && rt.city.getY() == y && removed.city == null) {
+        if (rt.city.getX() == x && rt.city.getY() == y 
+            && removed.city == null) {
             // Found the node to remove
             removed.city = rt.city;
             int replacementDim = disc;
 
             // Case 1: right child exists
             if (rt.right != null) {
-                KDTreeNode minNode = findMin(rt.right, replacementDim, level + 1);
+                KDTreeNode minNode = findMin(rt.right, replacementDim, 
+                    level + 1);
                 
                 // 1. Replace data
                 rt.city = minNode.city;
                 
-                // 2. Recursively remove the replacement node from the right subtree 
-                //    using its own coordinates (new standard approach)
-                rt.right = removeHelp(rt.right, minNode.city.getX(), minNode.city.getY(), level + 1, new KDTreeNode(null));
+                // 2. Recursively remove the replacement node from the right
+                // subtree using its own coordinates (new standard approach)
+                rt.right = removeHelp(rt.right, minNode.city.getX(), 
+                    minNode.city.getY(), level + 1, new KDTreeNode(null));
             }
             // Case 2: right child missing, left child exists
             else if (rt.left != null) {
-                // 1. Shift the left subtree to the right pointer (CRITICAL SWAP)
+                // 1. Shift left subtree to right pointer (CRITICAL SWAP)
                 rt.right = rt.left;
                 rt.left = null;
                 
@@ -365,8 +370,9 @@ public class KDTree {
                 // 3. Replace data
                 rt.city = minNode.city;
 
-                // 4. Recursively remove the replacement node from the new right subtree
-                rt.right = removeHelp(rt.right, minNode.city.getX(), minNode.city.getY(), level + 1, new KDTreeNode(null));
+                // 4. Recursively remove replacement node from new right subtree
+                rt.right = removeHelp(rt.right, minNode.city.getX(),
+                    minNode.city.getY(), level + 1, new KDTreeNode(null));
             }
             // Case 3: leaf node — no children
             else {
@@ -374,11 +380,12 @@ public class KDTree {
             }
         }
         
-        // NOTE on nodesVisited: The recursive internal calls to removeHelp will
-        // incorrectly increment nodesVisited. The outer GISDB.delete method only 
-        // needs the *initial* traversal count. If tests are failing on nodesVisited, 
-        // you MUST reset the count after the internal call or modify the test expectation.
-        // For now, let's assume the test accepts the main traversal count.
+        // NOTE on nodesVisited: The recursive internal calls to removeHelp 
+        // will incorrectly increment nodesVisited. The outer GISDB.delete method 
+        // only needs the *initial* traversal count. If tests are failing on 
+        // nodesVisited, you MUST reset the count after the internal call or 
+        // modify the test expectation. For now, let's assume the test accepts 
+        // the main traversal count.
         
         return rt;
     }

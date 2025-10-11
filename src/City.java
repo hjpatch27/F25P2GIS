@@ -76,14 +76,16 @@ public class City implements Comparable<City> {
         // 2. If names are the same, compare by X-coordinate
         if (this.x < o.x) {
             return -1;
-        } else if (this.x > o.x) {
+        } 
+        else if (this.x > o.x) {
             return 1;
         }
         
         // 3. If X-coordinates are also the same, compare by Y-coordinate
         if (this.y < o.y) {
             return -1;
-        } else if (this.y > o.y) {
+        } 
+        else if (this.y > o.y) {
             return 1;
         }
         
