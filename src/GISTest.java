@@ -510,7 +510,7 @@ public class GISTest extends TestCase {
      
     /**
      * Removes a node with a right child
-     *
+     */
     public void testRemoveTriggersRightSubtreeReplacement() {
 
         // Build tree:
@@ -548,12 +548,12 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(70, 30));
         assertEquals("D", it.info(80, 10));
     }
-    */
+    
     
     
     /**
      * If leftMin is not null
-     *
+     */
     public void testFindMinLeftMinXWinsViaRemove() {
         // Build tree:
         //       A(50,50)        ← root
@@ -582,13 +582,13 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(50, 50));
         assertEquals("C", it.info(60, 20));
     }
-    */
+    
     
 
     /**
      *  if (disc == 0) {
      *  if (rightMin.city.getX() < min.city.getX()) {
-     *
+     */
     public void testFindMinLeftMinYDeepBranchViaRemove() {
         // Build tree:
         //       A(50,50)        ← level 0
@@ -623,7 +623,7 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(50, 50));
         assertEquals("D", it.info(90, 60));
     }
-    */
+    
     
 
     /** 
