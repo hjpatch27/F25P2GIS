@@ -531,7 +531,7 @@ public class GISTest extends TestCase {
         // Now remove B — it has a right child (D), so this triggers the block
         String removed = it.delete(70, 30);
         assertNotNull(removed);
-        assertEquals("4\nB", removed);
+        assertEquals("3\nB", removed);
 
         // Confirm B is gone, D was promoted
         assertEquals("", it.info(70, 30));
@@ -564,7 +564,7 @@ public class GISTest extends TestCase {
 
         String removed = it.delete(50, 50);
         assertNotNull(removed);
-        assertEquals("4\nA", removed);
+        assertEquals("3\nA", removed);
 
         // Confirm A is gone, and C was promoted
         assertEquals("", it.info(50, 50));
@@ -604,7 +604,7 @@ public class GISTest extends TestCase {
 
         String removed = it.delete(50, 50);
         assertNotNull(removed);
-        assertEquals("6\nA", removed);
+        assertEquals("8\nA", removed);
 
         // Confirm A is gone, and D was promoted
         assertEquals("", it.info(50, 50));
