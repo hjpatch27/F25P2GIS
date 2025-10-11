@@ -81,7 +81,7 @@ public class GISTest extends TestCase {
      * Tests the delete() method in GISDB. In this test case,
      * we check scenarios where the City object is successfully
      * removed as well as cases where no deletion occurs.
-     *
+     */
     public void testDelete()
     {
         // Initial Condition: Add City objects to GIS
@@ -101,7 +101,7 @@ public class GISTest extends TestCase {
         // should return an empty string.
         assertEquals(it.delete(10, 10), "");
     }
-    */
+    
     
     /**
      * Tests the insert() method in the BST class.
@@ -304,11 +304,12 @@ public class GISTest extends TestCase {
      *
     public void testRemoveLeafNode()
     {
-        assertNotNull(it.remove(5, 25)); // remove city b
-        assertEquals(4, tree.size());
-        assertNull(tree.find(5, 25));
+        assertNotNull(it.delete(5, 25)); // remove city b
+        //assertEquals(4, it.size());
+        assertNull(it.info(5, 25));
     }
     */
+    
     
       
     /**
@@ -395,6 +396,10 @@ public class GISTest extends TestCase {
         assertEquals(it.info(5, 25), "Beta");
     }
     
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
     public void testRemoveCase2_LeftOnly() {
         // Insert cities to build the KDTree
         assertTrue(it.insert("Root", 50, 50));         // Root node
@@ -422,22 +427,74 @@ public class GISTest extends TestCase {
         assertEquals("Left1", it.info(25, 75));
     }
     
+    
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testDeleteCityWithYDiscriminator() {
+        // Insert cities to build a KDTree with Y-discriminator at level 1
+        it.insert("Alpha", 30, 40);  // level 0 (X)
+        it.insert("Beta", 5, 25);    // level 1 (Y)
+        it.insert("Gamma", 70, 70);  // level 1 (Y)
+        it.insert("Delta", 10, 12);  // level 2 (X)
+        it.insert("Epsilon", 50, 50);// level 2 (X)
+
+        // Delete city "Beta" at (5, 25) — should trigger Y-discriminator logic
+        String result = it.delete(5, 25);
+
+        // Expected format: "<nodesVisited>\nBeta"
+        String[] lines = result.split("\n");
+        assertEquals("Beta", lines[1]);
+
+        // Confirm city is no longer in the database
+        assertEquals("", it.info(5, 25));
+    }
+    
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testFindMinLeftRecursivePath() {
+        // Insert cities to build a KDTree where level 0 is X, level 1 is Y
+        it.insert("Alpha", 30, 40);  // root
+        it.insert("Beta", 20, 30);   // goes left of Alpha
+        it.insert("Gamma", 10, 20);  // goes left of Beta
+
+        // Now remove "Alpha" — this will trigger findMin with dim = 0 (X)
+        // At level 0, currentDisc = 0, so currentDisc == dim
+        // Since Alpha has a left subtree, findMin will recurse left
+        String result = it.delete(30, 40);
+
+        // Validate output
+        String[] lines = result.split("\n");
+        assertEquals("Alpha", lines[1]);
+
+        // Confirm Alpha is gone
+        assertEquals("", it.info(30, 40));
+
+        // Confirm Gamma is still present (was not removed as replacement)
+        assertEquals("Gamma", it.info(10, 20));
+    }
+
+
+
     /**
      * !compareX && dim == 1 with left child present
      *
     public void testRemove6() {
-        KDTree tree1 = new KDTree();
-        tree1.insert(new City("A", 5, 5));
-        tree1.insert(new City("B", 3, 7));
-        tree1.insert(new City("C", 1, 9)); // deeper left
-        tree1.remove(5, 5); // triggers Y-axis match at odd level
-        assertNotNull(tree1.find(1, 9));
+        it.insert("A", 5, 5);
+        it.insert("B", 3, 7);
+        it.insert("C", 1, 9); // deeper left
+        it.delete(5, 5); // triggers Y-axis match at odd level
+        assertNotNull(it.info(1, 9));
     }
     */
     
+    
     /**
      * Removes a node with a right child
-     *
+     */
     public void testRemoveTriggersRightSubtreeReplacement() {
 
         // Build tree:
@@ -455,8 +512,7 @@ public class GISTest extends TestCase {
         // Remove B — it has a right child (none), but a left child (C)
         // So we’ll reverse it: make B have a right child instead
 
-        tree1 = new KDTree(); // fresh tree
-        tree1.insert("A", 50, 50);
+        it.insert("A", 50, 50);
         it.insert("B", 70, 30); // insert C first
         // insert B after, so it becomes right child of A
         it.insert("C", 60, 20);
@@ -468,22 +524,20 @@ public class GISTest extends TestCase {
         it.insert("D", 80, 10);
 
         // Now remove B — it has a right child (D), so this triggers the block
-        //int removed = it.delete(70, 30);
-        //assertNotNull(removed);
-        //assertEquals("B", removed.getName());
+        String removed = it.delete(70, 30);
+        assertNotNull(removed);
+        assertEquals("4\nB", removed);
 
         // Confirm B is gone, D was promoted
-        assertEquals(it.info(70, 30), "");
-        //assertEquals(it.info(80, 10), "D (80, 10));
+        assertEquals("", it.info(70, 30));
+        assertEquals("D", it.info(80, 10));
     }
-    */
+    
     
     /**
      * If leftMin is not null
-     *
+     */
     public void testFindMinLeftMinXWinsViaRemove() {
-        KDTree tree1 = new KDTree();
-
         // Build tree:
         //       A(50,50)        ← root
         //         \
@@ -491,35 +545,33 @@ public class GISTest extends TestCase {
         //         /
         //       C(60,20)        ← left child of B, smaller X than B
 
-        City a1 = new City("A", 50, 50);
-        City b1 = new City("B", 70, 30);
-        City c1 = new City("C", 60, 20); // leftMin candidate
+       // City a1 = new City("A", 50, 50);
+        //City b1 = new City("B", 70, 30);
+        //City c1 = new City("C", 60, 20); // leftMin candidate
 
-        tree1.insert(a1); // level 0
-        tree1.insert(b1); // level 1
-        tree1.insert(c1); // level 2
+        it.insert("A", 50, 50); // level 0
+        it.insert("B", 70, 30); // level 1
+        it.insert("C", 60, 20); // level 2
 
         // Remove A — it has a right child (B), and B has a left child (C)
         // This triggers findMin(B, disc=0, level=1)
         // Inside that, leftMin = C, min = B, and C.x < B.x → triggers the block
 
-        //int removed = tree1.remove(50, 50);
-        //assertNotNull(removed);
-        //assertEquals("A", removed.getName());
+        String removed = it.delete(50, 50);
+        assertNotNull(removed);
+        assertEquals("4\nA", removed);
 
         // Confirm A is gone, and C was promoted
-        assertNull(tree1.find(50, 50));
-        assertNotNull(tree1.find(60, 20));
+        assertEquals("", it.info(50, 50));
+        assertEquals("C", it.info(60, 20));
     }
-    */
+    
 
     /**
      *  if (disc == 0) {
-                if (rightMin.city.getX() < min.city.getX()) {
-     *
+     *  if (rightMin.city.getX() < min.city.getX()) {
+     */
     public void testFindMinLeftMinYDeepBranchViaRemove() {
-        KDTree tree1 = new KDTree();
-
         // Build tree:
         //       A(50,50)        ← level 0
         //         \
@@ -529,15 +581,15 @@ public class GISTest extends TestCase {
         //       /
         //     D(90,60)          ← level 3 (cd = 1) ← smallest Y
 
-        City a1 = new City("A", 50, 50);
-        City b1 = new City("B", 70, 70);
-        City c1 = new City("C", 80, 65);
-        City d1 = new City("D", 90, 60); // leftMin candidate
+        //City a1 = new City("A", 50, 50);
+        //City b1 = new City("B", 70, 70);
+        //City c1 = new City("C", 80, 65);
+        //City d1 = new City("D", 90, 60); // leftMin candidate
 
-        tree1.insert(a1); // level 0
-        tree1.insert(b1); // level 1
-        tree1.insert(c1); // level 2
-        tree1.insert(d1); // level 3
+        it.insert("A", 50, 50); // level 0
+        it.insert("B", 70, 70); // level 1
+        it.insert("C", 80, 65); // level 2
+        it.insert("D", 90, 60); // level 3
 
         // Remove A — it has a right child B
         // B has a left subtree: C → D
@@ -545,22 +597,20 @@ public class GISTest extends TestCase {
         // Inside findMin: cd = 1, disc = 1 → rightMin skipped
         // leftMin = D, min = B, and D.y = 60 < B.y = 70 → triggers the block
 
-        //City removed = tree1.remove(50, 50);
-        //assertNotNull(removed);
-        //assertEquals("A", removed.getName());
+        String removed = it.delete(50, 50);
+        assertNotNull(removed);
+        assertEquals("6\nA", removed);
 
         // Confirm A is gone, and D was promoted
-        assertNull(tree1.find(50, 50));
-        assertNotNull(tree1.find(90, 60));
+        assertEquals("", it.info(50, 50));
+        assertEquals("D", it.info(90, 60));
     }
-    */
+    
 
     /** 
      * return c.getY(); for getCoord()
      *
     public void testFindMinLeftBranchTaken() {
-        KDTree tree = new KDTree();
-
         // Build tree:
         //         A(50, 50) [level 0]
         //        /
@@ -568,13 +618,9 @@ public class GISTest extends TestCase {
         //    /
         //  C(20, 30)       [level 2]
 
-        City a = new City("A", 50, 50);
-        City b = new City("B", 30, 40);
-        City c = new City("C", 20, 30);
-
-        tree.insert(a); // root
-        tree.insert(b); // left of A
-        tree.insert(c); // left of B
+        it.insert("A", 50, 50); // root
+        it.insert("B", 30, 40); // left of A
+        it.insert("C", 20, 30); // left of B
 
         // Now remove A (50, 50)
         // At level 0, dim = 0 → currentDisc == dim
@@ -589,8 +635,8 @@ public class GISTest extends TestCase {
         // But we want to hit the else branch: rt.left != null
         // So we add a left child to C
 
-        City d = new City("D", 10, 20); // left of C
-        tree.insert(d);
+        //City d = new City("D", 10, 20); // left of C
+        it.insert("D", 10, 20);
 
         // Now remove B (30, 40) instead of A
         // At level 1, dim = 1 → currentDisc == dim
@@ -601,15 +647,16 @@ public class GISTest extends TestCase {
         ///level = 3, currentDisc = 1 == dim
         // rt.left != null → finally hits the line!
 
-        //City removed = tree.remove(30, 40);
-        //assertEquals("B", removed.getName());
+        String removed = it.delete(30, 40);
+        assertEquals("4\nB", removed);
         
         // Confirm D is promoted
-        City promoted = tree.find(10, 20);
-        assertNotNull(promoted);
-        assertEquals("D", promoted.getName());
+       // City promoted = it.info(10, 20);
+        //assertNotNull(promoted);
+        assertEquals("D", it.info(10, 20));
     }
     */
+
 
     // -------Test Search---------------
     /**

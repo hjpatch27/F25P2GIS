@@ -257,30 +257,27 @@ public class KDTree {
             // The minimum must be in the left subtree (if it exists)
             if (rt.left == null) {
                 return rt;
-            } else {
-                return findMin(rt.left, dim, level + 1);
             }
-        } 
-        else {
-            // Otherwise, compare current node, left min, and right min
-            KDTreeNode leftMin = findMin(rt.left, dim, level + 1);
-            KDTreeNode rightMin = findMin(rt.right, dim, level + 1);
-            KDTreeNode min = rt;
-
-            // Compare with left min
-            if (leftMin != null) {
-                if (getCoord(leftMin.city, dim) < getCoord(min.city, dim)) {
-                    min = leftMin;
-                }
-            }
-            // Compare with right min
-            if (rightMin != null) {
-                if (getCoord(rightMin.city, dim) < getCoord(min.city, dim)) {
-                    min = rightMin;
-                }
-            }
-            return min;
+            return findMin(rt.left, dim, level + 1);
         }
+        // Otherwise, compare current node, left min, and right min
+        KDTreeNode leftMin = findMin(rt.left, dim, level + 1);
+        KDTreeNode rightMin = findMin(rt.right, dim, level + 1);
+        KDTreeNode min = rt;
+
+        // Compare with left min
+        if (leftMin != null) {
+            if (getCoord(leftMin.city, dim) < getCoord(min.city, dim)) {
+                min = leftMin;
+            }
+        }
+        // Compare with right min
+        if (rightMin != null) {
+            if (getCoord(rightMin.city, dim) < getCoord(min.city, dim)) {
+                min = rightMin;
+            }
+        }
+        return min;
     }
 
 
@@ -400,9 +397,7 @@ public class KDTree {
         if (disc == 0) {
             return c.getX();
         }
-        else {
-            return c.getY();
-        }
+        return c.getY();
     }
 
 
