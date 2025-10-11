@@ -106,7 +106,7 @@ public class City implements Comparable<City> {
         if (this == obj) {
             return true;
         }
-        // If the other object isn't a City, return false
+        // If the other object isn't a City or is null, return false
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }

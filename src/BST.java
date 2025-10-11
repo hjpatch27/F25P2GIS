@@ -166,8 +166,7 @@ public class BST<E extends Comparable<E>> {
      * for a node at a given level, counting the root as level 0.
      * @return String listing the cities as specified.
      */
-    public String print()
-    {
+    public String print() {
         return printHelp(root, 0);
     }
     
@@ -205,8 +204,6 @@ public class BST<E extends Comparable<E>> {
         }
         
         String result = "";
-
-
         // Check current node first (preorder traversal)
         if (rt.value() instanceof City) {
             City city = (City) rt.value();
