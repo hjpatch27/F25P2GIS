@@ -64,9 +64,9 @@ public class City implements Comparable<City> {
      * @return 0 is they are equal, 1 if the current City object is 
      * greater than the City object, and -1 if it's less than the other.
      */
-    public int compareTo(City o) {
+    public int compareTo(City other) {
      // 1. Compare by Name first
-        int nameComparison = this.name.compareTo(o.getName());
+        int nameComparison = this.name.compareTo(other.getName());
         
         // If names are different, return the name comparison result
         if (nameComparison != 0) {
@@ -74,18 +74,18 @@ public class City implements Comparable<City> {
         }
         
         // 2. If names are the same, compare by X-coordinate
-        if (this.x < o.x) {
+        if (this.x < other.x) {
             return -1;
         } 
-        else if (this.x > o.x) {
+        else if (this.x > other.x) {
             return 1;
         }
         
         // 3. If X-coordinates are also the same, compare by Y-coordinate
-        if (this.y < o.y) {
+        if (this.y < other.y) {
             return -1;
         } 
-        else if (this.y > o.y) {
+        else if (this.y > other.y) {
             return 1;
         }
         

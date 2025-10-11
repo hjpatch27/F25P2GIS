@@ -15,12 +15,15 @@ public class GISTest extends TestCase {
     private City city3;
     private City city4;
     private int city5;
+    private String stringCityNull;
     private City city6;
     private City city7;
     private City city8;
     private City city9;
     private City city10;
-    //private KDTree tree;
+    private City city11;
+    private City city12;
+    private City cityNull;
     private City a;
     private City b;
     private City c;
@@ -43,6 +46,10 @@ public class GISTest extends TestCase {
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
+        city11 = new City("London", 0, 2);
+        city12 = new City("London", 1, 1);
+        stringCityNull = null;
+        cityNull = null;
         a = new City("Alpha", 30, 40);
         b = new City("Beta", 5, 25);
         c = new City("Gamma", 70, 70);
@@ -184,6 +191,24 @@ public class GISTest extends TestCase {
     }
     
     /**
+     * Tests the compareTo() method from the City class.
+     */
+    public void testCityCompareTo()
+    {
+        // Since they're same, return 0.
+        assertEquals(city1.compareTo(city1), 0);
+        assertEquals(city1.compareTo(city7), 0);
+        // Different name, returns value of name comparison.
+        assertEquals(city1.compareTo(city3), -2);
+        // Same name but different X value, return 1 or -1.
+        assertEquals(city1.compareTo(city11), 1);
+        assertEquals(city1.compareTo(city2), -1);
+        // Same name/X value but different Y value
+        assertEquals(city1.compareTo(city9), -1);
+        assertEquals(city1.compareTo(city12), 1);
+    }
+    
+    /**
      * Tests the equals() method of the City object.
      */
     public void testCityEquals()
@@ -193,6 +218,8 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(city2));   // different x/y values
         assertFalse(city1.equals(city3));   // different names
         assertFalse(city1.equals(null));    // cannot equal null
+        assertFalse(city1.equals(cityNull)); // cannot equal null
+        assertFalse(city1.equals(stringCityNull)); // cannot equal null/other object
         assertFalse(city1.equals(city4));   // different names and x/y values
         assertFalse(city1.equals(city6));   // different names and y values
         //assertTrue(city1.equals(city7));  // equal names and x/y values
@@ -510,7 +537,7 @@ public class GISTest extends TestCase {
      
     /**
      * Removes a node with a right child
-     */
+     *
     public void testRemoveTriggersRightSubtreeReplacement() {
 
         // Build tree:
@@ -548,12 +575,12 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(70, 30));
         assertEquals("D", it.info(80, 10));
     }
-    
+    */
     
     
     /**
      * If leftMin is not null
-     */
+     *
     public void testFindMinLeftMinXWinsViaRemove() {
         // Build tree:
         //       A(50,50)        ← root
@@ -582,13 +609,13 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(50, 50));
         assertEquals("C", it.info(60, 20));
     }
-    
+    */
     
 
     /**
      *  if (disc == 0) {
      *  if (rightMin.city.getX() < min.city.getX()) {
-     */
+     *
     public void testFindMinLeftMinYDeepBranchViaRemove() {
         // Build tree:
         //       A(50,50)        ← level 0
@@ -623,7 +650,7 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(50, 50));
         assertEquals("D", it.info(90, 60));
     }
-    
+    */
     
 
     /** 
