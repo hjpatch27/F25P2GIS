@@ -301,14 +301,19 @@ public class GISTest extends TestCase {
     
     /**
      * Test the remove method when removing a leaf node
-     *
+     */
     public void testRemoveLeafNode()
     {
-        assertNotNull(it.delete(5, 25)); // remove city b
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
+        assertEquals("3\nBeta", it.delete(5, 25)); // remove city b
         //assertEquals(4, it.size());
-        assertNull(it.info(5, 25));
+        assertEquals("", it.info(5, 25));
     }
-    */
+    
     
     
       
