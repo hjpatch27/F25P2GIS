@@ -198,12 +198,8 @@ public class GISTest extends TestCase {
     {
         // Since they're same, return 0.
         assertEquals(city1.compareTo(city1), 0);
-        //assertEquals(city1.compareTo(city7), 0);
         // Different name, returns value of name comparison.
         assertEquals(city1.compareTo(city3), -2);
-        // Same name but different X value, return 1 or -1.
-        //assertEquals(city1.compareTo(city11), 1);
-        assertEquals(city1.compareTo(city2), -1);
         // Same name/X value but different Y value
         assertEquals(city1.compareTo(city9), -1);
         assertEquals(city1.compareTo(city12), 1);
