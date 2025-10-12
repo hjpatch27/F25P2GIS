@@ -171,23 +171,24 @@ public class GISTest extends TestCase {
     public void testBSTRemove()
     {
         // Set initial conditions
-        bst.insert(a);
-        bst.insert(b);
-        bst.insert(c);
-        bst.insert(d);
-        bst.insert(e);
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
         
         // Call the method: Remove c from the BST
-        bst.remove(c);
+        // Should return "Gamma"
+        assertEquals(it.delete(70, 70), "3\nGamma");
         
-        // find(c) should now return null
-        assertNull(bst.find(c));
+        // find(c) should now return an empty string
+        assertEquals(it.info(70, 70), "");
         
         // print() should no longer include c
         assertEquals("0Alpha (30, 40)\n"
             + "1  Beta (5, 25)\n"
             + "2    Delta (10, 12)\n"
-            + "3      Epsilon (50, 50)\n", bst.print());
+            + "3      Epsilon (50, 50)\n", it.print());
     }
     
     /**
