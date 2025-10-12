@@ -230,7 +230,8 @@ public class BST<E extends Comparable<E>> {
         if (rt == null) {
             return new BSTNode(e);
         }
-        if (rt.value().compareTo(e) >= 0) {
+        // Follow OpenDSA-style policy: store duplicates in the RIGHT subtree.
+        if (rt.value().compareTo(e) > 0) {
             rt.setLeft(insertHelp(rt.left(), e));
         }
         else {
@@ -263,9 +264,11 @@ public class BST<E extends Comparable<E>> {
                 return rt.left();
             }
             else { // Two Children
-                BSTNode temp = getMax(rt.left());
+                // With duplicates placed in the RIGHT subtree, replace with
+                // the minimum from the right subtree (OpenDSA guidance).
+                BSTNode temp = getMin(rt.right());
                 rt.setValue(temp.value());
-                rt.setLeft(deleteMax(rt.left()));
+                rt.setRight(deleteMin(rt.right()));
             }
         }
         return rt;
@@ -296,6 +299,27 @@ public class BST<E extends Comparable<E>> {
         rt.setRight(deleteMax(rt.right()));
         return rt;
     }
+    
+    /**
+     * Get the minimum valued element in a subtree.
+     */
+    private BSTNode getMin(BSTNode rt) {
+        if (rt.left() == null) {
+            return rt;
+        }
+        return getMin(rt.left());
+    }
+
+    /**
+     * Delete the minimum valued element in a subtree.
+     */
+    private BSTNode deleteMin(BSTNode rt) {
+        if (rt.left() == null) {
+            return rt.right();
+        }
+        rt.setLeft(deleteMin(rt.left()));
+        return rt;
+    }
       
     /**
      * Helper method for print().
@@ -314,12 +338,12 @@ public class BST<E extends Comparable<E>> {
         // Traverse left subtree
         sb.append(printHelp(node.left(), level + 1));
 
-        // Print current node with correct indentation
-        // Append level of the node
-        sb.append(level)
-          .append(" ".repeat(2 * level))  // Indent by 2 * level spaces
-          // Append name and coordinates of the city object.
-          .append(node.value().toString()).append("\n");
+                        // Print current node with correct indentation
+                        // Append level of the node followed by indentation (2*level spaces)
+                        sb.append(level)
+                            .append(" ".repeat(2 * level))  // Indent by 2 * level spaces
+                            // Append name and coordinates of the city object.
+                            .append(node.value().toString()).append("\n");
 
         // Traverse right subtree
         sb.append(printHelp(node.right(), level + 1));
