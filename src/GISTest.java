@@ -562,18 +562,11 @@ public class GISTest extends TestCase {
         //         /
         //       C(60,20)        ← left child of B, smaller X than B
 
-       // City a1 = new City("A", 50, 50);
-        //City b1 = new City("B", 70, 30);
-        //City c1 = new City("C", 60, 20); // leftMin candidate
-
         it.insert("A", 50, 50); // level 0
         it.insert("B", 70, 30); // level 1
         it.insert("C", 60, 20); // level 2
 
-        // Remove A — it has a right child (B), and B has a left child (C)
-        // This triggers findMin(B, disc=0, level=1)
-        // Inside that, leftMin = C, min = B, and C.x < B.x → triggers the block
-
+     
         String removed = it.delete(50, 50);
         assertNotNull(removed);
         assertEquals("3\nA", removed);
@@ -599,21 +592,10 @@ public class GISTest extends TestCase {
         //       /
         //     D(90,60)          ← level 3 (cd = 1) ← smallest Y
 
-        //City a1 = new City("A", 50, 50);
-        //City b1 = new City("B", 70, 70);
-        //City c1 = new City("C", 80, 65);
-        //City d1 = new City("D", 90, 60); // leftMin candidate
-
         it.insert("A", 50, 50); // level 0
         it.insert("B", 70, 70); // level 1
         it.insert("C", 80, 65); // level 2
         it.insert("D", 90, 60); // level 3
-
-        // Remove A — it has a right child B
-        // B has a left subtree: C → D
-        // This triggers findMin(B, disc=1, level=1)
-        // Inside findMin: cd = 1, disc = 1 → rightMin skipped
-        // leftMin = D, min = B, and D.y = 60 < B.y = 70 → triggers the block
 
         String removed = it.delete(50, 50);
         assertNotNull(removed);
