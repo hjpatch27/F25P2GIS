@@ -363,6 +363,29 @@ public class GISTest extends TestCase {
             + "3      Epsilon (50, 50)\n"
             + "1  Gamma (70, 70)\n"
             + "2    Zeta (15, 15)\n", it.print());
+        
+        // Add two city objects. One with a duplicate name,
+        // another with both a duplicate name and coordinates,
+        // and one with only duplicate coordinates. The duplicate
+        // name should go through but other two shouldn't
+        it.insert("Delta", 11, 11);
+        it.insert("Delta", 10, 12);
+        it.insert("Omega", 10, 12);
+        // info() should only find Delta (11, 11) and Delta (10, 12),
+        // the original City object at (10, 12)
+        assertEquals(it.info(11, 11), "Delta");
+        assertEquals(it.info("Delta"), "Delta (10, 12)\n"
+            + "Delta (11, 11)\n");
+        assertEquals(it.info(10, 12), "Delta");
+        assertEquals(it.info("Omega"), "");
+        
+        // Call print(), Delta (11, 11) should be on level 3
+        assertEquals("0Beta (5, 25)\n"
+            + "2    Delta (10, 12)\n"
+            + "4        Delta (11, 11)\n"
+            + "3      Epsilon (50, 50)\n"
+            + "1  Gamma (70, 70)\n"
+            + "2    Zeta (15, 15)\n", it.print());
     }
     
     /**
