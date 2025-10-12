@@ -130,9 +130,9 @@ public class BST<E extends Comparable<E>> {
      * @return the record removed, null if there is none.
      */
     public E remove(E key) {
-        E temp = findHelp(root, key); // First find it
+        E temp = findHelp(root, key); // First find the record
         if (temp != null) {
-            root = removeHelp(root, key); // Now remove it
+            root = removeHelp(root, key); // Now remove the record
         }
         return temp;
     }
