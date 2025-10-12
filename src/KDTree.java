@@ -236,7 +236,6 @@ public class KDTree {
         return findHelp(rt.right, x, y, level + 1); // Go right
     }
 
-
     /**
      * Finds the node with the minimum value in the given dimension.
      * * @param rt The root of the subtree to search.
