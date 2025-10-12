@@ -179,7 +179,7 @@ public class GISTest extends TestCase {
         
         // Call the method: Remove c from the BST
         // Should return "Gamma"
-        assertEquals(it.delete(70, 70), "3\nGamma");
+        assertEquals(it.delete(70, 70), "4\nGamma");
         
         // find(c) should now return an empty string
         assertEquals(it.info(70, 70), "");
@@ -386,6 +386,16 @@ public class GISTest extends TestCase {
             + "3      Epsilon (50, 50)\n"
             + "1  Gamma (70, 70)\n"
             + "2    Zeta (15, 15)\n", it.print());
+        
+        // Remove both Delta cities from the BST
+        assertEquals(it.delete("Delta"),"Delta (10, 12)\n"
+            + "Delta (11, 11)\n");
+        
+        // Call print()
+        assertEquals("0Beta (5, 25)\n"
+            + "2    Epsilon (50, 50)\n"
+            + "1  Gamma (70, 70)\n"
+            + "2    Zeta (15, 15)\n", it.print());
     }
     
     /**
@@ -415,7 +425,7 @@ public class GISTest extends TestCase {
     
     /**
      * Test the remove method when removing a leaf node
-     *
+     */
     public void testRemoveLeafNode()
     {
         it.insert("Alpha", 30, 40);
@@ -423,11 +433,10 @@ public class GISTest extends TestCase {
         it.insert("Gamma", 70, 70);
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
-        assertEquals("3\nBeta", it.delete(5, 25)); // remove city b
+        assertEquals("4\nBeta", it.delete(5, 25)); // remove city b
         //assertEquals(4, it.size());
         assertEquals("", it.info(5, 25));
     }
-    */
     
     
     
