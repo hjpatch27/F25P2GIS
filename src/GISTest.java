@@ -815,6 +815,10 @@ public class GISTest extends TestCase {
         assertTrue(result.matches("(?s)^\\d+$")); // Only node count
     }
     
+    /**
+     * Tests the search() method. In this test case, there are
+     * several City objects within the search radius.
+     */
     public void testSearchSeveralMatches() {
         // Set initial conditions
         it.insert("Alpha", 30, 40);
@@ -832,6 +836,31 @@ public class GISTest extends TestCase {
             + "Delta (10, 12)\n"
             + "Epsilon (50, 50)\n5");
         assertFalse(result.contains("Gamma"));
+    }
+    
+    /**
+     * Tests the search() method. In this test case,
+     * most City objects are on the very edge of the 
+     * search radius.
+     */
+    public void testSearchRadiusEdge() {
+        // Set inital conditions: Add City objects
+        it.insert("Alpha", 0, 50);
+        it.insert("Beta", 50, 0);
+        it.insert("Gamma", 50, 50);
+        it.insert("Delta", 0, 0);
+        it.insert("Epsilon", 25, 50);
+        it.insert("Charlie", 50, 25);
+        it.insert("Zulu", 42, 42);
+        
+        // Call the method
+        String result = it.search(25, 25, 25);
+        
+        // search() should include Epsilon, Charlie, and
+        // Zulu, where Zulu is exactly on the radius.
+        assertEquals(result, "Epsilon (25, 50)\n"
+            + "Zulu (42, 42)\n"
+            + "Charlie (50, 25)\n7");
     }
     
      /**
