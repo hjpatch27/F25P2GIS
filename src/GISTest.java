@@ -749,7 +749,7 @@ public class GISTest extends TestCase {
         // rt.left != null → finally hits the line!
 
         String removed = it.delete(30, 40);
-        assertEquals("4\nB", removed);
+        assertEquals("6\nB", removed);
         
         // Confirm D is promoted
        // City promoted = it.info(10, 20);
@@ -757,6 +757,7 @@ public class GISTest extends TestCase {
         assertEquals("D", it.info(10, 20));
     }
     */
+    
 
 
     // -------Test Search---------------
@@ -808,7 +809,29 @@ public class GISTest extends TestCase {
         String result = it.search(0, 0, 5);
         assertFalse(result.contains("Alpha"));
         assertFalse(result.contains("Beta"));
+        assertFalse(result.contains("Gamma"));
+        assertFalse(result.contains("Delta"));
+        assertFalse(result.contains("Epsilon"));
         assertTrue(result.matches("(?s)^\\d+$")); // Only node count
+    }
+    
+    public void testSearchSeveralMatches() {
+        // Set initial conditions
+        it.insert("Alpha", 30, 40);
+        it.insert("Beta", 5, 25);
+        it.insert("Gamma", 70, 70);
+        it.insert("Delta", 10, 12);
+        it.insert("Epsilon", 50, 50);
+        
+        // Call the method: Radius should contain
+        // every city other than Gamma
+        String result = it.search(40, 40, 42);
+        
+        assertEquals(result, "Alpha (30, 40)\n"
+            + "Beta (5, 25)\n"
+            + "Delta (10, 12)\n"
+            + "Epsilon (50, 50)\n5");
+        assertFalse(result.contains("Gamma"));
     }
     
      /**

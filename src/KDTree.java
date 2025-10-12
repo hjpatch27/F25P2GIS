@@ -404,12 +404,9 @@ public class KDTree {
     /**
      * Region search: find all cities within radius of (x,y)
      * 
-     * @param x
-     *            center x
-     * @param y
-     *            center y
-     * @param radius
-     *            search radius
+     * @param x is the center x
+     * @param y is the center y
+     * @param radius is the search radius
      * @return formatted string of cities found + nodes visited
      */
     public String search(int x, int y, int radius) {
@@ -429,14 +426,8 @@ public class KDTree {
     /**
      * Recursive helper for region search
      */
-    private void regionSearchHelp(
-        KDTreeNode node,
-        int x,
-        int y,
-        int radius,
-        int level,
-        StringBuilder sb,
-        int[] count) {
+    private void regionSearchHelp(KDTreeNode node, int x, int y, int radius, 
+        int level, StringBuilder sb, int[] count) {
         if (node == null) // Check
         {
             return; // Base: null node
