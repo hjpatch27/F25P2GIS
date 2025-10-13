@@ -278,26 +278,35 @@ public class BST<E extends Comparable<E>> {
         return rt;
         */
 
-        if (rt == null) return null;
+        if (rt == null) {
+            return null;
+        }
 
-        int cmp = key.compareTo(rt.value());
-        if (cmp < 0) {
+        int compare = key.compareTo(rt.value());
+        if (compare < 0) {
             rt.setLeft(removeHelp(rt.left(), key));
         } 
-        else if (cmp > 0) {
+        else if (compare > 0) {
             rt.setRight(removeHelp(rt.right(), key));
         } 
-        else {
+        else { // Found it
             // Node to delete found
-            if (rt.left() == null) return rt.right();
-            if (rt.right() == null) return rt.left();
-
-            // Node has two children: find max in left subtree
+            if (rt.left() == null) {
+                return rt.right();
+                }
+            if (rt.right() == null) {
+                return rt.left();
+            }
+            
+            // Two Children with duplicates stored in the LEFT subtree, 
+            // replace with the maximum from the left subtree (reference policy). 
+            
+            // Find max in left subtree
             BSTNode maxNode = getMax(rt.left());
 
             // Remove maxNode from its original position
             rt.setLeft(removeHelp(rt.left(), maxNode.value()));
-
+            
             // Replace current node with maxNode
             maxNode.setLeft(rt.left());
             maxNode.setRight(rt.right());
@@ -305,7 +314,6 @@ public class BST<E extends Comparable<E>> {
             return maxNode;
         }
         return rt;
-
     }
        
     /**
@@ -361,8 +369,7 @@ public class BST<E extends Comparable<E>> {
      * @param level is the level the tree is currently on.
      * @return String listing the cities as specified.
      */
-    private String printHelp(BSTNode node, int level) {
-        
+    private String printHelp(BSTNode node, int level) {    
         if (node == null) {
             return "";
         }
