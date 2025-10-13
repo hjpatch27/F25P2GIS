@@ -294,20 +294,19 @@ public class BST<E extends Comparable<E>> {
      * Get the maximum valued element in a subtree.
      * @param rt
      * @return
-     *
+     */
     private BSTNode getMax(BSTNode rt) {
         if (rt.right() == null) { 
             return rt; 
         }
         return getMax(rt.right());
     }
-    */
         
     /**
      * Delete the maximum valued element in a subtree.
      * @param rt
      * @return
-     *
+     */
     private BSTNode deleteMax(BSTNode rt) {
         if (rt.right() == null) {
             return rt.left();
@@ -315,7 +314,6 @@ public class BST<E extends Comparable<E>> {
         rt.setRight(deleteMax(rt.right()));
         return rt;
     }
-    */
     
     /**
      * Get the minimum valued element in a subtree.
