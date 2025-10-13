@@ -201,8 +201,8 @@ public class GISTest extends TestCase {
         // Different name, returns value of name comparison.
         assertEquals(city1.compareTo(city3), -2);
         // Same name/X value but different Y value
-        assertEquals(city1.compareTo(city9), -1);
-        assertEquals(city1.compareTo(city12), 1);
+        assertEquals(city1.compareTo(city9), 0);
+        assertEquals(city1.compareTo(city12), 0);
     }
     
     /**
@@ -219,7 +219,7 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(stringCityNull)); // cannot equal null/other object
         assertFalse(city1.equals(city4));   // different names and x/y values
         assertFalse(city1.equals(city6));   // different names and y values
-        //assertTrue(city1.equals(city7));  // equal names and x/y values
+        assertTrue(city1.equals(city7));  // equal names and x/y values
         assertFalse(city1.equals(city8));   // different x values
         assertFalse(city1.equals(city9));   // different y values   
     }
@@ -377,8 +377,8 @@ public class GISTest extends TestCase {
         
         // Call print(), Delta (11, 11) should be on level 3
         assertEquals("0Beta (5, 25)\n"
+            + "3      Delta (11, 11)\n"
             + "2    Delta (10, 12)\n"
-            + "4        Delta (11, 11)\n"
             + "3      Epsilon (50, 50)\n"
             + "1  Gamma (70, 70)\n"
             + "2    Zeta (15, 15)\n", it.print());

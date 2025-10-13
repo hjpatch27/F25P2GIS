@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /**
  * The BST class creates a Binary Search Tree.
  * 
@@ -107,7 +109,7 @@ public class BST<E extends Comparable<E>> {
         root = null; 
 
     }
-
+    
     /**
      * Reinitialize tree, setting root to null
      * and nodeCount to 0.
@@ -227,13 +229,26 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private BSTNode insertHelp(BSTNode rt, E e) {
-        if (rt == null) {
+        
+        /**if (rt == null) {
             return new BSTNode(e);
         }
         // Follow OpenDSA-style policy: store duplicates in the RIGHT subtree.
         if (rt.value().compareTo(e) > 0) {
             rt.setLeft(insertHelp(rt.left(), e));
         }
+        else {
+            rt.setRight(insertHelp(rt.right(), e));
+        }
+        return rt;*/
+
+        if (rt == null) {
+            return new BSTNode(e);
+        }
+
+        if (rt.value().compareTo(e) >= 0) {
+            rt.setLeft(insertHelp(rt.left(), e));
+        } 
         else {
             rt.setRight(insertHelp(rt.right(), e));
         }
@@ -279,19 +294,20 @@ public class BST<E extends Comparable<E>> {
      * Get the maximum valued element in a subtree.
      * @param rt
      * @return
-     */
+     *
     private BSTNode getMax(BSTNode rt) {
         if (rt.right() == null) { 
             return rt; 
         }
         return getMax(rt.right());
     }
+    */
         
     /**
      * Delete the maximum valued element in a subtree.
      * @param rt
      * @return
-     */
+     *
     private BSTNode deleteMax(BSTNode rt) {
         if (rt.right() == null) {
             return rt.left();
@@ -299,6 +315,7 @@ public class BST<E extends Comparable<E>> {
         rt.setRight(deleteMax(rt.right()));
         return rt;
     }
+    */
     
     /**
      * Get the minimum valued element in a subtree.

@@ -51,46 +51,32 @@ public class City implements Comparable<City> {
     {
         return y;
     }
-    
-
-    
+      
     /**
      * Compares two City objects to each other based on their name, determining
      * whether they are equal or if one is greater than or less
      * than the other.
-     * @Override
      * @param o is the City object we'll be comparing with the 
      * current City object.
      * @return 0 is they are equal, 1 if the current City object is 
      * greater than the City object, and -1 if it's less than the other.
      */
-    public int compareTo(City other) {
-     // 1. Compare by Name first
-        int nameComparison = this.name.compareTo(other.getName());
-        
+    public int compareTo(City other) {   
+        return this.name.compareTo(other.name);
+        /**
+        // Compare the names first
+        int nameCompare = this.name.compareTo(other.name);
         // If names are different, return the name comparison result
-        if (nameComparison != 0) {
-            return nameComparison;
+        if (nameCompare != 0) {
+            return nameCompare;
         }
-        
-        // 2. If names are the same, compare by X-coordinate
-        if (this.x < other.x) {
-            return -1;
-        } 
-        else if (this.x > other.x) {
-            return 1;
+        // If names are the same, compare by X-coordinate
+        if (this.x != other.x) {
+            return Integer.compare(this.x, other.x);
         }
-        
-        // 3. If X-coordinates are also the same, compare by Y-coordinate
-        if (this.y < other.y) {
-            return -1;
-        } 
-        else if (this.y > other.y) {
-            return 1;
-        }
-        
-        // 4. If name, X, and Y are all the same, the objects are truly equal
-        return 0;
+        // If X-coordinates are also the same, compare by Y-coordinate
+        return Integer.compare(this.y, other.y);
+        */
     }
 
     /**
@@ -99,8 +85,8 @@ public class City implements Comparable<City> {
      * @param obj is the City object we'll be comparing with
      * the current City object.
      * @return True if the objects are equal and false if not.
-     * @Override
      */
+    @Override
     public boolean equals(Object obj) {
         // If comparing the same object to itself, return true
         if (this == obj) {
