@@ -229,26 +229,14 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private BSTNode insertHelp(BSTNode rt, E e) {
-        
-        /**if (rt == null) {
-            return new BSTNode(e);
-        }
-        // Store duplicates in the LEFT subtree (reference policy).
-        if (rt.value().compareTo(e) >= 0) {
-            rt.setLeft(insertHelp(rt.left(), e));
-        }
-        else {
-            rt.setRight(insertHelp(rt.right(), e));
-        }
-        return rt;*/
-
         if (rt == null) {
             return new BSTNode(e);
         }
-
+        // Store duplicates in the left subtree (reference policy).
         if (rt.value().compareTo(e) >= 0) {
             rt.setLeft(insertHelp(rt.left(), e));
-        } 
+        }
+        // Otherwise insert to the right subtree
         else {
             rt.setRight(insertHelp(rt.right(), e));
         }
@@ -288,8 +276,7 @@ public class BST<E extends Comparable<E>> {
         }
         return rt;
     }
-    
-    
+       
     /**
      * Get the maximum valued element in a subtree.
      * @param rt
@@ -343,6 +330,7 @@ public class BST<E extends Comparable<E>> {
      * @return String listing the cities as specified.
      */
     private String printHelp(BSTNode node, int level) {
+        
         if (node == null) {
             return "";
         }

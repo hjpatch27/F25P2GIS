@@ -60,6 +60,7 @@ public class City implements Comparable<City> {
      * current City object.
      * @return 0 is they are equal, 1 if the current City object is 
      * greater than the City object, and -1 if it's less than the other.
+     * @Override
      */
     public int compareTo(City other) {   
         return this.name.compareTo(other.name);
@@ -85,8 +86,8 @@ public class City implements Comparable<City> {
      * @param obj is the City object we'll be comparing with
      * the current City object.
      * @return True if the objects are equal and false if not.
+     * @Override
      */
-    @Override
     public boolean equals(Object obj) {
         // If comparing the same object to itself, return true
         if (this == obj) {

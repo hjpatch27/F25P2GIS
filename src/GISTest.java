@@ -395,6 +395,46 @@ public class GISTest extends TestCase {
     }
     
     /**
+     * This tests the delete() method, specifically focusing
+     * on remove() from the BST class. This test case
+     */
+    public void testDeleteDuplicate() {
+
+        // Set initial conditions: Add 5 City objects
+        it.insert("Delta", 30, 30);
+        it.insert("Alpha", 10, 10);
+        it.insert("Epsilon", 50, 50);
+        it.insert("Delta", 25, 25);
+        it.insert("Delta", 5, 5);
+
+        // Call print() before deletion
+        assertEquals("1  Alpha (10, 10)\n"
+            + "3      Delta (5, 5)\n"
+            + "2    Delta (25, 25)\n"
+            + "0Delta (30, 30)\n"
+            + "1  Epsilon (50, 50)\n", it.print());
+
+        // Delete Delta (30, 30)
+        assertEquals("3\nDelta", it.delete(30, 30));
+    
+        // Call print() after deletion
+        assertEquals("1  Alpha (10, 10)\n"
+            + "2    Delta (5, 5)\n"
+            + "0Delta (25, 25)\n"
+            + "1  Epsilon (50, 50)\n", it.print());
+        
+        // Delete remaining Delta cities
+        assertEquals("Delta (25, 25)\n"
+            + "Delta (5, 5)\n", it.delete("Delta"));
+        
+        // Call print() after deletion
+        assertEquals("0Alpha (10, 10)\n"
+            + "1  Epsilon (50, 50)\n", it.print());
+    
+            
+    }
+    
+    /**
      * Test the Find() to find an existing city
      */
     public void testFindExistingCity()
