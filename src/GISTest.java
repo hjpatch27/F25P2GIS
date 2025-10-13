@@ -754,6 +754,25 @@ public class GISTest extends TestCase {
     }
     */
     
+    public void testRemoveNonExistentCityReturnsZero() {
+        it.insert("A", 3, 6);
+        it.insert("B", 17, 15);
+        it.insert("C", 13, 15);
+        it.insert("D", 6, 12);
+        it.insert("E", 9, 1);
+
+        // Coordinates (99, 99) do not exist in the tree
+        assertEquals("", it.delete(99, 99));
+        assertEquals("A (3, 6)\n", it.delete("A"));
+        assertEquals("3\nC", it.delete(13, 15));
+        assertEquals("5\nD", it.delete(6, 12));
+        assertEquals("B (17, 15)\n", it.delete("B"));
+        assertEquals("", it.info(99,99));
+        assertEquals("E (9, 1)\n", it.delete("E"));
+    }
+    
+
+
 
 
     // -------Test Search---------------

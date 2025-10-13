@@ -233,8 +233,8 @@ public class BST<E extends Comparable<E>> {
         /**if (rt == null) {
             return new BSTNode(e);
         }
-        // Follow OpenDSA-style policy: store duplicates in the RIGHT subtree.
-        if (rt.value().compareTo(e) > 0) {
+        // Store duplicates in the LEFT subtree (reference policy).
+        if (rt.value().compareTo(e) >= 0) {
             rt.setLeft(insertHelp(rt.left(), e));
         }
         else {
@@ -279,11 +279,11 @@ public class BST<E extends Comparable<E>> {
                 return rt.left();
             }
             else { // Two Children
-                // With duplicates placed in the RIGHT subtree, replace with
-                // the minimum from the right subtree (OpenDSA guidance).
-                BSTNode temp = getMin(rt.right());
+                // With duplicates stored in the LEFT subtree, replace with
+                // the maximum from the left subtree (reference policy).
+                BSTNode temp = getMax(rt.left());
                 rt.setValue(temp.value());
-                rt.setRight(deleteMin(rt.right()));
+                rt.setLeft(deleteMax(rt.left()));
             }
         }
         return rt;
