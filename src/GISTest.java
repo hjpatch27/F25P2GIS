@@ -429,9 +429,7 @@ public class GISTest extends TestCase {
         
         // Call print() after deletion
         assertEquals("0Alpha (10, 10)\n"
-            + "1  Epsilon (50, 50)\n", it.print());
-    
-            
+            + "1  Epsilon (50, 50)\n", it.print());        
     }
     
     /**
@@ -583,6 +581,29 @@ public class GISTest extends TestCase {
 
         // Confirm Left1 is still present
         assertEquals("Left1", it.info(25, 75));
+    }
+    
+    /**
+     * Tests the delete() method. In this scenario,
+     * we'll be deleting the root and then continuing 
+     * to delete the replacement of the removed root.
+     */
+    public void testDeleteRootMultipleTimes() {
+        it.insert("Root", 50, 50);
+        it.insert("Root", 40, 40);
+        it.insert("Root", 30, 30);
+        it.insert("Root", 20, 20);
+        it.insert("Root", 10, 10);
+
+        // Delete root repeatedly
+        assertEquals("9\nRoot", it.delete(50, 50));
+        assertEquals("6\nRoot", it.delete(40, 40));
+        assertEquals("3\nRoot", it.delete(30, 30));
+        assertEquals("2\nRoot", it.delete(20, 20));
+        assertEquals("1\nRoot", it.delete(10, 10));
+
+        // Tree should now be empty
+        assertEquals("", it.print());
     }
     
     /**

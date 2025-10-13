@@ -250,6 +250,7 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private BSTNode removeHelp(BSTNode rt, E key) {
+        /**
         if (rt == null) {
             return null;
         }
@@ -275,6 +276,36 @@ public class BST<E extends Comparable<E>> {
             }
         }
         return rt;
+        */
+
+        if (rt == null) return null;
+
+        int cmp = key.compareTo(rt.value());
+        if (cmp < 0) {
+            rt.setLeft(removeHelp(rt.left(), key));
+        } 
+        else if (cmp > 0) {
+            rt.setRight(removeHelp(rt.right(), key));
+        } 
+        else {
+            // Node to delete found
+            if (rt.left() == null) return rt.right();
+            if (rt.right() == null) return rt.left();
+
+            // Node has two children: find max in left subtree
+            BSTNode maxNode = getMax(rt.left());
+
+            // Remove maxNode from its original position
+            rt.setLeft(removeHelp(rt.left(), maxNode.value()));
+
+            // Replace current node with maxNode
+            maxNode.setLeft(rt.left());
+            maxNode.setRight(rt.right());
+
+            return maxNode;
+        }
+        return rt;
+
     }
        
     /**
@@ -283,6 +314,7 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private BSTNode getMax(BSTNode rt) {
+        
         if (rt.right() == null) { 
             return rt; 
         }
