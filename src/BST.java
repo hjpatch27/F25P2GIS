@@ -1,5 +1,3 @@
-import java.util.Comparator;
-
 /**
  * The BST class creates a Binary Search Tree.
  * 
