@@ -391,24 +391,19 @@ public class KDTree {
         }
 
         int disc = level & 1;
-        int depth = level;
 
         // Check left subtree if circle overlaps (center-radius <= split
         // coordinate)
         if ((disc == 0 && x - radius < node.city.getX()) || (disc == 1 && y
             - radius < node.city.getY())) {
-            // CORRECT: Pass level + 1
-            depth += 1;
-            regionSearchHelp(node.left, x, y, radius, depth, sb, count);
+            regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
         }
 
         // Check right subtree if circle overlaps (center + radius >= split
         // coordinate)
         if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
             + radius >= node.city.getY())) {
-            // CORRECT: Pass level + 1
-            depth += 1;
-            regionSearchHelp(node.right, x, y, radius, depth, sb, count);
+            regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
         }
     }
 
