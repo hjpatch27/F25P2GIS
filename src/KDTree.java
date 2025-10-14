@@ -27,73 +27,10 @@ public class KDTree {
             this.left = null;
             this.right = null;
         }
-
-
-        /**
-         * Gets the city.
-         * 
-         * @return cityRecord is the city
-         */
-        public City getCity() {
-            return city;
-        }
-
-
-        /**
-         * Replaces the city record stored in this node with a new City object.
-         * 
-         * @param other
-         *            the City to store in this node
-         */
-        public void setCity(City other) {
-            this.city = new City(other.getName(), other.getX(), other.getY());
-        }
-
-
-        /**
-         * Gets the left KDTreeNode.
-         * 
-         * @return left is the left node
-         */
-        public KDTreeNode getLeft() {
-            return left;
-        }
-
-
-        /**
-         * Gets the right KDTreeNode
-         * 
-         * @return right is the right node
-         */
-        public KDTreeNode getRight() {
-            return right;
-        }
-
-
-        /**
-         * Setter method for KDTreeNode left
-         * 
-         * @param left
-         *            is the element to be changed too
-         */
-        public void setLeft(KDTreeNode left) {
-            this.left = left;
-        }
-
-
-        /**
-         * Setter method for KDTreeNode right
-         * 
-         * @param right
-         *            is the element to be changed too
-         */
-        public void setRight(KDTreeNode right) {
-            this.right = right;
-        }
     }
 
     private KDTreeNode root; // The root of the KDTree
-    private static final int DIMENSIONS = 2; // for (x,y)
+    //private static final int DIMENSIONS = 2; // for (x,y)
     private int nodesVisited; // The number of nodes visited in remove()
 
     // ----------------------------------------------------------
@@ -220,9 +157,10 @@ public class KDTree {
      * @return the City object if found, null otherwise
      */
     private City findHelp(KDTreeNode rt, int x, int y, int level) {
-        if (rt == null)
-            return null; // Base case: not found
-
+        if (rt == null) {            
+           return null; // Base case: not found
+        }
+        
         if (rt.city.getX() == x && rt.city.getY() == y) {
             return rt.city; // Found the city
         }
@@ -325,13 +263,13 @@ public class KDTree {
     // search should increment the counter to match reference expectations.
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y,
         int level, KDTreeNode removed, boolean count) {
-        if (rt == null) {
-            return null;
-        }
+        //if (rt == null) {
+        //    return null;
+        //}
 
-        if (count) {
+        //if (count) {
             nodesVisited++; // Count only when requested
-        }
+        //}
 
         int disc = level & 1;
 
