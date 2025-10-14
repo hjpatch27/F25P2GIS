@@ -168,18 +168,24 @@ public class BST<E extends Comparable<E>>
      */
     private E findHelp(BSTNode rt, E key) 
     {
+        // Return null if no record is found.
         if (rt == null) 
         {
             return null;
         }
+        // Use compareTo() from the City class to compare names.
+        // If rt.value() is greater than key, traverse the left.
         if (rt.value().compareTo(key) > 0) 
         {
             return findHelp(rt.left(), key);
         }
+        // If rt.value() equals the key, you've found the record.
+        // Return the value within the current BSTNode.
         else if (rt.value().compareTo(key) == 0) 
         {
             return rt.value();
         }
+        // If rt.value() is less than key, traverse the right.
         else 
         {
             return findHelp(rt.right(), key);
@@ -202,6 +208,7 @@ public class BST<E extends Comparable<E>>
         }
         
         String result = "";
+        
         // Check current node first (preorder traversal)
         City city = (City) rt.value();
         if (city.getName().equals(name)) 
@@ -226,6 +233,8 @@ public class BST<E extends Comparable<E>>
      */
     private BSTNode insertHelp(BSTNode rt, E e) 
     {
+        // If you've reached a null/empty Node,
+        // create a new node with the set value there.
         if (rt == null) 
         {
             return new BSTNode(e);
@@ -254,10 +263,12 @@ public class BST<E extends Comparable<E>>
     {
         // Compare the names of the records.
         int compare = key.compareTo(rt.value());
+        // If key is greater than rt.value(), traverse the left.
         if (compare < 0) 
         {
             rt.setLeft(removeHelp(rt.left(), key));
         } 
+        // If key is less than rt.value(), traverse the right.
         else if (compare > 0) 
         {
             rt.setRight(removeHelp(rt.right(), key));
@@ -282,8 +293,8 @@ public class BST<E extends Comparable<E>>
                 return rt.left();
             }
 
-            // Node has two children with duplicates stored in left subtree.
-            // Replace with maximum from left subtree
+            // If the node has two children with duplicates stored 
+            // in left subtree, replace with maximum from left subtree
             BSTNode maxNode = getMax(rt.left());
 
             // Remove maxNode from its original position
