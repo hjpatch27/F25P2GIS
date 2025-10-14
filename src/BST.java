@@ -252,33 +252,6 @@ public class BST<E extends Comparable<E>> {
         if (rt == null) {
             return null;
         }
-        if (rt.value().compareTo(key) > 0) {
-            rt.setLeft(removeHelp(rt.left(), key));
-        }
-        else if (rt.value().compareTo(key) < 0) {
-            rt.setRight(removeHelp(rt.right(), key));
-        }
-        else { // Found it
-            if (rt.left() == null) {
-                return rt.right();
-            }
-            else if (rt.right() == null) {
-                return rt.left();
-            }
-            else { // Two Children
-                // With duplicates stored in the LEFT subtree, replace with
-                // the maximum from the left subtree (reference policy).
-                BSTNode temp = getMax(rt.left());
-                rt.setValue(temp.value());
-                rt.setLeft(deleteMax(rt.left()));
-            }
-        }
-        return rt;
-        */
-
-        if (rt == null) {
-            return null;
-        }
 
         int compare = key.compareTo(rt.value());
         if (compare < 0) {
@@ -312,6 +285,50 @@ public class BST<E extends Comparable<E>> {
             return maxNode;
         }
         return rt;
+        */
+
+        if (rt == null) {
+            return null;
+        }
+
+        int compare = key.compareTo(rt.value());
+
+        if (compare < 0) {
+            rt.setLeft(removeHelp(rt.left(), key));
+        } else if (compare > 0) {
+            rt.setRight(removeHelp(rt.right(), key));
+        } else {
+            // Names match — now check for full equality
+
+            if (!rt.value().equals(key)) {
+                 // Continue searching left for the exact match (since duplicates go left)
+                 rt.setLeft(removeHelp(rt.left(), key));
+                 return rt;
+             }
+
+             // Exact match found — proceed with deletion
+             if (rt.left() == null) {
+                 return rt.right();
+             }
+             if (rt.right() == null) {
+                 return rt.left();
+             }
+
+             // Node has two children — replace with max from left subtree
+             BSTNode maxNode = getMax(rt.left());
+
+             // Remove maxNode from its original position
+             rt.setLeft(removeHelp(rt.left(), maxNode.value()));
+
+             // Replace current node with maxNode
+             maxNode.setLeft(rt.left());
+             maxNode.setRight(rt.right());
+
+             return maxNode;
+         }
+
+         return rt;
+
     }
        
     /**
