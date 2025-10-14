@@ -282,11 +282,12 @@ public class KDTree {
             // If right subtree exists, replace with min from right
             if (rt.right != null) 
             {
-                KDTreeNode minNode = findMin(rt.right, disc, level + 1);
+                depth += 1;
+                KDTreeNode minNode = findMin(rt.right, disc, depth);
                 rt.city = minNode.city;
                 // Remove replacement node from right subtree without counting
                 rt.right = removeHelp(rt.right, minNode.city.getX(),
-                    minNode.city.getY(), depth + 1, new KDTreeNode(null), true);
+                    minNode.city.getY(), depth, new KDTreeNode(null), true);
                 return rt;
             }
 
@@ -390,13 +391,15 @@ public class KDTree {
         }
 
         int disc = level & 1;
+        int depth = level;
 
         // Check left subtree if circle overlaps (center-radius <= split
         // coordinate)
         if ((disc == 0 && x - radius < node.city.getX()) || (disc == 1 && y
             - radius < node.city.getY())) {
             // CORRECT: Pass level + 1
-            regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
+            depth += 1;
+            regionSearchHelp(node.left, x, y, radius, depth, sb, count);
         }
 
         // Check right subtree if circle overlaps (center + radius >= split
@@ -404,7 +407,8 @@ public class KDTree {
         if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
             + radius >= node.city.getY())) {
             // CORRECT: Pass level + 1
-            regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
+            depth += 1;
+            regionSearchHelp(node.right, x, y, radius, depth, sb, count);
         }
     }
 
