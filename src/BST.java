@@ -14,15 +14,6 @@ public class BST<E extends Comparable<E>> {
         private E element;                 // Element for this node
         private BSTNode left;              // Pointer to left child
         private BSTNode right;             // Pointer to right child
-
-        // Constructors
-        /**
-         * Constructor initializes left and right as null.
-         */
-        BSTNode() { 
-            left = null;
-            right = null; 
-        }
         
         /**
          * Constructor initializes left and right as null
@@ -34,18 +25,6 @@ public class BST<E extends Comparable<E>> {
             right = null; 
             element = val; 
         }
-        
-        /**
-         * Set left, right, and element to values
-         * @param val is the value element is to be set to.
-         * @param l is the value left is to be set to.
-         * @param r is the value right is to be set to.
-         */
-        BSTNode(E val, BSTNode l, BSTNode r) { 
-            left = l; 
-            right = r; 
-            element = val; 
-        }
 
         /**
          * Getter method for value.
@@ -53,14 +32,6 @@ public class BST<E extends Comparable<E>> {
          */
         public E value() { 
             return element; 
-        }
-        
-        /**
-         * Setter method for value.
-         * @param v is what the element is to be changed to.
-         */
-        public void setValue(E v) { 
-            element = v; 
         }
 
         /**
@@ -328,7 +299,6 @@ public class BST<E extends Comparable<E>> {
          }
 
          return rt;
-
     }
        
     /**
@@ -343,41 +313,7 @@ public class BST<E extends Comparable<E>> {
         }
         return getMax(rt.right());
     }
-        
-    /**
-     * Delete the maximum valued element in a subtree.
-     * @param rt
-     * @return
-     */
-    private BSTNode deleteMax(BSTNode rt) {
-        if (rt.right() == null) {
-            return rt.left();
-        }
-        rt.setRight(deleteMax(rt.right()));
-        return rt;
-    }
-    
-    /**
-     * Get the minimum valued element in a subtree.
-     */
-    private BSTNode getMin(BSTNode rt) {
-        if (rt.left() == null) {
-            return rt;
-        }
-        return getMin(rt.left());
-    }
 
-    /**
-     * Delete the minimum valued element in a subtree.
-     */
-    private BSTNode deleteMin(BSTNode rt) {
-        if (rt.left() == null) {
-            return rt.right();
-        }
-        rt.setLeft(deleteMin(rt.left()));
-        return rt;
-    }
-      
     /**
      * Helper method for print().
      * @param node is the node the method is currently on.
