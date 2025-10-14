@@ -69,7 +69,8 @@ public class GISDB implements GIS
         {
             return false;
         }
-        // If there no's duplicate, insert the city and return true.
+        // If there no's duplicate, insert the City object into BST
+        // and KDTree. After that, return true.
         bst.insert(newCity);
         kd.insert(newCity);
         return true;
@@ -90,7 +91,7 @@ public class GISDB implements GIS
      */
     public String delete(int x, int y) 
     {
-     // 1. Use find() from KDTree to search for coordinates.
+        // Use find() from KDTree to search for coordinates.
         City city = kd.find(x, y); 
         
         // If City object not found, return empty string.
@@ -99,16 +100,16 @@ public class GISDB implements GIS
             return "";
         }
         
-        // 2. Get the name before deletion for the output string.
+        // Get the name before deletion for the output string.
         String name = city.getName();
         
-        // 3. Remove the City object from BST.
+        // Remove the City object from BST.
         bst.remove(city);
         
-        // 4. Remove from KD-Tree and get the number of nodes visited.
+        // Remove from KDTree and get the number of nodes visited.
         int nodesVisited = kd.remove(x, y);
 
-        // 5. Return the required formatted string.
+        // Return the nodes visited and the name of the record deleted.
         return nodesVisited + "\n" + name;
     }
 
@@ -132,10 +133,14 @@ public class GISDB implements GIS
         {
             return "";
         }
-
+        
+        // Create array of String values, with the "\n"
+        // between records separating values.
         String[] lines = matches.split("\n");
+        // Create a StringBuilder object to return our final result.
         StringBuilder result = new StringBuilder();
 
+        // For Loop repeating for number of values in String[] lines
         for (String line : lines) 
         {
             // Parse city name and coordinates from the line
@@ -143,12 +148,15 @@ public class GISDB implements GIS
             int comma = line.indexOf(',', xStart);
             int yEnd = line.indexOf(')', comma);
 
+            // Parse String values into integer values of x and y coordinates
             int x = Integer.parseInt(line.substring(xStart + 1, comma).trim());
             int y = Integer.parseInt(line.substring(comma + 1, yEnd).trim());
 
+            // Using name and coordinate, remove the city from the database
+            // in both BST and KDTree.
             City cityToRemove = new City(name, x, y);
             bst.remove(cityToRemove);
-            kd.remove(x, y); // assuming this method exists
+            kd.remove(x, y);
 
             // Add name and coordinates to string for output.
             result.append(name)
