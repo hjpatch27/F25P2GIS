@@ -219,11 +219,10 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private BSTNode removeHelp(BSTNode rt, E key) {
-        /**
         if (rt == null) {
             return null;
         }
-
+        // Compare the names of the records.
         int compare = key.compareTo(rt.value());
         if (compare < 0) {
             rt.setLeft(removeHelp(rt.left(), key));
@@ -231,24 +230,30 @@ public class BST<E extends Comparable<E>> {
         else if (compare > 0) {
             rt.setRight(removeHelp(rt.right(), key));
         } 
-        else { // Found it
-            // Node to delete found
+        else { 
+            // Names match, check for full equality
+            if (!rt.value().equals(key)) {
+                // Continue searching left for the exact match 
+                // since duplicates go left.
+                rt.setLeft(removeHelp(rt.left(), key));
+                return rt;
+            }
+
+            // Exact match found so proceed with deletion
             if (rt.left() == null) {
                 return rt.right();
-                }
+            }
             if (rt.right() == null) {
                 return rt.left();
             }
-            
-            // Two Children with duplicates stored in the LEFT subtree, 
-            // replace with the maximum from the left subtree (reference policy). 
-            
-            // Find max in left subtree
+
+            // Node has two children with duplicates stored in left subtree.
+            // Replace with maximum from left subtree
             BSTNode maxNode = getMax(rt.left());
 
             // Remove maxNode from its original position
             rt.setLeft(removeHelp(rt.left(), maxNode.value()));
-            
+
             // Replace current node with maxNode
             maxNode.setLeft(rt.left());
             maxNode.setRight(rt.right());
@@ -256,49 +261,6 @@ public class BST<E extends Comparable<E>> {
             return maxNode;
         }
         return rt;
-        */
-
-        if (rt == null) {
-            return null;
-        }
-
-        int compare = key.compareTo(rt.value());
-
-        if (compare < 0) {
-            rt.setLeft(removeHelp(rt.left(), key));
-        } else if (compare > 0) {
-            rt.setRight(removeHelp(rt.right(), key));
-        } else {
-            // Names match — now check for full equality
-
-            if (!rt.value().equals(key)) {
-                 // Continue searching left for the exact match (since duplicates go left)
-                 rt.setLeft(removeHelp(rt.left(), key));
-                 return rt;
-             }
-
-             // Exact match found — proceed with deletion
-             if (rt.left() == null) {
-                 return rt.right();
-             }
-             if (rt.right() == null) {
-                 return rt.left();
-             }
-
-             // Node has two children — replace with max from left subtree
-             BSTNode maxNode = getMax(rt.left());
-
-             // Remove maxNode from its original position
-             rt.setLeft(removeHelp(rt.left(), maxNode.value()));
-
-             // Replace current node with maxNode
-             maxNode.setLeft(rt.left());
-             maxNode.setRight(rt.right());
-
-             return maxNode;
-         }
-
-         return rt;
     }
        
     /**
@@ -331,12 +293,13 @@ public class BST<E extends Comparable<E>> {
         // Traverse left subtree
         sb.append(printHelp(node.left(), level + 1));
 
-                        // Print current node with correct indentation
-                        // Append level of the node followed by indentation (2*level spaces)
-                        sb.append(level)
-                            .append(" ".repeat(2 * level))  // Indent by 2 * level spaces
-                            // Append name and coordinates of the city object.
-                            .append(node.value().toString()).append("\n");
+       // Print current node with correct indentation
+       // Append level of the node
+       sb.append(level)
+           // Indent by 2 * level spaces
+           .append(" ".repeat(2 * level))
+           // Append name and coordinates of the city object.
+           .append(node.value().toString()).append("\n");
 
         // Traverse right subtree
         sb.append(printHelp(node.right(), level + 1));

@@ -29,7 +29,6 @@ public class GISDB implements GIS {
      */
     GISDB() {
         this.bst = new BST<>();
-        //this.bst = new BST<>((c1, c2) -> c1.getName().compareTo(c2.getName()));
         this.kd = new KDTree();
     }
 
