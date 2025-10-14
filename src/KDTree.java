@@ -74,7 +74,7 @@ public class KDTree {
     /**
      * Recursively inserts a new city into KDTree.
      * Decides to go left or right based on comparing x
-     * and y at each level (discriminator). Equal values will\
+     * and y at each level (discriminator). Equal values will
      * go to the right subtree.
      * 
      * @param rt is the current node
@@ -164,11 +164,11 @@ public class KDTree {
         if ((cd == 0 && x < rt.city.getX()) || (cd == 1 && y < rt.city
             .getY())) 
         {
-            return findHelp(rt.left, x, y, level + 1); // Go left
+            return findHelp(rt.left, x, y, level + 1);
         }
         // Otherwise, go right 
         depth += 1;
-        return findHelp(rt.right, x, y, depth); // Go right
+        return findHelp(rt.right, x, y, depth); 
     }
 
 
@@ -177,11 +177,11 @@ public class KDTree {
      * Searches both subtrees when the current split dimension is different
      * from the target dimension (dim).
      * 
-     * @param rt The root of the subtree to search.
-     * @param dim is the dimension to compare: 0 for x, 1 for y.
+     * @param rt The root of the subtree to search
+     * @param dim is the dimension to compare: 0 for x, 1 for y
      * @param level is the current level (used to determine which
-     * coordinate to compare).
-     * @return The node with the minimum value in that dimension.
+     * coordinate to compare)
+     * @return The node with the minimum value in that dimension
      */
     private KDTreeNode findMin(KDTreeNode rt, int dim, int level) 
     {
@@ -241,10 +241,10 @@ public class KDTree {
      * Removes a city from the KD-Tree at the given coordinates (x, y).
      * The node is replaced by the min value from the right subtree.
      * 
-     * @param x is the X-coordinate of the city to remove.
-     * @param y is the Y-coordinate of the city to remove.
+     * @param x is the X-coordinate of the city to remove
+     * @param y is the Y-coordinate of the city to remove
      * @return The number of nodes visited to find and remove
-     *         the City or 0 if the City was not found.
+     *         the City or 0 if the City was not found
      */
     public int remove(int x, int y) 
     {
@@ -264,12 +264,12 @@ public class KDTree {
     /**
      * Helper recursive remove method.
      * 
-     * @param rt is the current node.
-     * @param x is the target x-coordinate.
-     * @param y is the target y-coordinate.
-     * @param level is the current depth (discriminator is level & 1).
-     * @param removed is the holder for the removed city record.
-     * @return The updated root of the subtree.
+     * @param rt is the current node
+     * @param x is the target x-coordinate
+     * @param y is the target y-coordinate
+     * @param level is the current depth (discriminator is level & 1)
+     * @param removed is the holder for the removed city record
+     * @return The updated root of the subtree
      */
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level,
         KDTreeNode removed, boolean count) 
@@ -314,11 +314,11 @@ public class KDTree {
                 return rt;
             }
 
-            // remove if leaf node
+            // Remove if leaf node
             return null;
         }
 
-        // traverse down
+        // Traverse down
         // Determine coordinates for comparison based on disriminator
         int targetCoord = x;
         int nodeCoord = rt.city.getX();
@@ -346,9 +346,9 @@ public class KDTree {
     /**
      * Returns the coordinate value (x or y) based on the discriminator.
      * 
-     * @param c is the City object.
-     * @param disc 0 for x-coordinate, 1 for y-coordinate.
-     * @return Corresponding coordinate value.
+     * @param c is the City object
+     * @param disc 0 for x-coordinate, 1 for y-coordinate
+     * @return Corresponding coordinate value
      */
     private int getCoord(City c, int disc) 
     {
