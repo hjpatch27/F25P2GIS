@@ -251,9 +251,6 @@ public class KDTree {
      * @param removed is the holder for the removed city record.
      * @return The updated root of the subtree.
      */
-    // Added boolean 'count' so we can avoid counting nodesVisited for internal
-    // cleanup recursion (when removing the replacement node). Only the initial
-    // search should increment the counter to match reference expectations.
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y, int level,
         KDTreeNode removed, boolean count) 
     {
@@ -262,7 +259,7 @@ public class KDTree {
         int disc = level & 1;
         int depth = level;
 
-        // --- 1. CHECK FOR MATCH (do this before recursing) ---
+        // check for a match
         if (rt.city.getX() == x && rt.city.getY() == y) 
         {
             // Found the node to remove
@@ -280,7 +277,7 @@ public class KDTree {
                 return rt;
             }
 
-            // If right is null but left exists, follow OpenDSA approach:
+            // If right is null but left exists
             // move left subtree to right, then find min in the new right
             // subtree and remove that replacement node from the right.
             if (rt.left != null) 
