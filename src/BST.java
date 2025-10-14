@@ -219,9 +219,9 @@ public class BST<E extends Comparable<E>> {
      * @return
      */
     private BSTNode removeHelp(BSTNode rt, E key) {
-        if (rt == null) {
-            return null;
-        }
+        //if (rt == null) {
+        //    return null;
+        //}
         // Compare the names of the records.
         int compare = key.compareTo(rt.value());
         if (compare < 0) {
