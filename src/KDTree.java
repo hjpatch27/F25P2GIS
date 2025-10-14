@@ -5,13 +5,14 @@
  * @author Nyssa Loeu (nysaal23)
  * @version 10.14.2025
  */
-public class KDTree {
-
+public class KDTree 
+{
     /**
      * A private inner class that represents a node in the KD Tree.
      * It stores city records and pointers to its children.
      */
-    private class KDTreeNode {
+    private class KDTreeNode 
+    {
         private City city;
         private KDTreeNode left;
         private KDTreeNode right;
@@ -21,7 +22,8 @@ public class KDTree {
          * 
          * @param newCity is the City object to be stored in the node
          */
-        public KDTreeNode(City newCity) {
+        public KDTreeNode(City newCity) 
+        {
             this.city = newCity;
             this.left = null;
             this.right = null;
@@ -35,7 +37,8 @@ public class KDTree {
     /**
      * Create a new KDTree object.
      */
-    public KDTree() {
+    public KDTree() 
+    {
         root = null;
     }
 
@@ -43,7 +46,8 @@ public class KDTree {
     /**
      * Clears the entire tree.
      */
-    public void clear() {
+    public void clear() 
+    {
         root = null;
     }
 
@@ -56,7 +60,8 @@ public class KDTree {
      * @param city is the City to insert
      * @return true if inserted, false otherwise
      */
-    public boolean insert(City city) {
+    public boolean insert(City city) 
+    {
         // If the tree is empty, the city becomes the root node.
         if (root == null) {
             root = new KDTreeNode(city);
@@ -82,7 +87,8 @@ public class KDTree {
      * @param level is the current depth
      * @return true if the insertion was successful false
      */
-    private boolean insertHelp(KDTreeNode rt, City newCity, int level) {
+    private boolean insertHelp(KDTreeNode rt, City newCity, int level) 
+    {
         int disc = level & 1; // Same as level % 2 :  0 = x, 1 = y 
 
         // Compare coordinates based on discriminator
@@ -128,7 +134,8 @@ public class KDTree {
      * @param y is the x coordinate for the target city
      * @return The City object if found and null otherwise
      */
-    public City find(int x, int y) {
+    public City find(int x, int y) 
+    {
         return findHelp(root, x, y, 0);
     }
 
