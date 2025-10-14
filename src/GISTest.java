@@ -1007,6 +1007,31 @@ public class GISTest extends TestCase {
             "2";
         assertEquals(expected, it.search(50, 50, 0));
     }
+ 
+    /**
+     * Test the search method.
+     */
+    public void testMultiLevelRegionSearch() {
+        // Level 0 (disc == 0)
+        it.insert("Root", 50, 50);
+
+        // Level 1 (disc == 1)
+        it.insert("L1_Left", 30, 70);   // left of root
+        it.insert("L1_Right", 70, 30);  // right of root
+
+        // Level 2 (disc == 0)
+        it.insert("L2_LL", 20, 80);     // left of L1_Left
+        it.insert("L2_LR", 40, 60);     // right of L1_Left
+        it.insert("L2_RL", 60, 20);     // left of L1_Right
+        it.insert("L2_RR", 80, 40);     // right of L1_Right
+
+        String expected =
+            "Root (50, 50)\n" +
+            "L2_LR (40, 60)\n" +
+            "6";
+        assertEquals(expected, it.search(50, 50, 20));
+    }
+
 
 
     // -------Test Debug---------------
