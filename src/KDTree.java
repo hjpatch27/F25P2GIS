@@ -245,12 +245,12 @@ public class KDTree {
         // Call the recursive helper. The initial call counts nodesVisited.
         root = removeHelp(root, x, y, 0, removed, true);
 
-        if (removed.city != null) {
+        //if (removed.city != null) {
             return this.nodesVisited;
-        }
+        //}
 
         // City not found
-        return 0;
+        //return 0;
     }
 
 
@@ -274,8 +274,7 @@ public class KDTree {
         int depth = level;
 
         // --- 1. CHECK FOR MATCH (do this before recursing) ---
-        if (rt.city.getX() == x && rt.city.getY() == y 
-            && removed.city == null) {
+        if (rt.city.getX() == x && rt.city.getY() == y) { //&& removed.city == null
             // Found the node to remove
             removed.city = rt.city;
 
