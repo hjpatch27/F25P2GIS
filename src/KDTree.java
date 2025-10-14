@@ -317,11 +317,6 @@ public class KDTree {
             nodeCoord = rt.city.getY();
         }
 
-        //int nodeCoord = rt.city.getX();
-        //if (disc == 1) {
-        //    nodeCoord = rt.city.getY();
-        //}
-
         if (targetCoord < nodeCoord) {
             depth += 1;
             rt.left = removeHelp(rt.left, x, y, depth, removed, count);
@@ -416,7 +411,6 @@ public class KDTree {
 
             regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
         }
-
     }
 
 
