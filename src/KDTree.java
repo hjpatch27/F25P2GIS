@@ -30,7 +30,7 @@ public class KDTree {
     }
 
     private KDTreeNode root; // The root of the KDTree
-    //private static final int DIMENSIONS = 2; // for (x,y)
+    // private static final int DIMENSIONS = 2; // for (x,y)
     private int nodesVisited; // The number of nodes visited in remove()
 
     // ----------------------------------------------------------
@@ -157,7 +157,7 @@ public class KDTree {
      * @return the City object if found, null otherwise
      */
     private City findHelp(KDTreeNode rt, int x, int y, int level) {
-        if (rt == null) {            
+        if (rt == null) {
             return null; // Base case: not found
         }
         int depth = level;
@@ -175,12 +175,16 @@ public class KDTree {
         return findHelp(rt.right, x, y, depth); // Go right
     }
 
+
     /**
      * Finds the node with the minimum value in the given dimension.
      * * @param rt The root of the subtree to search.
-     * @param dim The dimension to compare: 0 for x, 1 for y.
-     * @param level is the current level (used to determine which 
-     * coordinate to compare).
+     * 
+     * @param dim
+     *            The dimension to compare: 0 for x, 1 for y.
+     * @param level
+     *            is the current level (used to determine which
+     *            coordinate to compare).
      * @return The node with the minimum value in that dimension.
      */
     private KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
@@ -197,11 +201,9 @@ public class KDTree {
         int currentDisc = level & 1;
         int depth = level;
         // If current level compares the same dimension as we're searching for
-        if (currentDisc == dim) 
-        {
+        if (currentDisc == dim) {
             // The minimum must be in the left subtree (if it exists)
-            if (rt.left == null) 
-            {
+            if (rt.left == null) {
                 return rt;
             }
             depth += 1;
@@ -232,7 +234,9 @@ public class KDTree {
     /**
      * Removes a city from the KD-Tree at the given coordinates.
      * * @param x X-coordinate of the city to remove.
-     * @param y Y-coordinate of the city to remove.
+     * 
+     * @param y
+     *            Y-coordinate of the city to remove.
      * @return The City that was removed, or null if not found.
      */
     public int remove(int x, int y) {
@@ -245,42 +249,52 @@ public class KDTree {
         // Call the recursive helper. The initial call counts nodesVisited.
         root = removeHelp(root, x, y, 0, removed, true);
 
-        //if (removed.city != null) {
-            return this.nodesVisited;
-        //}
+        // if (removed.city != null) {
+        return this.nodesVisited;
+        // }
 
         // City not found
-        //return 0;
+        // return 0;
     }
 
 
     /**
      * Helper recursive remove method
-     * @param rt The current node.
-     * @param x The target x-coordinate.
-     * @param y The target y-coordinate.
-     * @param level The current depth (discriminator is level & 1).
-     * @param removed Holder for the removed city record.
+     * 
+     * @param rt
+     *            The current node.
+     * @param x
+     *            The target x-coordinate.
+     * @param y
+     *            The target y-coordinate.
+     * @param level
+     *            The current depth (discriminator is level & 1).
+     * @param removed
+     *            Holder for the removed city record.
      * @return The updated root of the subtree.
      */
     // Added boolean 'count' so we can avoid counting nodesVisited for internal
     // cleanup recursion (when removing the replacement node). Only the initial
     // search should increment the counter to match reference expectations.
-    private KDTreeNode removeHelp(KDTreeNode rt, int x, int y,
-        int level, KDTreeNode removed, boolean count) {
+    private KDTreeNode removeHelp(
+        KDTreeNode rt,
+        int x,
+        int y,
+        int level,
+        KDTreeNode removed,
+        boolean count) {
         nodesVisited++; // Count only when requested
 
         int disc = level & 1;
         int depth = level;
 
         // --- 1. CHECK FOR MATCH (do this before recursing) ---
-        if (rt.city.getX() == x && rt.city.getY() == y) { //&& removed.city == null
+        if (rt.city.getX() == x && rt.city.getY() == y) {
             // Found the node to remove
             removed.city = rt.city;
 
             // If right subtree exists, replace with min from right
-            if (rt.right != null) 
-            {
+            if (rt.right != null) {
                 depth += 1;
                 KDTreeNode minNode = findMin(rt.right, disc, depth);
                 rt.city = minNode.city;
@@ -311,13 +325,20 @@ public class KDTree {
         }
 
         // --- 2. TRAVERSE DOWN ---
-        int targetCoord = (disc == 0) ? x : y;
-        int nodeCoord = (disc == 0) ? rt.city.getX() : rt.city.getY();
+        int targetCoord = x;
+        if (disc == 1) {
+            targetCoord = y;
+        }
+
+        int nodeCoord = rt.city.getX();
+        if (disc == 1) {
+            nodeCoord = rt.city.getY();
+        }
 
         if (targetCoord < nodeCoord) {
             depth += 1;
             rt.left = removeHelp(rt.left, x, y, depth, removed, count);
-        } 
+        }
         else {
             depth += 1;
             rt.right = removeHelp(rt.right, x, y, depth, removed, count);
@@ -347,9 +368,12 @@ public class KDTree {
     /**
      * Region search: find all cities within radius of (x,y)
      * 
-     * @param x is the center x
-     * @param y is the center y
-     * @param radius is the search radius
+     * @param x
+     *            is the center x
+     * @param y
+     *            is the center y
+     * @param radius
+     *            is the search radius
      * @return formatted string of cities found + nodes visited
      */
     public String search(int x, int y, int radius) {
@@ -369,7 +393,7 @@ public class KDTree {
     /**
      * Recursive helper for region search
      */
-    private void regionSearchHelp(KDTreeNode node, int x, int y, int radius, 
+    private void regionSearchHelp(KDTreeNode node, int x, int y, int radius,
         int level, StringBuilder sb, int[] count) {
         if (node == null) // Check
         {
@@ -400,10 +424,12 @@ public class KDTree {
 
         // Check right subtree if circle overlaps (center + radius >= split
         // coordinate)
-        if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
-            + radius >= node.city.getY())) {
+        if ((disc == 0 && x + radius >= node.city.getX()) || disc == 1 && y
+            + radius >= node.city.getY()) {
+
             regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
         }
+
     }
 
 

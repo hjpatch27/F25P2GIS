@@ -216,7 +216,7 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(city3));   // different names
         assertFalse(city1.equals(null));    // cannot equal null
         assertFalse(city1.equals(cityNull)); // cannot equal null
-        assertFalse(city1.equals(stringCityNull)); // cannot equal null/other object
+        assertFalse(city1.equals(stringCityNull)); // cannot equal null
         assertFalse(city1.equals(city4));   // different names and x/y values
         assertFalse(city1.equals(city6));   // different names and y values
         //assertTrue(city1.equals(city7));  // equal names and x/y values
@@ -384,7 +384,7 @@ public class GISTest extends TestCase {
             + "2    Zeta (15, 15)\n", it.print());
         
         // Remove both Delta cities from the BST
-        assertEquals(it.delete("Delta"),"Delta (10, 12)\n"
+        assertEquals(it.delete("Delta"), "Delta (10, 12)\n"
             + "Delta (11, 11)\n");
         
         // Call print()
@@ -554,9 +554,9 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Place a description of your method here.
+     * Test the delete method when their is only a left subtree
      */
-    public void testRemoveCase2_LeftOnly() {
+    public void testRemoveCase2LeftOnly() {
         // Insert cities to build the KDTree
         assertTrue(it.insert("Root", 50, 50));         // Root node
         assertTrue(it.insert("Left1", 25, 75));        // Goes to left of root
@@ -607,7 +607,7 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Place a description of your method here.
+     * Test delete method with no y discriminator
      */
     public void testDeleteCityWithYDiscriminator() {
         // Insert cities to build a KDTree with Y-discriminator at level 1
@@ -615,7 +615,7 @@ public class GISTest extends TestCase {
         it.insert("Beta", 5, 25);    // level 1 (Y)
         it.insert("Gamma", 70, 70);  // level 1 (Y)
         it.insert("Delta", 10, 12);  // level 2 (X)
-        it.insert("Epsilon", 50, 50);// level 2 (X)
+        it.insert("Epsilon", 50, 50); // level 2 (X)
 
         // Delete city "Beta" at (5, 25) — should trigger Y-discriminator logic
         String result = it.delete(5, 25);
@@ -629,7 +629,7 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Place a description of your method here.
+     * Test method for remove
      */
     public void testFindMinLeftRecursivePath() {
         // Insert cities to build a KDTree where level 0 is X, level 1 is Y
@@ -765,56 +765,11 @@ public class GISTest extends TestCase {
     }
     
 
-    /** 
-     * return c.getY(); for getCoord()
-     *
-    public void testFindMinLeftBranchTaken() {
-        // Build tree:
-        //         A(50, 50) [level 0]
-        //        /
-        //     B(30, 40)    [level 1]
-        //    /
-        //  C(20, 30)       [level 2]
-
-        it.insert("A", 50, 50); // root
-        it.insert("B", 30, 40); // left of A
-        it.insert("C", 20, 30); // left of B
-
-        // Now remove A (50, 50)
-        // At level 0, dim = 0 → currentDisc == dim
-        // rt.right == null, rt.left != null → triggers:
-        // findMin(rt.left, dim, level + 1)
-        // Inside findMin, rt = B, level = 1, 
-        /// dim = 0 → currentDisc = 1 ≠ dim → goes to else
-        // Then inside findMin(B.left, dim, level + 2), 
-        ///rt = C, level = 2, currentDisc = 0 == dim
-        // rt.left == null → returns C
-
-        // But we want to hit the else branch: rt.left != null
-        // So we add a left child to C
-
-        //City d = new City("D", 10, 20); // left of C
-        it.insert("D", 10, 20);
-
-        // Now remove B (30, 40) instead of A
-        // At level 1, dim = 1 → currentDisc == dim
-        // rt.left = C → triggers findMin(C, dim, level + 1)
-        // Inside findMin, level = 2, dim = 1, 
-        ///currentDisc = 0 ≠ dim → goes to else
-        // Then findMin(C.left, dim, level + 2) → rt = D, 
-        ///level = 3, currentDisc = 1 == dim
-        // rt.left != null → finally hits the line!
-
-        String removed = it.delete(30, 40);
-        assertEquals("6\nB", removed);
-        
-        // Confirm D is promoted
-       // City promoted = it.info(10, 20);
-        //assertNotNull(promoted);
-        assertEquals("D", it.info(10, 20));
-    }
-    */
     
+    // ----------------------------------------------------------
+    /**
+     * Test remove method
+     */
     public void testRemoveNonExistentCityReturnsZero() {
         it.insert("A", 3, 6);
         it.insert("B", 17, 15);
@@ -828,12 +783,32 @@ public class GISTest extends TestCase {
         assertEquals("3\nC", it.delete(13, 15));
         assertEquals("5\nD", it.delete(6, 12));
         assertEquals("B (17, 15)\n", it.delete("B"));
-        assertEquals("", it.info(99,99));
+        assertEquals("", it.info(99, 99));
         assertEquals("E (9, 1)\n", it.delete("E"));
     }
     
+    // ----------------------------------------------------------
+    /**
+     * Test the delete method
+     */
+    public void testDelete1() {
+        // Build tree to force level 1 comparison (disc == 1)
 
+        // Level 0: root
+        it.insert("Root", 10, 10);
 
+        // Level 1: goes left of root (x < 10)
+        it.insert("Left", 5, 5);
+
+        // Level 2: goes right of Left (y > 5)
+        it.insert("Target", 5, 15);
+
+        // Delete Target at (5, 15)
+        String result = it.delete(5, 15);
+
+        assertTrue(result.contains("Target"));
+        assertEquals("", it.info(5, 15));
+    }
 
 
     // -------Test Search---------------
@@ -979,6 +954,61 @@ public class GISTest extends TestCase {
         assertFalse(result.contains("B"));
     }
     
+    // ----------------------------------------------------------
+    /**
+     * Test case to cover search method
+     */
+    public void testSearchPreciseInclusionAndTraversal() {
+        it.insert("A", 50, 50);
+        it.insert("B", 30, 30);
+        it.insert("C", 70, 70);
+        it.insert("D", 10, 90);
+        it.insert("E", 90, 10);
+
+        String actual = it.search(50, 50, 25);
+
+        String expected =
+            "A (50, 50)\n" +
+            "5"; // 5 nodes visited
+
+        assertEquals(expected, actual);
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Test the search method
+     */
+    public void testSearchRadiusOnBoundary() {
+        it.insert("A", 60, 50); // distance = 10
+        it.insert("B", 40, 50); // distance = 10
+        it.insert("C", 50, 60); // distance = 10
+        it.insert("D", 50, 40); // distance = 10
+
+        String expected =
+            "A (60, 50)\n" +
+            "B (40, 50)\n" +
+            "D (50, 40)\n" +
+            "C (50, 60)\n" +
+            "4";
+        assertEquals(expected, it.search(50, 50, 10));
+    }
+
+    /**
+     * Test search method when both conditions are false
+     */
+    public void testSearchNoTraversalWhenBothConditionsFalse() {
+    
+        it.insert("A", 50, 50);
+        it.insert("B", 10, 10);
+        it.insert("C", 90, 90);
+
+        String expected =
+            "A (50, 50)\n" +
+            "2";
+        assertEquals(expected, it.search(50, 50, 0));
+    }
+
+
     // -------Test Debug---------------
     /**
      * Testing the debug() method. In this test case,

@@ -103,7 +103,7 @@ public class BST<E extends Comparable<E>> {
     public E remove(E key) {
         E temp = findHelp(root, key); // First find the record
         //if (temp != null) {
-            root = removeHelp(root, key); // Now remove the record
+        root = removeHelp(root, key); // Now remove the record
         //}
         return temp;
     }
@@ -177,10 +177,11 @@ public class BST<E extends Comparable<E>> {
         String result = "";
         // Check current node first (preorder traversal)
         //if (rt.value() instanceof City) {
-            City city = (City) rt.value();
-            if (city.getName().equals(name)) {
-                result += city.toString() + "\n";
-            }
+        City city = (City) rt.value();
+        if (city.getName().equals(name)) 
+        {
+            result += city.toString() + "\n";
+        }
         //}
 
         // Then traverse left and right
