@@ -160,7 +160,7 @@ public class KDTree {
         if (rt == null) {            
             return null; // Base case: not found
         }
-        
+        int depth = level;
         if (rt.city.getX() == x && rt.city.getY() == y) {
             return rt.city; // Found the city
         }
@@ -171,7 +171,8 @@ public class KDTree {
             .getY())) {
             return findHelp(rt.left, x, y, level + 1); // Go left
         }
-        return findHelp(rt.right, x, y, level + 1); // Go right
+        depth += 1;
+        return findHelp(rt.right, x, y, depth); // Go right
     }
 
     /**
@@ -194,18 +195,22 @@ public class KDTree {
         nodesVisited++;
 
         int currentDisc = level & 1;
-
+        int depth = level;
         // If current level compares the same dimension as we're searching for
-        if (currentDisc == dim) {
+        if (currentDisc == dim) 
+        {
             // The minimum must be in the left subtree (if it exists)
-            if (rt.left == null) {
+            if (rt.left == null) 
+            {
                 return rt;
             }
-            return findMin(rt.left, dim, level + 1);
+            depth += 1;
+            return findMin(rt.left, dim, depth);
         }
         // Otherwise, compare current node, left min, and right min
-        KDTreeNode leftMin = findMin(rt.left, dim, level + 1);
-        KDTreeNode rightMin = findMin(rt.right, dim, level + 1);
+        depth += 1;
+        KDTreeNode leftMin = findMin(rt.left, dim, depth);
+        KDTreeNode rightMin = findMin(rt.right, dim, depth);
         KDTreeNode min = rt;
 
         // Compare with left min
@@ -275,7 +280,8 @@ public class KDTree {
             removed.city = rt.city;
 
             // If right subtree exists, replace with min from right
-            if (rt.right != null) {
+            if (rt.right != null) 
+            {
                 KDTreeNode minNode = findMin(rt.right, disc, level + 1);
                 rt.city = minNode.city;
                 // Remove replacement node from right subtree without counting
