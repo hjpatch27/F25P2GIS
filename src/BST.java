@@ -293,9 +293,9 @@ public class BST<E extends Comparable<E>> {
         // Traverse left subtree
         sb.append(printHelp(node.left(), level + 1));
 
-       // Print current node with correct indentation
-       // Append level of the node
-       sb.append(level)
+        // Print current node with correct indentation
+        // Append level of the node
+        sb.append(level)
            // Indent by 2 * level spaces
            .append(" ".repeat(2 * level))
            // Append name and coordinates of the city object.

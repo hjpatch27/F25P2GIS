@@ -158,7 +158,7 @@ public class KDTree {
      */
     private City findHelp(KDTreeNode rt, int x, int y, int level) {
         if (rt == null) {            
-           return null; // Base case: not found
+            return null; // Base case: not found
         }
         
         if (rt.city.getX() == x && rt.city.getY() == y) {
@@ -263,13 +263,7 @@ public class KDTree {
     // search should increment the counter to match reference expectations.
     private KDTreeNode removeHelp(KDTreeNode rt, int x, int y,
         int level, KDTreeNode removed, boolean count) {
-        //if (rt == null) {
-        //    return null;
-        //}
-
-        //if (count) {
-            nodesVisited++; // Count only when requested
-        //}
+        nodesVisited++; // Count only when requested
 
         int disc = level & 1;
         int depth = level;

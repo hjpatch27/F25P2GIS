@@ -17,11 +17,11 @@ public class GISTest extends TestCase {
     private int city5;
     private String stringCityNull;
     private City city6;
-    private City city7;
+    //private City city7;
     private City city8;
     private City city9;
     private City city10;
-    private City city11;
+    //private City city11;
     private City city12;
     private City cityNull;
     private City a;
@@ -42,11 +42,11 @@ public class GISTest extends TestCase {
         city4 = new City("New York City", 2, 1);
         city5 = 10;
         city6 = new City("New York City", 1, 3);
-        city7 = new City("London", 1, 2);
+        //city7 = new City("London", 1, 2);
         city8 = new City("London", 3, 2);
         city9 = new City("London", 1, 3);
         city10 = new City("Moscow", 4, 4);
-        city11 = new City("London", 0, 2);
+        //city11 = new City("London", 0, 2);
         city12 = new City("London", 1, 1);
         stringCityNull = null;
         cityNull = null;
