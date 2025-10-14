@@ -62,7 +62,8 @@ public class City implements Comparable<City> {
      * greater than the City object, and -1 if it's less than the other.
      * @Override
      */
-    public int compareTo(City other) {   
+    public int compareTo(City other) 
+    {   
         return this.name.compareTo(other.name);
     }
 
@@ -74,13 +75,16 @@ public class City implements Comparable<City> {
      * @return True if the objects are equal and false if not.
      * @Override
      */
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) 
+    {
         // If comparing the same object to itself, return true
-        if (this == obj) {
+        if (this == obj) 
+        {
             return true;
         }
         // If the other object isn't a City or is null, return false
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) 
+        {
             return false;
         }
         
@@ -97,7 +101,8 @@ public class City implements Comparable<City> {
      * the name, x-coordinate, and y-coordinate of the City object.
      * @Override
      */
-    public String toString() {
+    public String toString() 
+    {
         return getName().trim() + " (" + getX() + ", " + getY() + ")";
     } 
 }
