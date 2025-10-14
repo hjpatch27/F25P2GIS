@@ -381,9 +381,7 @@ public class KDTree {
         // Compute Euclidean distance
         double dx = node.city.getX() - x;
         double dy = node.city.getY() - y;
-        // NOTE: comparing squared distance (distSq) is often faster as it
-        // avoids Math.sqrt,
-        // but the current code using dist works if done correctly.
+
         double dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist <= radius) 

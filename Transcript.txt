@@ -1,5 +1,8 @@
-Help me write a test for my find method where currentCity.getY() is false. 
-public void testXMatchesButYDoesNot() {
+I have used the LLM Gemini and Copilot in this project.  We used it to help write test cases for certain scenarios
+for mutation coverage. As well to help debug and fix our remove method in KDTree.java.
+
+USER: Help me write a test for my find method where currentCity.getY() is false. 
+LLM: public void testXMatchesButYDoesNot() {
     KDTree tree = new KDTree();
     City a = new City("Alpha", 30, 40);
     tree.insert(a);
@@ -8,3 +11,8 @@ public void testXMatchesButYDoesNot() {
     City result = tree.find(30, 999);
     assertNull(result);
 }
+
+USER:
+LLM:
+
+
