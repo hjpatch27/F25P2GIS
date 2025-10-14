@@ -137,19 +137,23 @@ public class KDTree {
      * @param level is the current depth
      * @return the City object if found, null otherwise
      */
-    private City findHelp(KDTreeNode rt, int x, int y, int level) {
-        if (rt == null) {
+    private City findHelp(KDTreeNode rt, int x, int y, int level) 
+    {
+        if (rt == null) 
+        {
             return null; // Base case: not found
         }
         int depth = level;
-        if (rt.city.getX() == x && rt.city.getY() == y) {
+        if (rt.city.getX() == x && rt.city.getY() == y) 
+        {
             return rt.city; // Found the city
         }
 
         int cd = level & 1;
 
         if ((cd == 0 && x < rt.city.getX()) || (cd == 1 && y < rt.city
-            .getY())) {
+            .getY())) 
+        {
             return findHelp(rt.left, x, y, level + 1); // Go left
         }
         depth += 1;
@@ -159,23 +163,21 @@ public class KDTree {
 
     /**
      * Finds the node with the minimum value in the given dimension.
-     * * @param rt The root of the subtree to search.
      * 
+     * @param rt The root of the subtree to search.
      * @param dim is the dimension to compare: 0 for x, 1 for y.
      * @param level is the current level (used to determine which
      * coordinate to compare).
      * @return The node with the minimum value in that dimension.
      */
-    private KDTreeNode findMin(KDTreeNode rt, int dim, int level) {
+    private KDTreeNode findMin(KDTreeNode rt, int dim, int level) 
+    {
         if (rt == null) 
         {
             return null;
         }
 
         // Count this node as visited when findMin is called during removal
-        // so the removal nodesVisited matches the reference solution's
-        // expectations (they include nodes visited during replacement
-        // selection).
         nodesVisited++;
 
         int currentDisc = level & 1;
@@ -219,6 +221,7 @@ public class KDTree {
 
     /**
      * Removes a city from the KD-Tree at the given coordinates.
+     * 
      * @param x is the X-coordinate of the city to remove.
      * @param y is the Y-coordinate of the city to remove.
      * @return The number of nodes visited to find and remove
@@ -226,17 +229,16 @@ public class KDTree {
      */
     public int remove(int x, int y) 
     {
-        // Reset the node counter for the initial search traversal.
+        // Reset the node counter for the initial search traversal
         nodesVisited = 0;
 
-        // Holder for removed city's record
         KDTreeNode removed = new KDTreeNode(null);
 
-        // Call the recursive helper. The initial call counts nodesVisited.
+        // Call the recursive helper which counts nodesVisited
         root = removeHelp(root, x, y, 0, removed, true);
 
         // Return the number of nodes visited to find and remove the city
-        // or 0 if the City was not found.
+        // or 0 if the City was not found
         return this.nodesVisited;
     }
 
@@ -259,7 +261,7 @@ public class KDTree {
         int disc = level & 1;
         int depth = level;
 
-        // check for a match
+        // Check for a match
         if (rt.city.getX() == x && rt.city.getY() == y) 
         {
             // Found the node to remove
@@ -277,9 +279,7 @@ public class KDTree {
                 return rt;
             }
 
-            // If right is null but left exists
-            // move left subtree to right, then find min in the new right
-            // subtree and remove that replacement node from the right.
+            // If right is null but left exists move left subtree to right
             if (rt.left != null) 
             {
                 // Move left to right to preserve discriminators
@@ -294,11 +294,11 @@ public class KDTree {
                 return rt;
             }
 
-            // Leaf node: remove it
+            // remove if leaf node
             return null;
         }
 
-        // --- 2. TRAVERSE DOWN ---
+        // traverse down
         int targetCoord = x;
         int nodeCoord = rt.city.getX();
         if (disc == 1) 
@@ -351,11 +351,11 @@ public class KDTree {
     {
         if (radius < 0) 
         {
-            return ""; // Bad radius
+            return "";
         }
 
         StringBuilder sb = new StringBuilder();
-        int[] count = new int[] { 0 }; // Nodes visited count as array to pass
+        int[] count = new int[] {0}; // Nodes visited count as array to pass
         // by reference
         regionSearchHelp(root, x, y, radius, 0, sb, count); // Start recursion
         sb.append(count[0]); // Append node visit count

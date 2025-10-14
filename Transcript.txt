@@ -1,5 +1,5 @@
 I have used the LLM Gemini and Copilot in this project.  We used it to help write test cases for certain scenarios
-for mutation coverage. As well to help debug and fix our remove method in KDTree.java.
+for mutation coverage. As well to help debug and fix our remove method and search method in KDTree.java
 
 USER: Help me write a test for my find method where currentCity.getY() is false. 
 LLM: public void testXMatchesButYDoesNot() {
@@ -135,6 +135,159 @@ incorporating the specific replacement and structural swap required when only a 
             "6";
         assertEquals(expected, it.search(50, 50, 20));
     }
+    
+    User: Write test cases for my remove method for KDTree.
+    LLM:
+    public void testRemoveTriggersRightSubtreeReplacement() {
+
+        // Build tree:
+        //       A(50,50)  ← root
+        //         \
+        //         B(70,30) ← right child of A
+        //         /
+        //       C(60,20) ← left child of B
+
+
+        it.insert("A", 50, 50); // level 0
+        it.insert("B", 70, 30); // level 1
+        it.insert("C", 60, 20); // level 2
+        it.insert("A", 50, 50);
+        it.insert("B", 70, 30); // insert C first
+        // insert B after, so it becomes right child of A
+        it.insert("C", 60, 20);
+        it.insert("D", 80, 10);
+
+        // Now remove B — it has a right child (D), so this triggers the block
+        String removed = it.delete(70, 30);
+        assertNotNull(removed);
+        assertEquals("6\nB", removed);
+
+        // Confirm B is gone, D was promoted
+        assertEquals("", it.info(70, 30));
+        assertEquals("D", it.info(80, 10));
+    }
+
+    public void testFindMinLeftMinXWinsViaRemove() {
+        // Build tree:
+        //       A(50,50)        ← root
+        //         \
+        //         B(70,30)      ← right child of A
+        //         /
+        //       C(60,20)        ← left child of B, smaller X than B
+
+        it.insert("A", 50, 50); // level 0
+        it.insert("B", 70, 30); // level 1
+        it.insert("C", 60, 20); // level 2
+
+     
+        String removed = it.delete(50, 50);
+        assertNotNull(removed);
+        assertEquals("5\nA", removed);
+
+        // Confirm A is gone, and C was promoted
+        assertEquals("", it.info(50, 50));
+        assertEquals("C", it.info(60, 20));
+    }
+
+    public void testFindMinLeftMinYDeepBranchViaRemove() {
+        // Build tree:
+        //       A(50,50)        ← level 0
+        //         \
+        //         B(70,70)      ← level 1 (cd = 1)
+        //         /
+        //       C(80,65)        ← level 2 (cd = 0)
+        //       /
+        //     D(90,60)          ← level 3 (cd = 1) ← smallest Y
+
+        it.insert("A", 50, 50);
+        it.insert("B", 70, 70); 
+        it.insert("C", 80, 65); 
+        it.insert("D", 90, 60); 
+
+        String removed = it.delete(50, 50);
+        assertNotNull(removed);
+        assertEquals("8\nA", removed);
+
+        // Confirm A is gone, and D was promoted
+        assertEquals("", it.info(50, 50));
+        assertEquals("D", it.info(90, 60));
+    }
+
+    public void testRemoveNonExistentCityReturnsZero() {
+        it.insert("A", 3, 6);
+        it.insert("B", 17, 15);
+        it.insert("C", 13, 15);
+        it.insert("D", 6, 12);
+        it.insert("E", 9, 1);
+
+        // Coordinates (99, 99) do not exist in the tree
+        assertEquals("", it.delete(99, 99));
+        assertEquals("A (3, 6)\n", it.delete("A"));
+        assertEquals("3\nC", it.delete(13, 15));
+        assertEquals("5\nD", it.delete(6, 12));
+        assertEquals("B (17, 15)\n", it.delete("B"));
+        assertEquals("", it.info(99, 99));
+        assertEquals("E (9, 1)\n", it.delete("E"));
+    }
+
+    public void testDelete1() {
+        // Build tree to force level 1 comparison (disc == 1)
+        it.insert("Root", 10, 10);
+        it.insert("Left", 5, 5);
+        it.insert("Target", 5, 15);
+
+        // Delete Target at (5, 15)
+        String result = it.delete(5, 15);
+
+        assertTrue(result.contains("Target"));
+        assertEquals("", it.info(5, 15));
+    }
+    
+    USER: Help me fix my search method. It is mostly correct accept for the nodes visited.
+    LLM: 
+       /**
+     * Recursive helper for region search
+     */
+    private void regionSearchHelp(KDTreeNode node, int x, int y, int radius,
+        int level, StringBuilder sb, int[] count) 
+    {
+        if (node == null) // Check
+        {
+            return; // Base: null node
+        }
+        count[0]++; // <--- Only increments here
+
+        // Compute Euclidean distance
+        double dx = node.city.getX() - x;
+        double dy = node.city.getY() - y;
+
+        double dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist <= radius) 
+        { // Within circle
+            sb.append(node.city.toString()).append("\n");
+        }
+
+        int disc = level & 1;
+
+        // Check left subtree if circle overlaps (center-radius <= split
+        // coordinate)
+        if ((disc == 0 && x - radius < node.city.getX()) || (disc == 1 && y
+            - radius < node.city.getY())) 
+        {
+            regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
+        }
+
+        // Check right subtree if circle overlaps (center + radius >= split
+        // coordinate)
+        if ((disc == 0 && x + radius >= node.city.getX()) || disc == 1 && y
+            + radius >= node.city.getY()) 
+        {
+
+            regionSearchHelp(node.right, x, y, radius, level + 1, sb, count);
+        }
+    }
+
 
 
 
