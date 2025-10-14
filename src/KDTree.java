@@ -30,7 +30,6 @@ public class KDTree {
     }
 
     private KDTreeNode root; // The root of the KDTree
-    // private static final int DIMENSIONS = 2; // for (x,y)
     private int nodesVisited; // The number of nodes visited in remove()
 
     // ----------------------------------------------------------
@@ -99,18 +98,6 @@ public class KDTree {
             cityCoord = newCity.getY();
             nodeCoord = rt.city.getY();
         }
-
-        // Check for duplicate coordinates
-        /**
-         * not needed yet
-         * if (newCity.getX() == rt.city.getX())
-         * {
-         * if (newCity.getY() == rt.city.getY())
-         * {
-         * return false; // Duplicate
-         * }
-         * }
-         */
 
         // Go left if smaller, right if greater or equal
         if (cityCoord < nodeCoord) {
@@ -237,7 +224,8 @@ public class KDTree {
      * 
      * @param y
      *            Y-coordinate of the city to remove.
-     * @return The City that was removed, or null if not found.
+     * @return The number of nodes visited to find and remove
+     * the City or 0 if the City was not found.
      */
     public int remove(int x, int y) {
         // Reset the node counter for the initial search traversal.
@@ -249,12 +237,9 @@ public class KDTree {
         // Call the recursive helper. The initial call counts nodesVisited.
         root = removeHelp(root, x, y, 0, removed, true);
 
-        // if (removed.city != null) {
+        // Return the number of nodes visited to find and remove the city
+        // or 0 if the City was not found.
         return this.nodesVisited;
-        // }
-
-        // City not found
-        // return 0;
     }
 
 
@@ -326,14 +311,16 @@ public class KDTree {
 
         // --- 2. TRAVERSE DOWN ---
         int targetCoord = x;
-        if (disc == 1) {
-            targetCoord = y;
-        }
-
         int nodeCoord = rt.city.getX();
         if (disc == 1) {
+            targetCoord = y;
             nodeCoord = rt.city.getY();
         }
+
+        //int nodeCoord = rt.city.getX();
+        //if (disc == 1) {
+        //    nodeCoord = rt.city.getY();
+        //}
 
         if (targetCoord < nodeCoord) {
             depth += 1;
