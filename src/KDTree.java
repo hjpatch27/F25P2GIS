@@ -272,6 +272,7 @@ public class KDTree {
         //}
 
         int disc = level & 1;
+        int depth = level;
 
         // --- 1. CHECK FOR MATCH (do this before recursing) ---
         if (rt.city.getX() == x && rt.city.getY() == y 
@@ -285,7 +286,7 @@ public class KDTree {
                 rt.city = minNode.city;
                 // Remove replacement node from right subtree without counting
                 rt.right = removeHelp(rt.right, minNode.city.getX(),
-                    minNode.city.getY(), level + 1, new KDTreeNode(null), true);
+                    minNode.city.getY(), depth + 1, new KDTreeNode(null), true);
                 return rt;
             }
 
@@ -314,10 +315,12 @@ public class KDTree {
         int nodeCoord = (disc == 0) ? rt.city.getX() : rt.city.getY();
 
         if (targetCoord < nodeCoord) {
-            rt.left = removeHelp(rt.left, x, y, level + 1, removed, count);
+            depth += 1;
+            rt.left = removeHelp(rt.left, x, y, depth, removed, count);
         } 
         else {
-            rt.right = removeHelp(rt.right, x, y, level + 1, removed, count);
+            depth += 1;
+            rt.right = removeHelp(rt.right, x, y, depth, removed, count);
         }
 
         return rt;
