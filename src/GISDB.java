@@ -8,8 +8,8 @@
  * @version 10.5.2025
  *
  */
-public class GISDB implements GIS {
-
+public class GISDB implements GIS 
+{
     /**
      * The maximum allowable value for a coordinate
      */
@@ -27,7 +27,8 @@ public class GISDB implements GIS {
     /**
      * Create a new GISDB object.
      */
-    GISDB() {
+    GISDB() 
+    {
         this.bst = new BST<>();
         this.kd = new KDTree();
     }
@@ -38,7 +39,8 @@ public class GISDB implements GIS {
      * Reinitialize the database
      * @return True if the database has been cleared
      */
-    public boolean clear() {
+    public boolean clear() 
+    {
         bst.clear();
         kd.clear();
         return true;
@@ -54,15 +56,16 @@ public class GISDB implements GIS {
      * @param y City y-coordinate. Integer in the range 0 to 2^{15} − 1.
      * @return True iff the city is successfully entered into the database
      */
-    public boolean insert(String name, int x, int y) {
+    public boolean insert(String name, int x, int y) 
+    {
         City newCity = new City(name, x, y);
         // Check for bad inputs out of bounds between 0 and MAXCOORD.
-        if (x < 0 || y < 0 || x > MAXCOORD || y > MAXCOORD)
+        if (x < 0 || y < 0 || x > MAXCOORD || y > MAXCOORD) 
         {
             return false;
         }
         // Check for duplicate coordinates. If so, return false.
-        if (!info(x, y).equals(""))
+        if (!info(x, y).equals("")) 
         {
             return false;
         }
@@ -85,12 +88,13 @@ public class GISDB implements GIS {
      *          followed by the name of the city (this is blank if nothing
      *          was deleted).
      */
-    public String delete(int x, int y) {
+    public String delete(int x, int y) 
+    {
      // 1. Use find() from KDTree to search for coordinates.
         City city = kd.find(x, y); 
         
         // If City object not found, return empty string.
-        if (city == null)
+        if (city == null) 
         {
             return "";
         }
@@ -120,17 +124,20 @@ public class GISDB implements GIS {
      * @return A string with the coordinates of each city that is deleted
      *          (listed in preorder as they are deleted).
      */
-    public String delete(String name) {      
+    public String delete(String name) 
+    {      
         // Use info(name) to get a string of all matching cities (Preorder).
         String matches = info(name);
-        if (matches.isEmpty()) {
+        if (matches.isEmpty()) 
+        {
             return "";
         }
 
         String[] lines = matches.split("\n");
         StringBuilder result = new StringBuilder();
 
-        for (String line : lines) {
+        for (String line : lines) 
+        {
             // Parse city name and coordinates from the line
             int xStart = line.indexOf('(');
             int comma = line.indexOf(',', xStart);
@@ -159,7 +166,8 @@ public class GISDB implements GIS {
      * @param y Y coordinate.
      * @return The city name if there is such a city, empty otherwise
      */
-    public String info(int x, int y) {
+    public String info(int x, int y) 
+    {
         // Use find() from KDTree to locate City object.
         City city = kd.find(x, y);
         // If City object found, use toString() to return the name.
@@ -181,7 +189,8 @@ public class GISDB implements GIS {
      * @return String representing the list of cities and coordinates,
      *          empty if there are none.
      */
-    public String info(String name) {
+    public String info(String name) 
+    {
         return bst.findAll(name);
     }
 
@@ -201,7 +210,8 @@ public class GISDB implements GIS {
      *          search process. If the radius is bad, return an empty string.
      *          If k-d tree is empty, the number of nodes visited is zero.
      */
-    public String search(int x, int y, int radius) {
+    public String search(int x, int y, int radius) 
+    {
         return kd.search(x, y, radius);
     }
 
@@ -214,7 +224,8 @@ public class GISDB implements GIS {
      * for a node at a given level, counting the root as level 0.
      * @return String listing the cities as specified.
      */
-    public String debug() {
+    public String debug() 
+    {
         return kd.print();
     }
 
@@ -229,7 +240,8 @@ public class GISDB implements GIS {
      * for a node at a given level, counting the root as level 0.
      * @return String listing the cities as specified.
      */
-    public String print() {
+    public String print() 
+    {
         return bst.print();      
     }
 }

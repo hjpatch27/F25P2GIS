@@ -7,10 +7,11 @@
  * 
  * @param <E> for the Comparable object.
  */
-public class BST<E extends Comparable<E>> {
-    
+public class BST<E extends Comparable<E>> 
+{    
     // Binary tree node implementation: supports comparable objects
-    private class BSTNode {
+    private class BSTNode 
+    {
         private E element;                 // Element for this node
         private BSTNode left;              // Pointer to left child
         private BSTNode right;             // Pointer to right child
@@ -80,9 +81,9 @@ public class BST<E extends Comparable<E>> {
      * Constructor for BST. Sets root to null 
      * and nodeCount to 0.
      */
-    BST() { 
+    BST() 
+    { 
         root = null; 
-
     }
     
     /**
@@ -215,7 +216,8 @@ public class BST<E extends Comparable<E>> {
      */
     private BSTNode insertHelp(BSTNode rt, E e) 
     {
-        if (rt == null) {
+        if (rt == null) 
+        {
             return new BSTNode(e);
         }
         // Store duplicates in the left subtree (reference policy).
