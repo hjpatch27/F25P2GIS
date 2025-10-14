@@ -458,7 +458,7 @@ public class KDTree {
             regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
         }
 
-        // Check right subtree if circle overlaps (center+radius >= split
+        // Check right subtree if circle overlaps (center + radius >= split
         // coordinate)
         if ((disc == 0 && x + radius >= node.city.getX()) || (disc == 1 && y
             + radius >= node.city.getY())) {
