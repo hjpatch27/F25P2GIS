@@ -1,4 +1,4 @@
-I have used the LLM Gemini and Copilot in this project.  We used it to help write test cases for certain scenarios
+We used the LLM Gemini and Copilot in this project.  We used it to help write test cases for certain scenarios
 for mutation coverage. As well to help debug and fix our remove method and search method in KDTree.java
 
 USER: Help me write a test for my find method where currentCity.getY() is false. 
