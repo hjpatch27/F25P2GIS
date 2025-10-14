@@ -127,10 +127,13 @@ public class GISTest extends TestCase {
      * City objects and keeping track of the nodeCount variable.
      */
     public void testBSTInsertNodeCount() {
+        // Set up initial conditions
         it.insert("A", 10, 10);
         it.insert("B", 20, 20);
         it.insert("C", 30, 30);
 
+        // Call the method and track how many "\n" 
+        // are present in print()
         String output = it.print();
         int lineCount = output.split("\n").length;
 
@@ -215,7 +218,6 @@ public class GISTest extends TestCase {
         assertFalse(city1.equals(stringCityNull)); // cannot equal null
         assertFalse(city1.equals(city4));   // different names and x/y values
         assertFalse(city1.equals(city6));   // different names and y values
-        //assertTrue(city1.equals(city7));  // equal names and x/y values
         assertFalse(city1.equals(city8));   // different x values
         assertFalse(city1.equals(city9));   // different y values   
     }
@@ -592,7 +594,7 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Test delete method with no y discriminator
+     * Test delete() method with no y discriminator
      */
     public void testDeleteCityWithYDiscriminator() {
         // Insert cities to build a KDTree with Y-discriminator at level 1
@@ -631,8 +633,6 @@ public class GISTest extends TestCase {
         assertEquals("Gamma", it.info(10, 20));
     }
 
-
-
     /**
      * Tests the remove() method.
      * !compareX && dim == 1 with left child present
@@ -644,8 +644,7 @@ public class GISTest extends TestCase {
         it.delete(5, 5); // triggers Y-axis match at odd level
         assertNotNull(it.info(1, 9));
     }
-    
-     
+       
     /**
      * Removes a node with a right child
      */
@@ -657,7 +656,6 @@ public class GISTest extends TestCase {
         //         B(70,30) ← right child of A
         //         /
         //       C(60,20) ← left child of B
-
 
         it.insert("A", 50, 50); // level 0
         it.insert("B", 70, 30); // level 1
@@ -677,8 +675,7 @@ public class GISTest extends TestCase {
         assertEquals("", it.info(70, 30));
         assertEquals("D", it.info(80, 10));
     }
-    
-    
+     
     /**
      * If leftMin is not null
      */
@@ -704,7 +701,6 @@ public class GISTest extends TestCase {
         assertEquals("C", it.info(60, 20));
     }
     
-
     /**
      *  if (disc == 0) {
      *  if (rightMin.city.getX() < min.city.getX()) {
@@ -733,9 +729,6 @@ public class GISTest extends TestCase {
         assertEquals("D", it.info(90, 60));
     }
     
-
-    
-    // ----------------------------------------------------------
     /**
      * Test remove method
      */
@@ -756,9 +749,8 @@ public class GISTest extends TestCase {
         assertEquals("E (9, 1)\n", it.delete("E"));
     }
     
-    // ----------------------------------------------------------
     /**
-     * Test the delete method
+     * Test the delete method IMPROVE COMMENTS
      */
     public void testDelete1() {
         // Build tree to force level 1 comparison (disc == 1)
@@ -780,6 +772,7 @@ public class GISTest extends TestCase {
      * radius initially includes what we're looking for.
      */
     public void testSearchWithinRadius() {
+        // Set up initial conditions
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
@@ -796,13 +789,19 @@ public class GISTest extends TestCase {
      * with the radius exactly over what we're looking for.
      */
     public void testSearchExactMatch() {
+        // Set up initial conditions
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
+        
         // Center exactly on Beta, radius 0
         String result = it.search(5, 25, 0);
+        
+        // Since radius is zero but the starting
+        // coordinate is on Beta, search() should
+        // return Beta.
         assertTrue(result.contains("Beta"));
     }
 
@@ -812,6 +811,7 @@ public class GISTest extends TestCase {
      * GISDB object.
      */
     public void testSearchNoMatch() {
+        // Set up initial conditions
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
@@ -819,6 +819,8 @@ public class GISTest extends TestCase {
         it.insert("Epsilon", 50, 50);
         // Far from all cities
         String result = it.search(0, 0, 5);
+        
+        // search() shouldn't contain any cities
         assertFalse(result.contains("Alpha"));
         assertFalse(result.contains("Beta"));
         assertFalse(result.contains("Gamma"));
@@ -831,7 +833,7 @@ public class GISTest extends TestCase {
      * several City objects within the search radius.
      */
     public void testSearchSeveralMatches() {
-        // Set initial conditions
+        // Set up initial conditions
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
@@ -855,7 +857,7 @@ public class GISTest extends TestCase {
      * search radius.
      */
     public void testSearchRadiusEdge() {
-        // Set inital conditions: Add City objects
+        // Set initial conditions: Add City objects
         it.insert("Alpha", 0, 50);
         it.insert("Beta", 50, 0);
         it.insert("Gamma", 50, 50);
@@ -876,8 +878,7 @@ public class GISTest extends TestCase {
       * Tests the search() method. In this scenario, the
       * radius is negative so an empty string is returned.
       */
-    public void testSearchNegativeRadius() {   
-       
+    public void testSearchNegativeRadius() {      
         // Invalid radius, it's negative
         String result = it.search(30, 40, -10);
         // Should return an empty string
@@ -888,6 +889,7 @@ public class GISTest extends TestCase {
      * Test case for disc == 0 and x - radius > node.city.getX()
      */
     public void testLeftPruneDisc0False() {
+        // Set up initial conditions
         it.insert("A", 50, 50); // root
         it.insert("B", 30, 30); // left
 
@@ -898,9 +900,10 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Test case for search() method.
+     * Test case for search() method. IMPROVE COMMENTS
      */
     public void testLeftPruneDisc1False() {
+        // Set up initial conditions
         it.insert("A", 50, 50); // root
         it.insert("B", 30, 30); // left
 
@@ -910,11 +913,11 @@ public class GISTest extends TestCase {
         assertFalse(result.contains("B"));
     }
     
-    // ----------------------------------------------------------
     /**
-     * Test case to cover search method
+     * Test case to cover search method IMPROVE COMMENTS
      */
     public void testSearchPreciseInclusionAndTraversal() {
+        // Set up initial conditions
         it.insert("A", 50, 50);
         it.insert("B", 30, 30);
         it.insert("C", 70, 70);
@@ -930,11 +933,11 @@ public class GISTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    // ----------------------------------------------------------
     /**
-     * Test the search method
+     * Tests the search() method. In this test case. IMPROVE COMMENTS
      */
     public void testSearchRadiusOnBoundary() {
+        // Set up initial conditions
         it.insert("A", 60, 50); 
         it.insert("B", 40, 50); 
         it.insert("C", 50, 60); 
@@ -950,10 +953,10 @@ public class GISTest extends TestCase {
     }
 
     /**
-     * Test search method when both conditions are false
+     * Test search() method when both conditions are false
      */
     public void testSearchFalse() {
-    
+        // Set up initial conditions
         it.insert("A", 50, 50);
         it.insert("B", 10, 10);
         it.insert("C", 90, 90);
@@ -965,9 +968,10 @@ public class GISTest extends TestCase {
     }
  
     /**
-     * Test the search method.
+     * Test the search method. IMPROVE COMMENTS
      */
     public void testMultiLevelRegionSearch() {
+        // Set up initial conditions
         it.insert("Root", 50, 50);
         it.insert("L1_Left", 30, 70); 
         it.insert("L1_Right", 70, 30); 
@@ -1022,7 +1026,8 @@ public class GISTest extends TestCase {
      * therefore, debug() should return an empty string.
      */
     public void testPrintEmptyTree() {
-        // Should return an empty string
+        // Call debug() on an empty database.
+        // Should return an empty string.
         assertEquals("", it.debug());
     }
 }
