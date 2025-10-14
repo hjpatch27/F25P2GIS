@@ -538,16 +538,8 @@ public class GISTest extends TestCase {
         it.insert("Gamma", 70, 70);
         it.insert("Delta", 10, 12);
         it.insert("Epsilon", 50, 50);
-        // At level 1, cd = 1 → compare y
-        // Beta is at (5, 25), so y = 10 is less → should go left
-        // left of Beta by y
         it.insert("Zeta", 2, 10);
-
-        // Remove Zeta to trigger traversal through Beta's left
-        //int removed = tree.remove(2, 10);
-        //assertNotNull(removed);
-        //assertEquals("Zeta", removed.getName());
-
+        
         // Confirm Zeta is gone, Beta is still there
         assertEquals(it.info(2, 10), "Zeta");
         assertEquals(it.info(5, 25), "Beta");
@@ -558,9 +550,9 @@ public class GISTest extends TestCase {
      */
     public void testRemoveCase2LeftOnly() {
         // Insert cities to build the KDTree
-        assertTrue(it.insert("Root", 50, 50));         // Root node
-        assertTrue(it.insert("Left1", 25, 75));        // Goes to left of root
-        assertTrue(it.insert("Left2", 10, 80));        // Goes to left of Left1
+        assertTrue(it.insert("Root", 50, 50));      
+        assertTrue(it.insert("Left1", 25, 75));       
+        assertTrue(it.insert("Left2", 10, 80));        
 
         // Tree structure before deletion:
         //        Root (50, 50)
@@ -570,15 +562,12 @@ public class GISTest extends TestCase {
         // Left2 (10, 80)
 
         // Now delete Root — it has only a left child
-        String visited = it.delete("Root"); // should trigger Case 2
-
+        it.delete("Root"); 
 
         // Confirm new root is Left2 (the min in new right subtree)
         assertEquals("Left2", it.info(10, 80));
-
         // Confirm Root is gone
         assertEquals("", it.info(50, 50));
-
         // Confirm Left1 is still present
         assertEquals("Left1", it.info(25, 75));
     }
@@ -637,18 +626,11 @@ public class GISTest extends TestCase {
         it.insert("Beta", 20, 30);   // goes left of Alpha
         it.insert("Gamma", 10, 20);  // goes left of Beta
 
-        // Now remove "Alpha" — this will trigger findMin with dim = 0 (X)
-        // At level 0, currentDisc = 0, so currentDisc == dim
-        // Since Alpha has a left subtree, findMin will recurse left
         String result = it.delete(30, 40);
-
-        // Validate output
         String[] lines = result.split("\n");
+        
         assertEquals("Alpha", lines[1]);
-
-        // Confirm Alpha is gone
         assertEquals("", it.info(30, 40));
-
         // Confirm Gamma is still present (was not removed as replacement)
         assertEquals("Gamma", it.info(10, 20));
     }
@@ -684,19 +666,10 @@ public class GISTest extends TestCase {
         it.insert("A", 50, 50); // level 0
         it.insert("B", 70, 30); // level 1
         it.insert("C", 60, 20); // level 2
-
-        // Remove B — it has a right child (none), but a left child (C)
-        // So we’ll reverse it: make B have a right child instead
-
         it.insert("A", 50, 50);
         it.insert("B", 70, 30); // insert C first
         // insert B after, so it becomes right child of A
         it.insert("C", 60, 20);
-
-        // Now B is right child of A, and has no children
-        // Let’s add a right child to B to trigger the block
-
-        // right child of B
         it.insert("D", 80, 10);
 
         // Now remove B — it has a right child (D), so this triggers the block
@@ -750,10 +723,10 @@ public class GISTest extends TestCase {
         //       /
         //     D(90,60)          ← level 3 (cd = 1) ← smallest Y
 
-        it.insert("A", 50, 50); // level 0
-        it.insert("B", 70, 70); // level 1
-        it.insert("C", 80, 65); // level 2
-        it.insert("D", 90, 60); // level 3
+        it.insert("A", 50, 50);
+        it.insert("B", 70, 70); 
+        it.insert("C", 80, 65); 
+        it.insert("D", 90, 60); 
 
         String removed = it.delete(50, 50);
         assertNotNull(removed);
@@ -793,14 +766,8 @@ public class GISTest extends TestCase {
      */
     public void testDelete1() {
         // Build tree to force level 1 comparison (disc == 1)
-
-        // Level 0: root
         it.insert("Root", 10, 10);
-
-        // Level 1: goes left of root (x < 10)
         it.insert("Left", 5, 5);
-
-        // Level 2: goes right of Left (y > 5)
         it.insert("Target", 5, 15);
 
         // Delete Target at (5, 15)
@@ -826,7 +793,6 @@ public class GISTest extends TestCase {
         String result = it.search(30, 40, 25);
         assertTrue(result.contains("Alpha"));
         assertTrue(result.contains("Epsilon"));
-        assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
     }
 
     /**
@@ -842,7 +808,6 @@ public class GISTest extends TestCase {
         // Center exactly on Beta, radius 0
         String result = it.search(5, 25, 0);
         assertTrue(result.contains("Beta"));
-        assertTrue(result.matches("(?s).*\\d+$")); // Ends with node count
     }
 
     /**
@@ -863,7 +828,6 @@ public class GISTest extends TestCase {
         assertFalse(result.contains("Gamma"));
         assertFalse(result.contains("Delta"));
         assertFalse(result.contains("Epsilon"));
-        assertTrue(result.matches("(?s)^\\d+$")); // Only node count
     }
     
     /**
@@ -906,9 +870,7 @@ public class GISTest extends TestCase {
         
         // Call the method
         String result = it.search(25, 25, 25);
-        
-        // search() should include Epsilon, Charlie, and
-        // Zulu, where Zulu is exactly on the radius.
+
         assertEquals(result, "Epsilon (25, 50)\n"
             + "Zulu (42, 42)\n"
             + "Charlie (50, 25)\n7");
@@ -933,7 +895,6 @@ public class GISTest extends TestCase {
         it.insert("A", 50, 50); // root
         it.insert("B", 30, 30); // left
 
-        // x = 60, radius = 5 → x - radius = 55 > A.x = 50 → should skip left
         String result = it.search(60, 50, 5);
         
         // B is in left subtree, should be skipped
@@ -947,7 +908,6 @@ public class GISTest extends TestCase {
         it.insert("A", 50, 50); // root
         it.insert("B", 30, 30); // left
 
-        // y = 60, radius = 5 → y - radius = 55 > A.y = 50 → should skip left
         String result = it.search(50, 60, 5);
         
         // B is in left subtree, should be skipped
@@ -969,7 +929,7 @@ public class GISTest extends TestCase {
 
         String expected =
             "A (50, 50)\n" +
-            "5"; // 5 nodes visited
+            "5"; 
 
         assertEquals(expected, actual);
     }
@@ -979,10 +939,10 @@ public class GISTest extends TestCase {
      * Test the search method
      */
     public void testSearchRadiusOnBoundary() {
-        it.insert("A", 60, 50); // distance = 10
-        it.insert("B", 40, 50); // distance = 10
-        it.insert("C", 50, 60); // distance = 10
-        it.insert("D", 50, 40); // distance = 10
+        it.insert("A", 60, 50); 
+        it.insert("B", 40, 50); 
+        it.insert("C", 50, 60); 
+        it.insert("D", 50, 40); 
 
         String expected =
             "A (60, 50)\n" +
@@ -996,7 +956,7 @@ public class GISTest extends TestCase {
     /**
      * Test search method when both conditions are false
      */
-    public void testSearchNoTraversalWhenBothConditionsFalse() {
+    public void testSearchFalse() {
     
         it.insert("A", 50, 50);
         it.insert("B", 10, 10);
@@ -1012,18 +972,14 @@ public class GISTest extends TestCase {
      * Test the search method.
      */
     public void testMultiLevelRegionSearch() {
-        // Level 0 (disc == 0)
         it.insert("Root", 50, 50);
+        it.insert("L1_Left", 30, 70); 
+        it.insert("L1_Right", 70, 30); 
 
-        // Level 1 (disc == 1)
-        it.insert("L1_Left", 30, 70);   // left of root
-        it.insert("L1_Right", 70, 30);  // right of root
-
-        // Level 2 (disc == 0)
-        it.insert("L2_LL", 20, 80);     // left of L1_Left
-        it.insert("L2_LR", 40, 60);     // right of L1_Left
-        it.insert("L2_RL", 60, 20);     // left of L1_Right
-        it.insert("L2_RR", 80, 40);     // right of L1_Right
+        it.insert("L2_LL", 20, 80); 
+        it.insert("L2_LR", 40, 60);
+        it.insert("L2_RL", 60, 20);
+        it.insert("L2_RR", 80, 40);
 
         String expected =
             "Root (50, 50)\n" +

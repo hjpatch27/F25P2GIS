@@ -64,20 +64,6 @@ public class City implements Comparable<City> {
      */
     public int compareTo(City other) {   
         return this.name.compareTo(other.name);
-        /**
-        // Compare the names first
-        int nameCompare = this.name.compareTo(other.name);
-        // If names are different, return the name comparison result
-        if (nameCompare != 0) {
-            return nameCompare;
-        }
-        // If names are the same, compare by X-coordinate
-        if (this.x != other.x) {
-            return Integer.compare(this.x, other.x);
-        }
-        // If X-coordinates are also the same, compare by Y-coordinate
-        return Integer.compare(this.y, other.y);
-        */
     }
 
     /**

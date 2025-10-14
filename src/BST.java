@@ -20,7 +20,8 @@ public class BST<E extends Comparable<E>> {
          * and set element to a value.
          * @param val is the value element is to be set to.
          */
-        BSTNode(E val) { 
+        BSTNode(E val) 
+        { 
             left = null;
             right = null; 
             element = val; 
@@ -30,7 +31,8 @@ public class BST<E extends Comparable<E>> {
          * Getter method for value.
          * @return element
          */
-        public E value() { 
+        public E value() 
+        { 
             return element; 
         }
 
@@ -38,7 +40,8 @@ public class BST<E extends Comparable<E>> {
          * Getter method for left.
          * @return left
          */
-        public BSTNode left() { 
+        public BSTNode left() 
+        { 
             return left; 
         }
         
@@ -46,7 +49,8 @@ public class BST<E extends Comparable<E>> {
          * Setter method for left
          * @param p is the value left is to be changed to.
          */
-        public void setLeft(BSTNode p) { 
+        public void setLeft(BSTNode p) 
+        { 
             left = p; 
         }
 
@@ -54,7 +58,8 @@ public class BST<E extends Comparable<E>> {
          * Getter method for right.
          * @return right
          */
-        public BSTNode right() { 
+        public BSTNode right() 
+        { 
             return right; 
         }
         
@@ -62,7 +67,8 @@ public class BST<E extends Comparable<E>> {
          * Setter method for right.
          * @param p is the value right is to be changed to.
          */
-        public void setRight(BSTNode p) { 
+        public void setRight(BSTNode p) 
+        { 
             right = p; 
         }
 
@@ -83,7 +89,8 @@ public class BST<E extends Comparable<E>> {
      * Reinitialize tree, setting root to null
      * and nodeCount to 0.
      */
-    public void clear() { 
+    public void clear() 
+    { 
         root = null; 
     }
  
@@ -91,7 +98,8 @@ public class BST<E extends Comparable<E>> {
      * Insert a record into the tree.
      * @param e is the record to insert.
      */
-    public void insert(E e) {
+    public void insert(E e) 
+    {
         root = insertHelp(root, e);
     }
   
@@ -100,7 +108,8 @@ public class BST<E extends Comparable<E>> {
      * @param key is the key value to remove.
      * @return the record removed, null if there is none.
      */
-    public E remove(E key) {
+    public E remove(E key) 
+    {
         E temp = findHelp(root, key); // First find the record
         root = removeHelp(root, key); // Second remove the record
         return temp;
@@ -112,7 +121,8 @@ public class BST<E extends Comparable<E>> {
      * @param key is the key value to find.
      * @return the record with key value k, null if none exists.
      */
-    public E find(E key) { 
+    public E find(E key) 
+    { 
         return findHelp(root, key); 
     }
     
@@ -123,7 +133,8 @@ public class BST<E extends Comparable<E>> {
      * we're looking for.
      * @return the list of records with the given name.
      */
-    public String findAll(String name) {
+    public String findAll(String name) 
+    {
         return findAllHelp(root, name);
     }
     
@@ -135,7 +146,8 @@ public class BST<E extends Comparable<E>> {
      * for a node at a given level, counting the root as level 0.
      * @return String listing the cities as specified.
      */
-    public String print() {
+    public String print() 
+    {
         return printHelp(root, 0);
     }
     
@@ -145,17 +157,22 @@ public class BST<E extends Comparable<E>> {
      * @param key
      * @return the record with key value k, null if none exists.
      */
-    private E findHelp(BSTNode rt, E key) {
-        if (rt == null) {
+    private E findHelp(BSTNode rt, E key) 
+    {
+        if (rt == null) 
+        {
             return null;
         }
-        if (rt.value().compareTo(key) > 0) {
+        if (rt.value().compareTo(key) > 0) 
+        {
             return findHelp(rt.left(), key);
         }
-        else if (rt.value().compareTo(key) == 0) {
+        else if (rt.value().compareTo(key) == 0) 
+        {
             return rt.value();
         }
-        else {
+        else 
+        {
             return findHelp(rt.right(), key);
         }
     }
@@ -166,9 +183,11 @@ public class BST<E extends Comparable<E>> {
      * @param name
      * @return the list of records with the given name.
      */
-    private String findAllHelp(BSTNode rt, String name) {
+    private String findAllHelp(BSTNode rt, String name) 
+    {
         // Return an empty string if the node is null.
-        if (rt == null) {
+        if (rt == null) 
+        {
             return "";
         }
         
@@ -194,16 +213,19 @@ public class BST<E extends Comparable<E>> {
      * @param e
      * @return
      */
-    private BSTNode insertHelp(BSTNode rt, E e) {
+    private BSTNode insertHelp(BSTNode rt, E e) 
+    {
         if (rt == null) {
             return new BSTNode(e);
         }
         // Store duplicates in the left subtree (reference policy).
-        if (rt.value().compareTo(e) >= 0) {
+        if (rt.value().compareTo(e) >= 0) 
+        {
             rt.setLeft(insertHelp(rt.left(), e));
         }
         // Otherwise insert to the right subtree
-        else {
+        else 
+        {
             rt.setRight(insertHelp(rt.right(), e));
         }
         return rt;
@@ -215,18 +237,22 @@ public class BST<E extends Comparable<E>> {
      * @param key
      * @return
      */
-    private BSTNode removeHelp(BSTNode rt, E key) {
+    private BSTNode removeHelp(BSTNode rt, E key) 
+    {
         // Compare the names of the records.
         int compare = key.compareTo(rt.value());
-        if (compare < 0) {
+        if (compare < 0) 
+        {
             rt.setLeft(removeHelp(rt.left(), key));
         } 
-        else if (compare > 0) {
+        else if (compare > 0) 
+        {
             rt.setRight(removeHelp(rt.right(), key));
         } 
         else { 
             // Names match, check for full equality
-            if (!rt.value().equals(key)) {
+            if (!rt.value().equals(key)) 
+            {
                 // Continue searching left for the exact match 
                 // since duplicates go left.
                 rt.setLeft(removeHelp(rt.left(), key));
@@ -234,10 +260,12 @@ public class BST<E extends Comparable<E>> {
             }
 
             // Exact match found so proceed with deletion
-            if (rt.left() == null) {
+            if (rt.left() == null) 
+            {
                 return rt.right();
             }
-            if (rt.right() == null) {
+            if (rt.right() == null) 
+            {
                 return rt.left();
             }
 
@@ -262,9 +290,11 @@ public class BST<E extends Comparable<E>> {
      * @param rt
      * @return
      */
-    private BSTNode getMax(BSTNode rt) {
+    private BSTNode getMax(BSTNode rt) 
+    {
         
-        if (rt.right() == null) { 
+        if (rt.right() == null) 
+        { 
             return rt; 
         }
         return getMax(rt.right());
@@ -276,8 +306,10 @@ public class BST<E extends Comparable<E>> {
      * @param level is the level the tree is currently on.
      * @return String listing the cities as specified.
      */
-    private String printHelp(BSTNode node, int level) {    
-        if (node == null) {
+    private String printHelp(BSTNode node, int level) 
+    {    
+        if (node == null) 
+        {
             return "";
         }
         // Create StringBuilder object
