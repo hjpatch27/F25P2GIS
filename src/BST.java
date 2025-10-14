@@ -17,8 +17,10 @@ public class BST<E extends Comparable<E>>
         private BSTNode right;             // Pointer to right child
         
         /**
-         * Constructor initializes left and right as null
-         * and set element to a value.
+         * Constructor for BSTNode
+         * 
+         * Initializes left and right as null and sets
+         * element to a value.
          * @param val is the value element is to be set to.
          */
         BSTNode(E val) 
@@ -48,11 +50,11 @@ public class BST<E extends Comparable<E>>
         
         /**
          * Setter method for left
-         * @param p is the value left is to be changed to.
+         * @param node is the value left is to be changed to.
          */
-        public void setLeft(BSTNode p) 
+        public void setLeft(BSTNode node) 
         { 
-            left = p; 
+            left = node; 
         }
 
         /**
@@ -66,20 +68,20 @@ public class BST<E extends Comparable<E>>
         
         /**
          * Setter method for right.
-         * @param p is the value right is to be changed to.
+         * @param node is the value right is to be changed to.
          */
-        public void setRight(BSTNode p) 
+        public void setRight(BSTNode node) 
         { 
-            right = p; 
+            right = node; 
         }
-
     }
     
     private BSTNode root; // Root of the BST
 
     /**
-     * Constructor for BST. Sets root to null 
-     * and nodeCount to 0.
+     * Constructor for BST
+     * 
+     * Sets root to null and nodeCount to 0.
      */
     BST() 
     { 
@@ -87,8 +89,8 @@ public class BST<E extends Comparable<E>>
     }
     
     /**
-     * Reinitialize tree, setting root to null
-     * and nodeCount to 0.
+     * Reinitialize the binary search tree, setting
+     * root to null and nodeCount to 0.
      */
     public void clear() 
     { 
@@ -97,6 +99,7 @@ public class BST<E extends Comparable<E>>
  
     /**
      * Insert a record into the tree.
+     * 
      * @param e is the record to insert.
      */
     public void insert(E e) 
@@ -105,7 +108,8 @@ public class BST<E extends Comparable<E>>
     }
   
     /**
-     * Remove a record from the tree
+     * Remove a record from the tree.
+     * 
      * @param key is the key value to remove.
      * @return the record removed, null if there is none.
      */
@@ -119,6 +123,7 @@ public class BST<E extends Comparable<E>>
 
     /**
      * Find the record with a specific key value.
+     * 
      * @param key is the key value to find.
      * @return the record with key value k, null if none exists.
      */
@@ -130,6 +135,7 @@ public class BST<E extends Comparable<E>>
     /**
      * Find the record of all objects with a given City name
      * and return it in a string format.
+     * 
      * @param name is the name of the City object that
      * we're looking for.
      * @return the list of records with the given name.
@@ -145,6 +151,7 @@ public class BST<E extends Comparable<E>>
      * Each city should be printed on a separate line. Each line should start
      * with the level of the current node, then be indented by 2 * level spaces
      * for a node at a given level, counting the root as level 0.
+     * 
      * @return String listing the cities as specified.
      */
     public String print() 
@@ -154,6 +161,7 @@ public class BST<E extends Comparable<E>>
     
     /**
      * Helper method for find().
+     * 
      * @param rt
      * @param key
      * @return the record with key value k, null if none exists.
@@ -180,6 +188,7 @@ public class BST<E extends Comparable<E>>
     
     /**
      * Helper method for findAll().
+     * 
      * @param rt
      * @param name
      * @return the list of records with the given name.
@@ -210,6 +219,7 @@ public class BST<E extends Comparable<E>>
     
     /**
      * Helper method for insert().
+     * 
      * @param rt
      * @param e
      * @return
@@ -235,6 +245,7 @@ public class BST<E extends Comparable<E>>
 
     /**
      * Helper method for remove().
+     * 
      * @param rt
      * @param key
      * @return
@@ -289,27 +300,33 @@ public class BST<E extends Comparable<E>>
        
     /**
      * Get the maximum valued element in a subtree.
+     * 
      * @param rt
-     * @return
+     * @return rt if you have reached the max valued
+     * element or continue the recursive function.
      */
     private BSTNode getMax(BSTNode rt) 
     {
-        
+        // If you've reached the maximum valued element,
+        // return the BSTNode.
         if (rt.right() == null) 
         { 
             return rt; 
         }
+        // If not, continue recursively to right of the tree
         return getMax(rt.right());
     }
 
     /**
      * Helper method for print().
+     * 
      * @param node is the node the method is currently on.
      * @param level is the level the tree is currently on.
      * @return String listing the cities as specified.
      */
     private String printHelp(BSTNode node, int level) 
-    {    
+    {
+        // If the node if null/empty, return an empty string.
         if (node == null) 
         {
             return "";
