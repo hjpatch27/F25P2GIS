@@ -503,10 +503,15 @@ public class GISTest extends TestCase {
     }
 
     /**
-     * Test the remove method
+     * Test the remove(). In this scenario, we try to
+     * remove a record which doesn't exist within
+     * the database.
      */
     public void testRemove2() {
+        // Attempt to delete nonexistent record.
         it.delete("Hello");
+        
+        // Should return an empty string.
         assertEquals("", it.delete("Hello"));
     }
      
@@ -515,6 +520,7 @@ public class GISTest extends TestCase {
      * but the y coordinate does not.
      */
     public void testRemove4() {
+        // Set up initial conditions
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
@@ -522,6 +528,7 @@ public class GISTest extends TestCase {
         it.insert("Epsilon", 50, 50);
         it.insert("Zeta", 5, 999); // same x, different y
 
+        // Successfully delete Beta from the database
         assertEquals("Beta (5, 25)\n", it.delete("Beta"));
     }
     
@@ -529,8 +536,8 @@ public class GISTest extends TestCase {
     /**
      * Test the remove method when y < currentCity.getY() 
      */
-    public void testRemove5() 
-    {
+    public void testRemove5() {
+        // Set up initial conditions
         it.insert("Alpha", 30, 40);
         it.insert("Beta", 5, 25);
         it.insert("Gamma", 70, 70);
@@ -576,6 +583,7 @@ public class GISTest extends TestCase {
      * to delete the replacement of the removed root.
      */
     public void testDeleteRootMultipleTimes() {
+        // Set up initial conditions
         it.insert("Root", 50, 50);
         it.insert("Root", 40, 40);
         it.insert("Root", 30, 30);
@@ -616,7 +624,8 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Test method for remove
+     * Test method for remove(). In this scenario, we are using
+     * findMin() while traversing the left side of the tree recursively.
      */
     public void testFindMinLeftRecursivePath() {
         // Insert cities to build a KDTree where level 0 is X, level 1 is Y
@@ -638,6 +647,7 @@ public class GISTest extends TestCase {
      * !compareX && dim == 1 with left child present
      */
     public void testRemove6() {
+        // Set up initial conditions
         it.insert("A", 5, 5);
         it.insert("B", 3, 7);
         it.insert("C", 1, 9); // deeper left
@@ -649,14 +659,14 @@ public class GISTest extends TestCase {
      * Removes a node with a right child
      */
     public void testRemoveTriggersRightSubtreeReplacement() {
-
         // Build tree:
         //       A(50,50)  ← root
         //         \
         //         B(70,30) ← right child of A
         //         /
         //       C(60,20) ← left child of B
-
+        
+        // Set up initial conditions
         it.insert("A", 50, 50); // level 0
         it.insert("B", 70, 30); // level 1
         it.insert("C", 60, 20); // level 2
@@ -677,7 +687,8 @@ public class GISTest extends TestCase {
     }
      
     /**
-     * If leftMin is not null
+     * Test the delete(x, y) method. In this scenario,
+     * we're looking at when the leftMin is not null.
      */
     public void testFindMinLeftMinXWinsViaRemove() {
         // Build tree:
@@ -687,6 +698,7 @@ public class GISTest extends TestCase {
         //         /
         //       C(60,20)        ← left child of B, smaller X than B
 
+        // Set up initial conditions
         it.insert("A", 50, 50); // level 0
         it.insert("B", 70, 30); // level 1
         it.insert("C", 60, 20); // level 2
@@ -733,6 +745,7 @@ public class GISTest extends TestCase {
      * Test remove method
      */
     public void testRemoveNonExistentCityReturnsZero() {
+        // Set up initial conditions
         it.insert("A", 3, 6);
         it.insert("B", 17, 15);
         it.insert("C", 13, 15);
@@ -741,16 +754,25 @@ public class GISTest extends TestCase {
 
         // Coordinates (99, 99) do not exist in the tree
         assertEquals("", it.delete(99, 99));
+        // Should delete A successfully
         assertEquals("A (3, 6)\n", it.delete("A"));
+        // Should take 3 nodes visited to delete C
         assertEquals("3\nC", it.delete(13, 15));
+        // Should take 5 nodes visitied to delete D
         assertEquals("5\nD", it.delete(6, 12));
+        // Should delete B successfully
         assertEquals("B (17, 15)\n", it.delete("B"));
+        // (99, 99) nonexistent so info() should return 
+        // an empty string
         assertEquals("", it.info(99, 99));
+        // Should delete E successfully
         assertEquals("E (9, 1)\n", it.delete("E"));
     }
     
     /**
-     * Test the delete method IMPROVE COMMENTS
+     * Test the delete() method. In this scenario, we add 3 
+     * records, delete one of them, and ensure there is no trace
+     * of it after deletion.
      */
     public void testDelete1() {
         // Build tree to force level 1 comparison (disc == 1)
@@ -900,13 +922,16 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Test case for search() method. IMPROVE COMMENTS
+     * Test case for search() method. In this scenario,
+     * the search radius should be one the edge of one
+     * record but not within the other record.
      */
     public void testLeftPruneDisc1False() {
         // Set up initial conditions
         it.insert("A", 50, 50); // root
         it.insert("B", 30, 30); // left
 
+        // Call the method
         String result = it.search(50, 60, 5);
         
         // B is in left subtree, should be skipped
@@ -914,7 +939,9 @@ public class GISTest extends TestCase {
     }
     
     /**
-     * Test case to cover search method IMPROVE COMMENTS
+     * Test case to cover search method. In this scenario,
+     *  there are several records just outside of the search
+     *  radius which are not counted.
      */
     public void testSearchPreciseInclusionAndTraversal() {
         // Set up initial conditions
@@ -924,8 +951,11 @@ public class GISTest extends TestCase {
         it.insert("D", 10, 90);
         it.insert("E", 90, 10);
 
+        // Call the method
         String actual = it.search(50, 50, 25);
 
+        // Only A should be within the search radius as 
+        // search() starts at (50, 50)
         String expected =
             "A (50, 50)\n" +
             "5"; 
@@ -934,7 +964,9 @@ public class GISTest extends TestCase {
     }
 
     /**
-     * Tests the search() method. In this test case. IMPROVE COMMENTS
+     * Tests the search() method. In this test case, there
+     * are several records right on the edge of the search radius
+     * which get included in the final result.
      */
     public void testSearchRadiusOnBoundary() {
         // Set up initial conditions
@@ -943,6 +975,7 @@ public class GISTest extends TestCase {
         it.insert("C", 50, 60); 
         it.insert("D", 50, 40); 
 
+        // A, B, C, D should be included in search()
         String expected =
             "A (60, 50)\n" +
             "B (40, 50)\n" +
@@ -953,7 +986,7 @@ public class GISTest extends TestCase {
     }
 
     /**
-     * Test search() method when both conditions are false
+     * Test search() method when both conditions are false.
      */
     public void testSearchFalse() {
         // Set up initial conditions
@@ -961,6 +994,8 @@ public class GISTest extends TestCase {
         it.insert("B", 10, 10);
         it.insert("C", 90, 90);
 
+        // Only A should be in search() due to the
+        // (50, 50) starting coordinate and 0 radius
         String expected =
             "A (50, 50)\n" +
             "2";
@@ -968,19 +1003,20 @@ public class GISTest extends TestCase {
     }
  
     /**
-     * Test the search method. IMPROVE COMMENTS
+     * Test the search() method. In this scenario, we run 
+     * the method on several records of multiple, varying levels.
      */
     public void testMultiLevelRegionSearch() {
         // Set up initial conditions
         it.insert("Root", 50, 50);
         it.insert("L1_Left", 30, 70); 
         it.insert("L1_Right", 70, 30); 
-
         it.insert("L2_LL", 20, 80); 
         it.insert("L2_LR", 40, 60);
         it.insert("L2_RL", 60, 20);
         it.insert("L2_RR", 80, 40);
 
+        // Only Root and L2_RR should be included in search()
         String expected =
             "Root (50, 50)\n" +
             "L2_LR (40, 60)\n" +
