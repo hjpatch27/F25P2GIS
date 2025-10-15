@@ -308,7 +308,8 @@ public class KDTree
             // If right is null but left exists move left subtree to right
             if (rt.left != null) 
             {
-                // Move left to right to maintain discriminators for all children
+                // Move left to right to maintain discriminators 
+                // for all children
                 rt.right = rt.left;
                 rt.left = null;
                 
@@ -436,8 +437,9 @@ public class KDTree
             regionSearchHelp(node.left, x, y, radius, level + 1, sb, count);
         }
 
-        // Check right subtree if circle overlaps the region (coordinate >= split)
-        // Circle overlaps if (center + radius) >= split coordinates
+        // Check right subtree if circle overlaps the region 
+        // (coordinate >= split).
+        // Circle overlaps if (center + radius) >= split coordinates.
         if ((disc == 0 && x + radius >= node.city.getX()) || disc == 1 && y
             + radius >= node.city.getY()) 
         {
